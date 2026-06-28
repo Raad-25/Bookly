@@ -10,12 +10,13 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
-    <!-- Fonts & Icons -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
     <style>
+        /* ========== UNIFIED MODERN BLUE THEME ========== */
         :root {
             --primary: #0a2e4a;
             --primary-light: #1a5a7a;
@@ -30,9 +31,6 @@
             --red-light: #fee2e2;
             --green: #22c55e;
             --green-light: #d4edda;
-            --blue-light: #dbeafe;
-            --orange-light: #ffedd5;
-            --purple-light: #f3e8ff;
             --text-dark: #1a2a3a;
             --text-muted: #5a7a8a;
             --text-light: #8aaabb;
@@ -134,135 +132,59 @@
         .login-banner::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(10,46,74,0.55);
         }
 
-        .login-banner .banner-text {
-            position: relative;
-            z-index: 1;
-        }
-
+        .login-banner .banner-text { position: relative; z-index: 1; }
         .login-banner .banner-text h2 {
-            font-size: 2rem;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 0.5rem;
+            font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 0.5rem;
             text-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
-
         .login-banner .banner-text p {
-            font-size: 0.85rem;
-            font-weight: 400;
-            opacity: 0.95;
-            max-width: 300px;
-            margin: 0 auto;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            font-size: 0.85rem; font-weight: 400; opacity: 0.95; max-width: 300px;
+            margin: 0 auto; text-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
 
-        .login-content {
-            padding: 1.5rem;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        .login-content { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; align-items: center; }
 
-        .role-cards-row {
-            display: flex;
-            gap: 1rem;
-            width: 100%;
-            margin-bottom: 1.5rem;
-        }
-
+        .role-cards-row { display: flex; gap: 1rem; width: 100%; margin-bottom: 1.5rem; }
         .role-entry-card {
-            flex: 1;
-            background: white;
-            border: 1px solid rgba(226,232,240,0.8);
-            border-radius: var(--border-radius);
-            padding: 1.5rem 1.2rem;
-            box-shadow: var(--card-shadow);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
+            flex: 1; background: white; border: 1px solid rgba(226,232,240,0.8);
+            border-radius: var(--border-radius); padding: 1.5rem 1.2rem;
+            box-shadow: var(--card-shadow); cursor: pointer;
+            transition: all 0.3s ease; display: flex; flex-direction: column;
+            align-items: center; text-align: center;
         }
-
-        .role-entry-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--card-shadow-hover);
-            border-color: var(--accent);
-        }
-
-        .role-entry-card .role-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .role-entry-card:hover { transform: translateY(-4px); box-shadow: var(--card-shadow-hover); border-color: var(--accent); }
+        .role-entry-card .role-icon { font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--accent); }
         .role-entry-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.3rem; }
         .role-entry-card p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1rem; }
 
         .role-entry-btn {
-            background: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            padding: 0.5rem 1.2rem;
-            font-weight: 600;
-            font-size: 0.8rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-            transition: background 0.3s;
-            margin-top: auto;
+            background: var(--accent); color: white; border: none; border-radius: 30px;
+            padding: 0.5rem 1.2rem; font-weight: 600; font-size: 0.8rem;
+            cursor: pointer; display: flex; align-items: center; gap: 0.3rem;
+            transition: background 0.3s; margin-top: auto;
         }
-
         .role-entry-btn:hover { background: var(--accent-dark); }
 
-        .auth-section {
-            width: 100%;
-            display: none;
-            animation: fadeInUp 0.4s ease;
-        }
-
+        .auth-section { width: 100%; display: none; animation: fadeInUp 0.4s ease; }
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .auth-tabs {
-            display: flex;
-            gap: 1rem;
-            border-bottom: 2px solid rgba(37,132,196,0.2);
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
+        .auth-tabs { display: flex; gap: 1rem; border-bottom: 2px solid rgba(37,132,196,0.2); padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
         .auth-tab {
-            border: none;
-            background: none;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            cursor: pointer;
-            padding: 0.3rem 0;
-            font-family: var(--font);
-            transition: all 0.3s ease;
+            border: none; background: none; font-size: 1rem; font-weight: 600; color: var(--text-muted);
+            cursor: pointer; padding: 0.3rem 0; font-family: var(--font); transition: all 0.3s ease;
             position: relative;
         }
-
         .auth-tab.active { color: var(--accent); }
         .auth-tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: -0.5rem;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent), var(--gold));
-            border-radius: 3px;
+            content: ''; position: absolute; bottom: -0.5rem; left: 0; right: 0;
+            height: 3px; background: linear-gradient(90deg, var(--accent), var(--gold)); border-radius: 3px;
         }
 
         .auth-form { display: none; animation: fadeInUp 0.4s ease; }
@@ -270,87 +192,46 @@
 
         .form-group { margin-bottom: 1.2rem; }
         .form-group label {
-            font-weight: 600;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            display: block;
-            margin-bottom: 0.3rem;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
+            font-weight: 600; font-size: 0.75rem; color: var(--text-muted);
+            display: block; margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.8px;
         }
-
         .form-group input, .form-group textarea, .form-group select {
-            width: 100%;
-            padding: 0.8rem 1.2rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 14px;
-            font-size: 0.95rem;
-            font-family: var(--font);
-            transition: all 0.3s ease;
-            outline: none;
-            background: white;
+            width: 100%; padding: 0.8rem 1.2rem; border: 2px solid #e2e8f0;
+            border-radius: 14px; font-size: 0.95rem; font-family: var(--font);
+            transition: all 0.3s ease; outline: none; background: white;
             box-shadow: 0 2px 10px rgba(0,0,0,0.02);
         }
-
         .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(37,132,196,0.15);
-            transform: translateY(-1px);
+            border-color: var(--accent); box-shadow: 0 0 0 4px rgba(37,132,196,0.15); transform: translateY(-1px);
         }
-
         .form-group textarea { resize: vertical; min-height: 70px; }
 
         .btn {
-            width: 100%;
-            padding: 0.9rem;
-            border: none;
-            border-radius: 14px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: var(--font);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            letter-spacing: 0.3px;
-            position: relative;
-            overflow: hidden;
+            width: 100%; padding: 0.9rem; border: none; border-radius: 14px;
+            font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.3s ease;
+            font-family: var(--font); display: flex; align-items: center; justify-content: center;
+            gap: 0.5rem; letter-spacing: 0.3px; position: relative; overflow: hidden;
         }
-
         .btn::after {
-            content: '';
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 0; height: 0;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.3);
-            transform: translate(-50%, -50%);
+            content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0;
+            border-radius: 50%; background: rgba(255,255,255,0.3); transform: translate(-50%, -50%);
             transition: width 0.6s, height 0.6s;
         }
-
         .btn:active::after { width: 300px; height: 300px; }
         .btn:active { transform: scale(0.98); }
 
         .btn-primary {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
-            box-shadow: 0 8px 25px rgba(10,46,74,0.3);
+            color: white; box-shadow: 0 8px 25px rgba(10,46,74,0.3);
         }
         .btn-primary:hover { box-shadow: 0 12px 35px rgba(10,46,74,0.4); transform: translateY(-2px); }
-
         .btn-accent {
             background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
-            color: white;
-            box-shadow: 0 8px 25px rgba(37,132,196,0.3);
+            color: white; box-shadow: 0 8px 25px rgba(37,132,196,0.3);
         }
         .btn-accent:hover { box-shadow: 0 12px 35px rgba(37,132,196,0.4); transform: translateY(-2px); }
-
         .btn-outline {
-            background: white;
-            border: 2px solid #e2e8f0;
-            color: var(--text-dark);
+            background: white; border: 2px solid #e2e8f0; color: var(--text-dark);
             box-shadow: 0 4px 15px rgba(0,0,0,0.03);
         }
         .btn-outline:hover { border-color: var(--accent); background: var(--accent-light); box-shadow: 0 8px 25px rgba(37,132,196,0.1); }
@@ -361,10 +242,8 @@
             color: var(--text-muted); font-size: 0.8rem;
         }
         .auth-divider::before, .auth-divider::after {
-            content: ''; flex: 1; height: 1px;
-            background: linear-gradient(90deg, transparent, #cbd5e0, transparent);
+            content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, #cbd5e0, transparent);
         }
-
         .error-message {
             color: var(--red); font-size: 0.85rem; margin-top: 0.5rem; display: none;
             padding: 0.6rem; background: var(--red-light); border-radius: 10px; border-left: 4px solid var(--red);
@@ -374,24 +253,23 @@
         /* Why Bookly */
         .why-section { width: 100%; margin-top: 2rem; margin-bottom: 1.5rem; }
         .why-section h3 { text-align: center; font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
-
         .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
         .feature-card {
             background: white; border-radius: var(--border-radius); padding: 1rem;
             box-shadow: var(--card-shadow); text-align: center; border: 1px solid rgba(226,232,240,0.6);
         }
-        .feature-icon { font-size: 1.8rem; margin-bottom: 0.3rem; }
+        .feature-card i { font-size: 1.8rem; margin-bottom: 0.3rem; color: var(--accent); }
         .feature-card h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.2rem; }
         .feature-card p { font-size: 0.7rem; color: var(--text-muted); line-height: 1.4; }
 
         .rule-note {
             background: var(--gold-light); border-radius: var(--border-radius-sm); padding: 0.8rem 1rem;
-            font-size: 0.7rem; color: var(--text-muted); display: flex; align-items: flex-start; gap: 0.5rem;
-            margin-top: 1rem; line-height: 1.4;
+            font-size: 0.7rem; color: var(--text-muted); display: flex; align-items: flex-start;
+            gap: 0.5rem; margin-top: 1rem; line-height: 1.4;
         }
         .rule-note i { color: var(--gold); font-size: 1rem; }
 
-        /* ========== APP HEADER & MAIN APP ========== */
+        /* ========== MAIN APP (identical across all pages) ========== */
         .app-header {
             background: linear-gradient(135deg, #0a2e4a 0%, #1a5a7a 100%);
             color: white; padding: 0.9rem 1.2rem;
@@ -402,7 +280,10 @@
         }
 
         .app-header .brand { display: flex; align-items: center; gap: 0.6rem; }
-        .app-header .brand .logo-icon { font-size: 1.6rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
+        .app-header .brand .logo-icon {
+            font-size: 1.6rem; color: white;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
         .app-header .brand h1 {
             font-size: 1.3rem; font-weight: 800;
             background: linear-gradient(to right, #ffffff, #e0f2fe);
@@ -412,7 +293,11 @@
             background: linear-gradient(to right, #2584C4, #f5b342);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
-        .app-header .brand .slogan-small { font-size: 0.55rem; opacity: 0.7; display: block; letter-spacing: 1.5px; color: rgba(255,255,255,0.9); }
+        .app-header .brand .slogan-small {
+            font-size: 0.55rem; opacity: 0.7; display: block;
+            letter-spacing: 1.5px; color: rgba(255,255,255,0.9);
+        }
+
         .header-btn {
             background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);
             color: white; padding: 0.4rem 0.9rem; border-radius: 30px; font-size: 0.75rem;
@@ -431,7 +316,11 @@
         .user-avatar:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
 
         .content-section { padding: 1.2rem; padding-bottom: 6rem; animation: fadeInUp 0.4s ease; position: relative; z-index: 1; }
-        .section-title { font-size: 1.15rem; font-weight: 700; color: var(--text-dark); margin: 1rem 0 0.8rem; display: flex; align-items: center; gap: 0.5rem; }
+
+        .section-title {
+            font-size: 1.15rem; font-weight: 700; color: var(--text-dark);
+            margin: 1rem 0 0.8rem; display: flex; align-items: center; gap: 0.5rem;
+        }
         .section-title i { color: var(--accent); background: var(--accent-light); padding: 0.4rem; border-radius: 12px; font-size: 0.9rem; }
 
         .welcome-banner {
@@ -478,16 +367,23 @@
             width: 56px; height: 56px; border-radius: 18px;
             background: linear-gradient(135deg, var(--secondary), #e0f2fe);
             display: flex; align-items: center; justify-content: center;
-            font-size: 2rem; flex-shrink: 0; box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+            font-size: 2rem; color: var(--accent);
+            flex-shrink: 0; box-shadow: 0 6px 15px rgba(0,0,0,0.05);
             background-size: cover; background-position: center;
         }
+        .translator-card .avatar-large i { font-size: 1.8rem; }
+
         .translator-card .info { flex: 1; min-width: 0; }
         .translator-card .info h4 { font-size: 1rem; font-weight: 700; margin-bottom: 2px; color: var(--text-dark); }
         .translator-card .info .langs { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px; }
         .translator-card .info .rating { font-size: 0.8rem; color: var(--gold); margin-bottom: 5px; }
+        .translator-card .info .rating i { margin-right: 1px; }
         .translator-card .info .services { display: flex; gap: 0.3rem; flex-wrap: wrap; }
 
-        .service-tag { padding: 3px 10px; border-radius: 20px; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.3px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+        .service-tag {
+            padding: 3px 10px; border-radius: 20px; font-size: 0.65rem; font-weight: 600;
+            letter-spacing: 0.3px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
         .tag-simultaneous { background: #dbeafe; color: #1e40af; }
         .tag-consecutive { background: #d4e9ff; color: #1b5f9e; }
         .tag-online { background: #ffedd5; color: #c2410c; }
@@ -505,7 +401,9 @@
             color: white; font-weight: 700; font-size: 0.8rem; cursor: pointer;
             font-family: var(--font); transition: all 0.3s ease;
             box-shadow: 0 4px 12px rgba(37,132,196,0.3);
+            display: flex; align-items: center; gap: 0.3rem;
         }
+        .book-btn i { font-size: 0.9rem; }
         .book-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,132,196,0.4); }
 
         .profile-card {
@@ -513,6 +411,7 @@
             border-radius: var(--border-radius); padding: 1.3rem; margin-bottom: 1.2rem;
             box-shadow: var(--card-shadow); transition: all 0.3s ease;
         }
+
         .profile-header {
             display: flex; align-items: center; gap: 1rem;
             margin-bottom: 1.4rem; padding-bottom: 1.2rem; border-bottom: 2px solid #f1f5f9;
@@ -521,11 +420,15 @@
             width: 60px; height: 60px; border-radius: 20px;
             background: linear-gradient(135deg, var(--secondary), #e0f2fe);
             display: flex; align-items: center; justify-content: center;
-            font-size: 2rem; flex-shrink: 0; box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+            font-size: 2rem; color: var(--accent);
+            flex-shrink: 0; box-shadow: 0 6px 20px rgba(0,0,0,0.05);
             background-size: cover; background-position: center;
         }
 
-        .badge { font-size: 0.7rem; padding: 4px 12px; border-radius: 30px; font-weight: 600; display: inline-block; margin-top: 4px; letter-spacing: 0.3px; }
+        .badge {
+            font-size: 0.7rem; padding: 4px 12px; border-radius: 30px; font-weight: 600;
+            display: inline-block; margin-top: 4px; letter-spacing: 0.3px;
+        }
         .badge-client { background: #dbeafe; color: #1e40af; }
         .badge-translator { background: #d4e9ff; color: #1b5f9e; }
         .badge-premium { background: linear-gradient(135deg, #fef3c7, #fde68a); color: #92400e; }
@@ -539,7 +442,8 @@
             padding: 1.2rem; margin-bottom: 1.2rem; border-left: 5px solid var(--accent);
             box-shadow: var(--card-shadow);
         }
-        .rating-stars { color: var(--gold); font-size: 1.1rem; letter-spacing: 2px; }
+        .rating-stars { color: var(--gold); font-size: 1.1rem; }
+        .rating-stars i { margin-right: 1px; }
 
         .booking-item {
             background: white; border: 1px solid rgba(226,232,240,0.8);
@@ -548,7 +452,10 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: all 0.3s ease;
         }
         .booking-item:hover { box-shadow: 0 8px 25px rgba(0,0,0,0.08); transform: translateY(-2px); }
-        .booking-status { padding: 4px 14px; border-radius: 30px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.3px; }
+        .booking-status {
+            padding: 4px 14px; border-radius: 30px; font-size: 0.7rem;
+            font-weight: 700; letter-spacing: 0.3px;
+        }
         .status-pending { background: #fef3c7; color: #92400e; }
         .status-confirmed { background: #d4edda; color: #155724; }
         .status-completed { background: #dbeafe; color: #1e40af; }
@@ -569,7 +476,6 @@
             display: flex; justify-content: space-around; padding: 0.6rem 0 0.8rem;
             z-index: 200; box-shadow: 0 -10px 30px rgba(0,0,0,0.05);
         }
-
         .nav-item {
             display: flex; flex-direction: column; align-items: center; gap: 0.2rem;
             border: none; background: none; cursor: pointer; color: var(--text-muted);
@@ -579,7 +485,6 @@
         .nav-item i { font-size: 1.4rem; transition: all 0.3s ease; }
         .nav-item.active { color: var(--accent); }
         .nav-item.active i { transform: scale(1.15); text-shadow: 0 0 20px rgba(37,132,196,0.4); }
-
         .nav-badge {
             position: absolute; top: -4px; right: -6px;
             background: linear-gradient(135deg, #ef4444, #dc2626);
@@ -643,6 +548,7 @@
             padding: 5px 14px; border-radius: 30px; font-size: 0.8rem; font-weight: 600;
             display: flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(37,132,196,0.3);
         }
+        .date-chip i { font-size: 0.8rem; }
         .date-chip .remove-date {
             cursor: pointer; width: 20px; height: 20px; border-radius: 50%;
             background: rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center;
@@ -723,16 +629,16 @@
             <!-- Role cards -->
             <div class="role-cards-row" id="roleCardsRow">
                 <div class="role-entry-card" id="clientCard">
-                    <div class="role-icon">👤</div>
-                    <h3>I'm a Client</h3>
-                    <p>Create your profile, browse interpreter profiles, check availability calendars, and book the right professional for your event.</p>
-                    <button class="role-entry-btn">Enter Client Section →</button>
+                    <div class="role-icon"><i class="fas fa-user"></i></div>
+                    <h3 data-i18n="client_title">I'm a Client</h3>
+                    <p data-i18n="client_desc">Create your profile, browse interpreter profiles, check availability calendars, and book the right professional for your event.</p>
+                    <button class="role-entry-btn"><span data-i18n="enter_client">Enter Client Section</span> →</button>
                 </div>
                 <div class="role-entry-card" id="interpreterCard">
-                    <div class="role-icon">👔</div>
-                    <h3>I'm a Translator</h3>
-                    <p>Receive booking requests and grow your business.</p>
-                    <button class="role-entry-btn">Enter Interpreter Section →</button>
+                    <div class="role-icon"><i class="fas fa-user-tie"></i></div>
+                    <h3 data-i18n="translator_title">I'm a Translator</h3>
+                    <p data-i18n="translator_desc">Receive booking requests and grow your business.</p>
+                    <button class="role-entry-btn"><span data-i18n="enter_interpreter">Enter Interpreter Section</span> →</button>
                 </div>
             </div>
 
@@ -768,10 +674,10 @@
                 <h3>Why Bookly?</h3>
                 <p style="text-align:center; font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Everything you need for professional interpretation services</p>
                 <div class="features-grid">
-                    <div class="feature-card"><div class="feature-icon">🌐</div><h4>Multi-Language Experts</h4><p>Arabic, English, Kurdish Sorani, Turkish, and Farsi interpreters ready to serve.</p></div>
-                    <div class="feature-card"><div class="feature-icon">⭐</div><h4>Verified & Rated</h4><p>Every interpreter is evaluated by clients with transparent star ratings.</p></div>
-                    <div class="feature-card"><div class="feature-icon">📅</div><h4>Live Availability</h4><p>Green dates are open, red are booked. Pick your slot instantly.</p></div>
-                    <div class="feature-card"><div class="feature-icon">🤝</div><h4>Mutual Evaluation</h4><p>Clients and interpreters rate each other to build trust and accountability.</p></div>
+                    <div class="feature-card"><i class="fas fa-globe"></i><h4>Multi-Language Experts</h4><p>Arabic, English, Kurdish Sorani, Turkish, and Farsi interpreters ready to serve.</p></div>
+                    <div class="feature-card"><i class="fas fa-star"></i><h4>Verified & Rated</h4><p>Every interpreter is evaluated by clients with transparent star ratings.</p></div>
+                    <div class="feature-card"><i class="fas fa-calendar-alt"></i><h4>Live Availability</h4><p>Green dates are open, red are booked. Pick your slot instantly.</p></div>
+                    <div class="feature-card"><i class="fas fa-handshake"></i><h4>Mutual Evaluation</h4><p>Clients and interpreters rate each other to build trust and accountability.</p></div>
                 </div>
                 <div class="rule-note">
                     <i class="fas fa-globe"></i>
@@ -787,7 +693,7 @@
             <div class="brand">
                 <div id="appLogoContainer" style="cursor:pointer; position:relative;">
                     <img id="appLogo" src="" alt="Bookly" style="display:none; height:2rem;" />
-                    <span id="appLogoFallback" class="logo-icon">📅</span>
+                    <span id="appLogoFallback" class="logo-icon"><i class="fas fa-calendar-alt"></i></span>
                     <input type="file" id="appLogoInput" accept="image/*" style="display:none;" />
                 </div>
                 <div>
@@ -805,7 +711,7 @@
         <!-- CLIENT VIEW -->
         <div id="clientView" class="content-section" style="display:none;">
             <div class="welcome-banner">
-                <h2 data-i18n="welcome_client">👋 Welcome to Bookly</h2>
+                <h2 data-i18n="welcome_client">Welcome to Bookly</h2>
                 <p data-i18n="welcome_sub">Find the perfect translator for your needs</p>
             </div>
             <div class="search-bar">
@@ -827,17 +733,19 @@
                     <strong id="briefingName">Client Name</strong>
                     <span class="badge badge-active" data-i18n="active_badge">Active</span>
                 </div>
-                <div class="rating-stars" id="briefingStars">★★★★★ <span class="rating-text">0.0 (0 reviews)</span></div>
+                <div class="rating-stars" id="briefingStars"></div>
                 <p class="text-muted mt-1" id="briefingBio" style="font-size:0.85rem;" data-i18n="no_bio">No bio yet</p>
             </div>
 
             <div class="profile-card">
                 <div class="profile-header">
-                    <div class="photo" id="clientLogoPreview" style="background-size:cover; background-position:center;">🏢</div>
+                    <div class="photo" id="clientLogoPreview" style="background-size:cover; background-position:center;">
+                        <i class="fas fa-building"></i>
+                    </div>
                     <div class="info">
                         <h3 id="profileNameDisplay" data-i18n="client_profile">My profile</h3>
                         <span class="badge badge-client">Client</span>
-                        <span id="clientRatingDisplay" style="font-size:0.8rem; color:var(--gold); display:block; margin-top:4px;">☆☆☆☆☆ 0.0</span>
+                        <span id="clientRatingDisplay" style="font-size:0.8rem; color:var(--gold); display:block; margin-top:4px;"></span>
                     </div>
                 </div>
 
@@ -863,10 +771,10 @@
             </div>
 
             <div class="profile-card">
-                <h3 style="margin-bottom:0.5rem;" data-i18n="ratings_title">⭐ Translator Ratings</h3>
+                <h3 style="margin-bottom:0.5rem;" data-i18n="ratings_title">Translator Ratings</h3>
                 <p class="text-muted" style="font-size:0.8rem; margin-bottom:0.8rem;" data-i18n="ratings_desc">Ratings from translators you've worked with. 5-star clients get 50% discount on 1 day of booking.</p>
                 <div id="clientRatingsList">
-                    <div class="empty-state" style="padding:1rem;" data-i18n="no_ratings"><i class="fas fa-star" style="font-size:2rem;"></i><p style="font-size:0.85rem;">No ratings yet</p></div>
+                    <div class="empty-state" style="padding:1rem;" data-i18n="no_ratings"><i class="far fa-star" style="font-size:2rem;"></i><p style="font-size:0.85rem;">No ratings yet</p></div>
                 </div>
             </div>
         </div>
@@ -875,7 +783,7 @@
         <div id="clientBookings" class="content-section" style="display:none;">
             <div class="section-title" data-i18n="my_bookings"><i class="fas fa-calendar-check"></i> My bookings</div>
             <div id="clientBookingsList">
-                <div class="empty-state" data-i18n="no_bookings"><i class="fas fa-calendar-plus"></i><h3>No bookings yet.</h3></div>
+                <div class="empty-state" data-i18n="no_bookings"><i class="far fa-calendar-plus"></i><h3>No bookings yet.</h3></div>
             </div>
         </div>
 
@@ -884,11 +792,13 @@
             <div id="translatorProfile" class="content-section">
                 <div class="profile-card">
                     <div class="profile-header">
-                        <div class="photo" id="translatorPhotoPreview" style="background-size:cover; background-position:center;">👤</div>
+                        <div class="photo" id="translatorPhotoPreview" style="background-size:cover; background-position:center;">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
                         <div class="info">
                             <h3 id="translatorProfileName" data-i18n="translator_profile">My profile</h3>
                             <span class="badge badge-translator">Translator</span>
-                            <span id="translatorRatingDisplay" style="font-size:0.8rem; color:var(--gold); display:block; margin-top:4px;">☆☆☆☆☆ 0.0</span>
+                            <span id="translatorRatingDisplay" style="font-size:0.8rem; color:var(--gold); display:block; margin-top:4px;"></span>
                         </div>
                     </div>
 
@@ -929,7 +839,7 @@
                 <div class="section-title" data-i18n="incoming_bookings"><i class="fas fa-calendar-check"></i> Incoming Bookings</div>
                 <div id="translatorBookingsList">
                     <div class="empty-state">
-                        <i class="fas fa-calendar-plus"></i>
+                        <i class="far fa-calendar-plus"></i>
                         <h3 data-i18n="no_translator_bookings">No bookings yet</h3>
                         <p data-i18n="when_clients_book">When clients book you, they'll appear here</p>
                     </div>
@@ -964,7 +874,7 @@
     <div class="modal-overlay" id="bookingModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 data-i18n="book_interpreter">📋 Book Interpreter</h3>
+                <h3 data-i18n="book_interpreter">Book Interpreter</h3>
                 <button class="modal-close" id="closeBookingModal">✕</button>
             </div>
 
@@ -993,7 +903,7 @@
 
             <div class="selected-dates">
                 <div class="flex-between">
-                    <span style="font-weight:600;" data-i18n="selected_dates">📅 Selected Dates</span>
+                    <span style="font-weight:600;" data-i18n="selected_dates"> Selected Dates</span>
                     <button class="clear-btn" id="clearDatesBtn" data-i18n="clear_all">Clear all</button>
                 </div>
                 <div class="date-chips" id="selectedDatesChips"><span style="color:var(--text-muted); font-size:0.8rem;" data-i18n="no_dates">No dates selected</span></div>
@@ -1046,14 +956,14 @@
     };
 
     // ============================================================
-    // TRANSLATIONS (full set)
+    // TRANSLATIONS
     // ============================================================
     const translations = {
         en: {
             "choose_role": "CHOOSE HOW YOU'D LIKE TO CONTINUE",
-            "client_title": "👤 I'm a Client",
-            "client_desc": "Find and book translators for your events and documents.",
-            "translator_title": "👔 I'm a Translator",
+            "client_title": "I'm a Client",
+            "client_desc": "Create your profile, browse interpreter profiles, check availability calendars, and book the right professional for your event.",
+            "translator_title": "I'm a Translator",
             "translator_desc": "Receive booking requests and grow your business.",
             "signin_tab": "Sign in",
             "signup_tab": "Sign up",
@@ -1076,12 +986,12 @@
             "slogan": "We Connect Cultures",
             "sub_slogan": "Bridge every conversation. Translators on demand across Iraq.",
             "sign_out": "Sign out",
-            "welcome_client": "👋 Welcome to Bookly",
+            "welcome_client": "Welcome to Bookly",
             "welcome_sub": "Find the perfect translator for your needs",
             "search_placeholder": "Search by name or language...",
             "available_translators": "Available translators",
             "no_translators": "No translators have joined yet.",
-            "book_btn": "📋 Book",
+            "book_btn": "Book",
             "per_day": "/day",
             "client_profile": "My profile",
             "active_badge": "Active",
@@ -1092,8 +1002,8 @@
             "address_label": "Address",
             "domain_label": "Work domain",
             "bio_label": "Short history",
-            "save_btn": "💾 Save changes",
-            "ratings_title": "⭐ Translator Ratings",
+            "save_btn": "Save changes",
+            "ratings_title": "Translator Ratings",
             "ratings_desc": "Ratings from translators you've worked with. 5-star clients get 50% discount on 1 day of booking.",
             "no_ratings": "No ratings yet",
             "my_bookings": "My bookings",
@@ -1114,8 +1024,8 @@
             "daily_fee_lbl": "Daily Interpretation Fee (IQD)",
             "whatsapp_lbl": "WhatsApp Number (for booking)",
             "cv_lbl": "CV / Professional Summary",
-            "save_translator_profile": "💾 Save changes",
-            "incoming_bookings": "📋 Incoming Bookings",
+            "save_translator_profile": "Save changes",
+            "incoming_bookings": "Incoming Bookings",
             "no_translator_bookings": "No bookings yet",
             "when_clients_book": "When clients book you, they'll appear here",
             "clients": "Clients",
@@ -1126,7 +1036,7 @@
             "profile_nav": "Profile",
             "my_profile_nav": "My Profile",
             "clients_nav": "Clients",
-            "book_interpreter": "📋 Book Interpreter",
+            "book_interpreter": "Book Interpreter",
             "service_type": "Service Type",
             "simultaneous_interpretation": "Simultaneous Interpretation",
             "consecutive_interpretation": "Consecutive Interpretation",
@@ -1134,7 +1044,7 @@
             "whispering_interpretation": "Whispering Interpretation",
             "written_translation": "Written Translation",
             "other_service": "Other Service",
-            "selected_dates": "📅 Selected Dates",
+            "selected_dates": "Selected Dates",
             "clear_all": "Clear all",
             "no_dates": "No dates selected",
             "daily_rate": "Daily rate:",
@@ -1152,16 +1062,18 @@
             "booking_sent": "Booking sent!",
             "lang_changed_ar": "تم تغيير اللغة إلى العربية",
             "lang_changed_en": "Language changed to English",
-            "premium_badge": "⭐ Premium",
+            "premium_badge": "Premium",
             "no_bio": "No bio yet",
             "company_logo_lbl": "Company Logo",
             "profile_photo_lbl": "Profile Photo",
+            "enter_client": "Enter Client Section",
+            "enter_interpreter": "Enter Interpreter Section",
         },
         ar: {
             "choose_role": "اختر كيف تريد المتابعة",
-            "client_title": "👤 أنا عميل",
-            "client_desc": "ابحث واحجز مترجمين لمناسباتك ووثائقك.",
-            "translator_title": "👔 أنا مترجم",
+            "client_title": "أنا عميل",
+            "client_desc": "أنشئ ملفك الشخصي، وتصفح ملفات المترجمين، وتحقق من تقاويم التوفر، واحجز المحترف المناسب لمناسبتك.",
+            "translator_title": "أنا مترجم",
             "translator_desc": "استقبل طلبات الحجز ونمِّ عملك.",
             "signin_tab": "تسجيل الدخول",
             "signup_tab": "إنشاء حساب",
@@ -1184,12 +1096,12 @@
             "slogan": "نحن نصل الثقافات",
             "sub_slogan": "جسر لكل محادثة. مترجمون حسب الطلب في العراق.",
             "sign_out": "تسجيل الخروج",
-            "welcome_client": "👋 مرحباً بك في بوكلي",
+            "welcome_client": "مرحباً بك في بوكلي",
             "welcome_sub": "اعثر على المترجم المناسب لاحتياجاتك",
             "search_placeholder": "ابحث بالاسم أو اللغة...",
             "available_translators": "المترجمون المتاحون",
             "no_translators": "لم ينضم أي مترجم حتى الآن.",
-            "book_btn": "📋 احجز",
+            "book_btn": "احجز",
             "per_day": "/اليوم",
             "client_profile": "ملفي الشخصي",
             "active_badge": "نشط",
@@ -1200,8 +1112,8 @@
             "address_label": "العنوان",
             "domain_label": "مجال العمل",
             "bio_label": "نبذة تاريخية",
-            "save_btn": "💾 حفظ التغييرات",
-            "ratings_title": "⭐ تقييمات المترجمين",
+            "save_btn": "حفظ التغييرات",
+            "ratings_title": "تقييمات المترجمين",
             "ratings_desc": "تقييمات المترجمين الذين عملت معهم. العملاء ذوو 5 نجوم يحصلون على خصم 50% على يوم حجز واحد.",
             "no_ratings": "لا توجد تقييمات بعد",
             "my_bookings": "حجوزاتي",
@@ -1222,8 +1134,8 @@
             "daily_fee_lbl": "أجر الترجمة الفورية اليومي (دينار)",
             "whatsapp_lbl": "رقم الواتساب (للحجز)",
             "cv_lbl": "السيرة الذاتية / ملخص مهني",
-            "save_translator_profile": "💾 حفظ التغييرات",
-            "incoming_bookings": "📋 الحجوزات الواردة",
+            "save_translator_profile": "حفظ التغييرات",
+            "incoming_bookings": "الحجوزات الواردة",
             "no_translator_bookings": "لا توجد حجوزات بعد",
             "when_clients_book": "عندما يحجزك العملاء، ستظهر هنا",
             "clients": "العملاء",
@@ -1234,7 +1146,7 @@
             "profile_nav": "الملف",
             "my_profile_nav": "ملفي",
             "clients_nav": "العملاء",
-            "book_interpreter": "📋 حجز مترجم",
+            "book_interpreter": "حجز مترجم",
             "service_type": "نوع الخدمة",
             "simultaneous_interpretation": "ترجمة فورية",
             "consecutive_interpretation": "ترجمة تتابعية",
@@ -1242,7 +1154,7 @@
             "whispering_interpretation": "ترجمة همسية",
             "written_translation": "ترجمة تحريرية",
             "other_service": "خدمة أخرى",
-            "selected_dates": "📅 التواريخ المختارة",
+            "selected_dates": "التواريخ المختارة",
             "clear_all": "مسح الكل",
             "no_dates": "لم يتم اختيار تواريخ",
             "daily_rate": "السعر اليومي:",
@@ -1260,10 +1172,12 @@
             "booking_sent": "تم إرسال الحجز!",
             "lang_changed_ar": "تم تغيير اللغة إلى العربية",
             "lang_changed_en": "Language changed to English",
-            "premium_badge": "⭐ ممتاز",
+            "premium_badge": "ممتاز",
             "no_bio": "لا توجد نبذة بعد",
             "company_logo_lbl": "شعار الشركة",
             "profile_photo_lbl": "الصورة الشخصية",
+            "enter_client": "دخول قسم العملاء",
+            "enter_interpreter": "دخول قسم المترجمين",
         }
     };
 
@@ -1282,8 +1196,12 @@
             const key = el.dataset.i18nPlaceholder;
             if (t[key]) el.placeholder = t[key];
         });
-        document.querySelectorAll('.book-btn').forEach(btn => { btn.textContent = t['book_btn'] || '📋 Book'; });
-        document.querySelectorAll('.badge-active').forEach(badge => { if(badge.dataset.i18n === 'active_badge') badge.textContent = t['active_badge']; });
+        document.querySelectorAll('.book-btn').forEach(btn => {
+            btn.innerHTML = `<i class="fas fa-calendar-check"></i> ${t['book_btn'] || 'Book'}`;
+        });
+        document.querySelectorAll('.badge-active').forEach(badge => {
+            if(badge.dataset.i18n === 'active_badge') badge.textContent = t['active_badge'];
+        });
     }
 
     function showToast(key, type = 'info', duration = 3000) {
@@ -1299,7 +1217,16 @@
     }
 
     function formatCurrency(amount) { return `IQD ${Number(amount).toLocaleString()}`; }
-    function generateStarRating(rating) { const full = Math.floor(rating||0); return '★'.repeat(full)+'☆'.repeat(5-full); }
+
+    function generateStarHTML(rating) {
+        const full = Math.floor(rating || 0);
+        const empty = 5 - full;
+        let html = '';
+        for (let i = 0; i < full; i++) html += '<i class="fas fa-star"></i>';
+        for (let i = 0; i < empty; i++) html += '<i class="far fa-star"></i>';
+        return html;
+    }
+
     function fileToBase64(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -1314,8 +1241,6 @@
     // ============================================================
     const appLogoImg = document.getElementById('appLogo');
     const appLogoFallback = document.getElementById('appLogoFallback');
-    const loginLogoImg = document.getElementById('loginLogo');
-    const loginLogoFallback = document.getElementById('loginLogoFallback');
     const appLogoInput = document.getElementById('appLogoInput');
     document.getElementById('appLogoContainer').addEventListener('click', () => appLogoInput.click());
     appLogoInput.addEventListener('change', async (e) => {
@@ -1329,13 +1254,8 @@
         } catch (error) { showToast('Logo upload failed: ' + error.message, 'error'); }
     });
     function setAppLogo(base64) {
-        if (base64) {
-            appLogoImg.src = base64; appLogoImg.style.display = 'block'; appLogoFallback.style.display = 'none';
-            loginLogoImg.src = base64; loginLogoImg.style.display = 'block'; loginLogoFallback.style.display = 'none';
-        } else {
-            appLogoImg.style.display = 'none'; appLogoFallback.style.display = 'inline';
-            loginLogoImg.style.display = 'none'; loginLogoFallback.style.display = 'inline';
-        }
+        if (base64) { appLogoImg.src = base64; appLogoImg.style.display = 'block'; appLogoFallback.style.display = 'none'; }
+        else { appLogoImg.style.display = 'none'; appLogoFallback.style.display = 'inline'; }
     }
     async function loadAppLogo() {
         const doc = await db.collection('settings').doc('app').get();
@@ -1358,7 +1278,7 @@
     });
 
     // ============================================================
-    // ROLE CARD CLICKS (FIXED)
+    // ROLE CARD CLICKS
     // ============================================================
     document.getElementById('clientCard').addEventListener('click', function() {
         state.selectedRole = 'client';
@@ -1367,7 +1287,6 @@
         document.getElementById('authSection').style.display = 'block';
         document.getElementById('authSection').scrollIntoView({ behavior: 'smooth' });
     });
-
     document.getElementById('interpreterCard').addEventListener('click', function() {
         state.selectedRole = 'translator';
         document.getElementById('roleCardsRow').style.display = 'none';
@@ -1479,7 +1398,7 @@
     });
 
     // ============================================================
-    // AUTH STATE OBSERVER (FIXED LOGOUT RESTORATION)
+    // AUTH STATE OBSERVER
     // ============================================================
     auth.onAuthStateChanged(async (user) => {
         if(user) {
@@ -1576,19 +1495,19 @@
                 const d = doc.data();
                 const translator = { id: doc.id, name: d.name||'Unnamed', languages: d.languages||'Not specified', services: d.services||[], fee: d.fee||300000, rating: d.rating||0, reviews: d.reviews||0, whatsapp: d.whatsapp||'', photoBase64: d.photoBase64||'' };
                 state.cachedTranslators.push(translator);
-                const r = translator.rating, fs = Math.floor(r), es = 5-fs;
+                const starsHTML = generateStarHTML(translator.rating);
                 const avatarStyle = translator.photoBase64 ? `background-image:url(${translator.photoBase64}); background-size:cover; background-position:center;` : '';
                 html += `<div class="translator-card" data-id="${doc.id}">
-                    <div class="avatar-large" style="${avatarStyle}">${translator.photoBase64 ? '' : '👤'}</div>
+                    <div class="avatar-large" style="${avatarStyle}">${translator.photoBase64 ? '' : '<i class="fas fa-user-circle"></i>'}</div>
                     <div class="info">
                         <h4>${translator.name}</h4>
                         <div class="langs">${translator.languages}</div>
-                        <div class="rating">${'★'.repeat(fs)}${'☆'.repeat(es)} ${r.toFixed(1)} (${translator.reviews} reviews)</div>
+                        <div class="rating">${starsHTML} ${translator.rating.toFixed(1)} (${translator.reviews} reviews)</div>
                         <div class="services">${translator.services.map(s=>`<span class="service-tag tag-${s}" data-i18n="${s}">${t[s]||s}</span>`).join('')}</div>
                     </div>
                     <div class="price-book">
                         <div class="price">${formatCurrency(translator.fee)} <span data-i18n="per_day">${t['per_day']||'/day'}</span></div>
-                        <button class="book-btn" data-i18n="book_btn">${t['book_btn']||'📋 Book'}</button>
+                        <button class="book-btn" data-i18n="book_btn"><i class="fas fa-calendar-check"></i> ${t['book_btn']||'Book'}</button>
                     </div>
                 </div>`;
             });
@@ -1616,14 +1535,14 @@
                 document.getElementById('clientDomain').value = d.domain||'';
                 document.getElementById('clientBio').value = d.bio||'';
                 document.getElementById('profileNameDisplay').textContent = d.company||'My profile';
-                const stars = d.stars||0, reviews = d.reviews||0;
+                const starsHTML = generateStarHTML(d.stars||0);
                 document.getElementById('briefingName').textContent = d.company||d.contact||'Client';
                 document.getElementById('briefingBio').textContent = d.bio||d.domain||'No bio yet';
-                document.getElementById('briefingStars').innerHTML = generateStarRating(stars)+` <span class="rating-text">${stars.toFixed(1)} (${reviews} reviews)</span>`;
-                document.getElementById('clientRatingDisplay').textContent = generateStarRating(stars)+' '+stars.toFixed(1);
+                document.getElementById('briefingStars').innerHTML = starsHTML + ` <span class="rating-text">${(d.stars||0).toFixed(1)} (${d.reviews||0} reviews)</span>`;
+                document.getElementById('clientRatingDisplay').innerHTML = starsHTML + ' ' + (d.stars||0).toFixed(1);
                 const preview = document.getElementById('clientLogoPreview');
-                if (d.logoBase64) { preview.style.backgroundImage = `url(${d.logoBase64})`; preview.textContent = ''; }
-                else { preview.style.backgroundImage = ''; preview.textContent = '🏢'; }
+                if (d.logoBase64) { preview.style.backgroundImage = `url(${d.logoBase64})`; preview.innerHTML = ''; }
+                else { preview.style.backgroundImage = ''; preview.innerHTML = '<i class="fas fa-building"></i>'; }
             }
         } catch(e) {}
     }
@@ -1672,13 +1591,16 @@
                 document.getElementById('translatorWhatsapp').value = d.whatsapp||'';
                 document.getElementById('translatorCv').value = d.cv||'';
                 document.getElementById('translatorProfileName').textContent = d.name||'My profile';
-                if(d.rating) document.getElementById('translatorRatingDisplay').textContent = generateStarRating(d.rating)+' '+d.rating.toFixed(1);
+                if(d.rating) {
+                    const starsHTML = generateStarHTML(d.rating);
+                    document.getElementById('translatorRatingDisplay').innerHTML = starsHTML + ' ' + d.rating.toFixed(1);
+                }
                 const services = d.services||[];
                 document.querySelectorAll('#interpretationTypes input[type="checkbox"]').forEach(cb => cb.checked = services.includes(cb.value));
                 if(d.otherService) { document.getElementById('otherInterpCheck').checked=true; document.getElementById('otherInterpText').style.display='block'; document.getElementById('otherInterpText').value=d.otherService; }
                 const preview = document.getElementById('translatorPhotoPreview');
-                if (d.photoBase64) { preview.style.backgroundImage = `url(${d.photoBase64})`; preview.textContent = ''; }
-                else { preview.style.backgroundImage = ''; preview.textContent = '👤'; }
+                if (d.photoBase64) { preview.style.backgroundImage = `url(${d.photoBase64})`; preview.innerHTML = ''; }
+                else { preview.style.backgroundImage = ''; preview.innerHTML = '<i class="fas fa-user-circle"></i>'; }
             }
         } catch(e) {}
     }
@@ -1728,9 +1650,9 @@
             const snap = await db.collection('bookings').where('clientId','==',uid).orderBy('createdAt','desc').get();
             const container = document.getElementById('clientBookingsList');
             const badge = document.getElementById('clientBookingsBadge');
-            if(snap.empty) { container.innerHTML=`<div class="empty-state"><i class="fas fa-calendar-plus"></i><h3 data-i18n="no_bookings">${translations[state.currentLang].no_bookings}</h3></div>`; badge.classList.add('hidden'); return; }
+            if(snap.empty) { container.innerHTML=`<div class="empty-state"><i class="far fa-calendar-plus"></i><h3 data-i18n="no_bookings">${translations[state.currentLang].no_bookings}</h3></div>`; badge.classList.add('hidden'); return; }
             let html = ''; let count = snap.size;
-            snap.forEach(doc => { const d=doc.data(); html += `<div class="booking-item"><div><strong>${d.service||'Booking'} - ${d.translatorName||'Translator'}</strong><div class="text-muted" style="font-size:0.8rem;">📅 ${(d.dates||[]).join(', ')}</div><div class="text-muted" style="font-size:0.8rem;">💰 ${d.fee||'N/A'}</div>${d.location?`<div class="text-muted" style="font-size:0.8rem;">📍 ${d.location}</div>`:''}</div><span class="booking-status status-${d.status||'pending'}">${d.status||'pending'}</span></div>`; });
+            snap.forEach(doc => { const d=doc.data(); html += `<div class="booking-item"><div><strong>${d.service||'Booking'} - ${d.translatorName||'Translator'}</strong><div class="text-muted" style="font-size:0.8rem;"> ${(d.dates||[]).join(', ')}</div><div class="text-muted" style="font-size:0.8rem;"> ${d.fee||'N/A'}</div>${d.location?`<div class="text-muted" style="font-size:0.8rem;"> ${d.location}</div>`:''}</div><span class="booking-status status-${d.status||'pending'}">${d.status||'pending'}</span></div>`; });
             badge.textContent = count; badge.classList.remove('hidden'); container.innerHTML = html;
         } catch(e) {}
     }
@@ -1739,9 +1661,9 @@
             const snap = await db.collection('bookings').where('translatorId','==',uid).orderBy('createdAt','desc').get();
             const container = document.getElementById('translatorBookingsList');
             const badge = document.getElementById('translatorBookingsBadge');
-            if(snap.empty) { container.innerHTML=`<div class="empty-state"><i class="fas fa-calendar-plus"></i><h3 data-i18n="no_translator_bookings">${translations[state.currentLang].no_translator_bookings}</h3><p data-i18n="when_clients_book">${translations[state.currentLang].when_clients_book}</p></div>`; badge.classList.add('hidden'); return; }
+            if(snap.empty) { container.innerHTML=`<div class="empty-state"><i class="far fa-calendar-plus"></i><h3 data-i18n="no_translator_bookings">${translations[state.currentLang].no_translator_bookings}</h3><p data-i18n="when_clients_book">${translations[state.currentLang].when_clients_book}</p></div>`; badge.classList.add('hidden'); return; }
             let html = ''; let count = snap.size;
-            snap.forEach(doc => { const d=doc.data(); html += `<div class="booking-item"><div><strong>${d.clientName||'Client'}</strong><div class="text-muted" style="font-size:0.8rem;">📅 ${(d.dates||[]).join(', ')} • 🔧 ${d.service}</div>${d.location?`<div class="text-muted" style="font-size:0.8rem;">📍 ${d.location}</div>`:''}</div><span class="booking-status status-${d.status||'pending'}">${d.status||'pending'}</span></div>`; });
+            snap.forEach(doc => { const d=doc.data(); html += `<div class="booking-item"><div><strong>${d.clientName||'Client'}</strong><div class="text-muted" style="font-size:0.8rem;"> ${(d.dates||[]).join(', ')} • ${d.service}</div>${d.location?`<div class="text-muted" style="font-size:0.8rem;"> ${d.location}</div>`:''}</div><span class="booking-status status-${d.status||'pending'}">${d.status||'pending'}</span></div>`; });
             badge.textContent = count; badge.classList.remove('hidden'); container.innerHTML = html;
         } catch(e) {}
     }
@@ -1753,7 +1675,14 @@
             { name: "Translation Tube", workDomain: "Event Management", bio: "Professional interpretation for events.", stars: 4.0, reviews: 12 },
             { name: "ETS Company", workDomain: "Corporate Training", bio: "Training and development solutions.", stars: 5.0, reviews: 8 }
         ];
-        grid.innerHTML = sample.map(c => `<div class="client-card"><div class="flex-between mb-1"><strong>${c.name}</strong><span class="badge badge-premium" data-i18n="premium_badge">${t['premium_badge']}</span></div><div class="rating-stars mb-1">${generateStarRating(c.stars)} <span class="rating-text">${c.stars.toFixed(1)} (${c.reviews} reviews)</span></div><div class="text-muted" style="font-size:0.8rem;">🏢 ${c.workDomain}</div><p class="text-muted mt-1" style="font-size:0.85rem;">${c.bio}</p></div>`).join('');
+        grid.innerHTML = sample.map(c => `
+            <div class="client-card">
+                <div class="flex-between mb-1"><strong>${c.name}</strong><span class="badge badge-premium" data-i18n="premium_badge">${t['premium_badge']}</span></div>
+                <div class="rating-stars mb-1">${generateStarHTML(c.stars)} <span class="rating-text">${c.stars.toFixed(1)} (${c.reviews} reviews)</span></div>
+                <div class="text-muted" style="font-size:0.8rem;"> ${c.workDomain}</div>
+                <p class="text-muted mt-1" style="font-size:0.85rem;">${c.bio}</p>
+            </div>
+        `).join('');
     }
 
     // ============================================================
@@ -1795,7 +1724,7 @@
         const chips = document.getElementById('selectedDatesChips');
         const t = translations[state.currentLang];
         if(!state.selectedDates.length) { chips.innerHTML = `<span style="color:var(--text-muted); font-size:0.8rem;" data-i18n="no_dates">${t['no_dates']}</span>`; return; }
-        chips.innerHTML = state.selectedDates.map(date => `<span class="date-chip">📅 ${date}<span class="remove-date" data-date="${date}">✕</span></span>`).join('');
+        chips.innerHTML = state.selectedDates.map(date => `<span class="date-chip"><i class="fas fa-calendar-day"></i> ${date}<span class="remove-date" data-date="${date}"><i class="fas fa-times"></i></span></span>`).join('');
         chips.querySelectorAll('.remove-date').forEach(el => el.addEventListener('click', function() {
             const idx = state.selectedDates.indexOf(this.dataset.date);
             if(idx>-1) state.selectedDates.splice(idx,1);
@@ -1838,7 +1767,7 @@
         const clientName = document.getElementById('clientCompany').value || state.currentUser?.displayName || 'Client';
         const phone = t.whatsapp || '07504486008';
         const total = document.getElementById('pricingTotal').textContent;
-        const msg = `🗣️ Interpretation Booking Request\n\n📌 Client: ${clientName}\n👤 Translator: ${t.name}\n🔧 Service: ${service}\n📅 Dates: ${state.selectedDates.join(', ')}\n📍 Location: ${location||'To be confirmed'}\n💰 Total: ${total}\n${notes?`📝 Notes: ${notes}\n`:''}\n🌍 Bookly - We Connect Cultures`;
+        const msg = `Interpretation Booking Request\n\nClient: ${clientName}\nTranslator: ${t.name}\nService: ${service}\nDates: ${state.selectedDates.join(', ')}\nLocation: ${location||'To be confirmed'}\nTotal: ${total}\n${notes?`Notes: ${notes}\n`:''}\nBookly - We Connect Cultures`;
         window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
         if(state.currentUser) {
             try {
