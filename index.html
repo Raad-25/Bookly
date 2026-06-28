@@ -369,7 +369,7 @@
             display: flex; align-items: center; justify-content: center;
             font-size: 2rem; color: var(--accent);
             flex-shrink: 0; box-shadow: 0 6px 15px rgba(0,0,0,0.05);
-            background-size: cover; background-position: center;
+            background-size: contain; background-repeat: no-repeat; background-position: center;
         }
         .translator-card .avatar-large i { font-size: 1.8rem; }
 
@@ -423,7 +423,7 @@
             display: flex; align-items: center; justify-content: center;
             font-size: 2rem; color: var(--accent);
             flex-shrink: 0; box-shadow: 0 6px 20px rgba(0,0,0,0.05);
-            background-size: cover; background-position: center;
+            background-size: contain; background-repeat: no-repeat; background-position: center;
         }
 
         .badge {
@@ -968,6 +968,10 @@
             <div id="bookingTranslatorInfo" style="background:var(--secondary); padding:0.8rem; border-radius:12px; margin-bottom:1rem;">
                 <strong id="bookingTranslatorName">Translator Name</strong>
                 <p style="font-size:0.85rem; color:var(--text-muted); margin-top:4px;" id="bookingTranslatorDetails">Languages • Services • IQD 300,000/day</p>
+                <!-- NEW: written rates display (hidden by default) -->
+                <div id="writtenRatesDisplay" style="display:none; margin-top:6px; font-size:0.8rem; color:var(--text-muted);">
+                    <i class="fas fa-file-alt"></i> <span id="writtenRateText"></span>
+                </div>
             </div>
 
             <div class="form-group"><label data-i18n="service_type">Service Type</label><select id="bookingService">
@@ -1640,13 +1644,43 @@
         if (!this.checked) document.getElementById('otherInterpText').value = '';
     });
 
-    // Show sample file upload only for written translation in booking modal
+    // ============================================================
+    // BOOKING SERVICE CHANGE (show sample file + written rates)
+    // ============================================================
     document.getElementById('bookingService').addEventListener('change', function() {
-        document.getElementById('sampleFileGroup').style.display = this.value === 'written' ? 'block' : 'none';
+        const service = this.value;
+        // Show/hide sample file upload
+        document.getElementById('sampleFileGroup').style.display = service === 'written' ? 'block' : 'none';
+
+        // Update written rates display
+        const infoDiv = document.getElementById('bookingTranslatorInfo');
+        const writtenDiv = document.getElementById('writtenRatesDisplay');
+        const detailsEl = document.getElementById('bookingTranslatorDetails');
+        const rateTextEl = document.getElementById('writtenRateText');
+
+        if (service === 'written') {
+            const wordPrice = infoDiv.dataset.wordPrice;
+            const pagePrice = infoDiv.dataset.pagePrice;
+            if (wordPrice || pagePrice) {
+                let text = '';
+                if (wordPrice) text += `IQD ${wordPrice}/word`;
+                if (wordPrice && pagePrice) text += ' | ';
+                if (pagePrice) text += `IQD ${pagePrice}/page`;
+                rateTextEl.textContent = text;
+                writtenDiv.style.display = 'block';
+                detailsEl.textContent = `Written Translation Rates: ${text}`;
+            } else {
+                writtenDiv.style.display = 'none';
+                detailsEl.textContent = infoDiv.dataset.originalDetails || detailsEl.textContent;
+            }
+        } else {
+            writtenDiv.style.display = 'none';
+            detailsEl.textContent = infoDiv.dataset.originalDetails || detailsEl.textContent;
+        }
     });
 
     // ============================================================
-    // LOAD TRANSLATORS (client view) – shows payment info & star discount badge
+    // LOAD TRANSLATORS (client view) – shows payment info, star discount, AND written fees
     // ============================================================
     async function loadTranslators() {
         const grid = document.getElementById('translatorGrid');
@@ -1681,6 +1715,9 @@
                 const starsHTML = generateStarHTML(translator.rating);
                 const avatarStyle = translator.photoBase64 ? `background-image:url(${translator.photoBase64}); background-size:cover; background-position:center;` : '';
                 const starDiscountBadge = translator.starDiscount ? '<span class="badge badge-star-discount"><i class="fas fa-star"></i> 5-Star Discount</span>' : '';
+                // Show written translation fees if set
+                const writtenFeesLine = (translator.wordPrice || translator.pagePrice) ? 
+                    `<div class="payment-info" style="margin-top:4px;"><i class="fas fa-file-alt"></i> ${translator.wordPrice ? `IQD ${translator.wordPrice}/word` : ''}${translator.wordPrice && translator.pagePrice ? ' | ' : ''}${translator.pagePrice ? `IQD ${translator.pagePrice}/page` : ''}</div>` : '';
 
                 html += `<div class="translator-card" data-id="${doc.id}">
                     <div class="avatar-large" style="${avatarStyle}">${translator.photoBase64 ? '' : '<i class="fas fa-user-circle"></i>'}</div>
@@ -1691,6 +1728,7 @@
                         <div class="services">${translator.services.map(s=>`<span class="service-tag tag-${s}" data-i18n="${s}">${t[s]||s}</span>`).join('')}</div>
                         ${translator.paymentMethods ? `<div class="payment-info"><i class="fas fa-money-bill-wave"></i> ${translator.paymentMethods}</div>` : ''}
                         ${starDiscountBadge}
+                        ${writtenFeesLine}
                     </div>
                     <div class="price-book">
                         <div class="price">${formatCurrency(translator.fee)} <span data-i18n="per_day">/day</span></div>
@@ -1910,7 +1948,7 @@
     }
 
     // ============================================================
-    // CALENDAR & BOOKING MODAL
+    // CALENDAR & BOOKING MODAL (with written rates in openBookingModal)
     // ============================================================
     function generateCalendar(month, year) {
         const container = document.getElementById('bookingCalendar');
@@ -1972,7 +2010,16 @@
         if(!t) return showToast('Translator not found','error');
         document.getElementById('bookingTranslatorName').textContent = t.name;
         const tr = translations[state.currentLang];
-        document.getElementById('bookingTranslatorDetails').textContent = `${t.languages} • ${(t.services||[]).map(s=>tr[s]||s).join(', ')} • ${formatCurrency(t.fee)}/day`;
+        const detailsText = `${t.languages} • ${(t.services||[]).map(s=>tr[s]||s).join(', ')} • ${formatCurrency(t.fee)}/day`;
+        document.getElementById('bookingTranslatorDetails').textContent = detailsText;
+        
+        // Store original details and written rates
+        const infoDiv = document.getElementById('bookingTranslatorInfo');
+        infoDiv.dataset.originalDetails = detailsText;
+        infoDiv.dataset.wordPrice = t.wordPrice || '';
+        infoDiv.dataset.pagePrice = t.pagePrice || '';
+        document.getElementById('writtenRatesDisplay').style.display = 'none';
+
         state.currentMonth = new Date().getMonth(); state.currentYear = new Date().getFullYear();
         generateCalendar(state.currentMonth, state.currentYear); updateSelectedDates(); updatePricing(); updateWhatsAppButton();
         translatePage();
