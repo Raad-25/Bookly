@@ -660,1444 +660,1441 @@
     </style>
 </head>
 <body>
-<div class="app-container">
-    <div class="toast-container" id="toastContainer"></div>
-
-    <!-- LOGIN PAGE -->
-    <div id="loginPage">
-        <div class="login-banner">
-            <div class="banner-text">
-                <h2>Book Expert<br>Interpreters Instantly</h2>
-                <p>Simultaneous, consecutive, written, and online interpretation services. Browse verified professionals, check availability, and book with one click.</p>
-            </div>
-        </div>
-
-        <div class="login-content">
-            <!-- Role cards -->
-            <div class="role-cards-row" id="roleCardsRow">
-                <div class="role-entry-card" id="clientCard">
-                    <div class="role-icon"><i class="fas fa-user"></i></div>
-                    <h3 data-i18n="client_title">I'm a Client</h3>
-                    <p data-i18n="client_desc">Create your profile, browse interpreter profiles, check availability calendars, and book the right professional for your event.</p>
-                    <button class="role-entry-btn"><span data-i18n="enter_client">Enter Client Section</span> →</button>
-                </div>
-                <div class="role-entry-card" id="interpreterCard">
-                    <div class="role-icon"><i class="fas fa-user-tie"></i></div>
-                    <h3 data-i18n="translator_title">I'm a Translator</h3>
-                    <p data-i18n="translator_desc">Receive booking requests and grow your business.</p>
-                    <button class="role-entry-btn"><span data-i18n="enter_interpreter">Enter Interpreter Section</span> →</button>
-                </div>
-            </div>
-
-            <!-- Auth section (hidden initially) -->
-            <div class="auth-section" id="authSection">
-                <div class="auth-tabs">
-                    <button class="auth-tab active" data-tab="signin" data-i18n="signin_tab">Sign in</button>
-                    <button class="auth-tab" data-tab="signup" data-i18n="signup_tab">Sign up</button>
-                </div>
-
-                <form class="auth-form active" id="signinForm" autocomplete="off">
-                    <div class="form-group"><label data-i18n="email_label">Email</label><input type="email" id="loginEmail" data-i18n-placeholder="email_placeholder" placeholder="your@email.com" /></div>
-                    <div class="form-group"><label data-i18n="password_label">Password</label><input type="password" id="loginPassword" data-i18n-placeholder="password_placeholder" placeholder="Enter password" /></div>
-                    <div class="error-message" id="loginError"></div>
-                    <button type="submit" class="btn btn-primary" id="loginBtn" data-i18n="signin_btn">Sign in</button>
-                    <div class="auth-divider" data-i18n="or_divider">or</div>
-                    <button type="button" class="btn btn-outline" id="googleLoginBtn"><i class="fab fa-google"></i> <span data-i18n="google_btn">Continue with Google</span></button>
-                </form>
-
-                <form class="auth-form" id="signupForm" autocomplete="off">
-                    <div class="form-group"><label data-i18n="name_label">Full name</label><input type="text" id="signupName" data-i18n-placeholder="name_placeholder" placeholder="Your full name" /></div>
-                    <div class="form-group"><label data-i18n="email_label">Email</label><input type="email" id="signupEmail" data-i18n-placeholder="email_placeholder" placeholder="your@email.com" /></div>
-                    <div class="form-group"><label data-i18n="password_label">Password</label><input type="password" id="signupPassword" data-i18n-placeholder="password_placeholder" placeholder="Create a strong password (min. 6 characters)" /></div>
-                    <div class="error-message" id="signupError"></div>
-                    <button type="submit" class="btn btn-accent" id="signupBtn" data-i18n="signup_btn">Create account</button>
-                    <div class="auth-divider" data-i18n="or_divider">or</div>
-                    <button type="button" class="btn btn-outline" id="googleSignupBtn"><i class="fab fa-google"></i> <span data-i18n="google_btn">Continue with Google</span></button>
-                </form>
-            </div>
-
-            <!-- Why Bookly -->
-            <div class="why-section" id="whySection">
-                <h3>Why Bookly?</h3>
-                <p style="text-align:center; font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Everything you need for professional interpretation services</p>
-                <div class="features-grid">
-                    <div class="feature-card"><i class="fas fa-globe"></i><h4>Multi-Language Experts</h4><p>Arabic, English, Kurdish Sorani, Turkish, and Farsi interpreters ready to serve.</p></div>
-                    <div class="feature-card"><i class="fas fa-star"></i><h4>Verified & Rated</h4><p>Every interpreter is evaluated by clients with transparent star ratings.</p></div>
-                    <div class="feature-card"><i class="fas fa-calendar-alt"></i><h4>Live Availability</h4><p>Green dates are open, red are booked. Pick your slot instantly.</p></div>
-                    <div class="feature-card"><i class="fas fa-handshake"></i><h4>Mutual Evaluation</h4><p>Clients and interpreters rate each other to build trust and accountability.</p></div>
-                </div>
-                <div class="rule-note">
-                    <i class="fas fa-globe"></i>
-                    <span>Rule: 2 interpreters are required per language pair for both simultaneous and consecutive interpretation. For in‑person sessions, interpreters exchange every 30 minutes. When online interpretation exceeds 90 minutes, one additional online interpreter is needed. Written translation is calculated per word per page of 250 words.</span>
-                </div>
-            </div>
-        </div>
+    <!-- ========== LOADING OVERLAY ========== -->
+    <div id="appLoader" style="position:fixed;inset:0;background:white;z-index:9999;display:flex;align-items:center;justify-content:center;">
+        <i class="fas fa-spinner fa-pulse" style="font-size:3rem;color:var(--accent);"></i>
     </div>
 
-    <!-- MAIN APP -->
-    <div id="mainApp" style="display:none;">
-        <header class="app-header">
-            <div class="brand">
-                <div id="appLogoContainer" style="cursor:pointer; position:relative;">
-                    <img id="appLogo" src="" alt="Bookly" style="display:none; height:2rem;" />
-                    <span id="appLogoFallback" class="logo-icon"><i class="fas fa-calendar-alt"></i></span>
-                    <input type="file" id="appLogoInput" accept="image/*" style="display:none;" />
-                </div>
-                <div>
-                    <h1>Book<span>ly</span></h1>
-                    <span class="slogan-small" data-i18n="slogan">We Connect Cultures</span>
+    <div class="app-container">
+        <div class="toast-container" id="toastContainer"></div>
+
+        <!-- LOGIN PAGE -->
+        <div id="loginPage">
+            <div class="login-banner">
+                <div class="banner-text">
+                    <h2>Book Expert<br>Interpreters Instantly</h2>
+                    <p>Simultaneous, consecutive, written, and online interpretation services. Browse verified professionals, check availability, and book with one click.</p>
                 </div>
             </div>
-            <div class="header-actions">
-                <button class="header-btn" id="langToggleBtn">عربي</button>
-                <div class="user-avatar" id="userAvatar">U</div>
-                <button class="header-btn" id="logoutBtn" data-i18n="sign_out">Sign out</button>
-            </div>
-        </header>
 
-        <!-- CLIENT VIEW -->
-        <div id="clientView" class="content-section" style="display:none;">
-            <div class="welcome-banner">
-                <h2 data-i18n="welcome_client">Welcome to Bookly</h2>
-                <p data-i18n="welcome_sub">Find the perfect translator for your needs</p>
-            </div>
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" data-i18n-placeholder="search_placeholder" placeholder="Search by name or language..." />
-                <button class="clear-search" id="clearSearch"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="section-title" data-i18n="available_translators"><i class="fas fa-users"></i> Available translators</div>
-            <div class="translator-grid" id="translatorGrid"></div>
-            <div id="emptyState" class="empty-state" style="display:none;" data-i18n="no_translators">
-                <i class="fas fa-user-tie"></i><h3>No translators have joined yet.</h3>
-            </div>
-        </div>
-
-        <!-- CLIENT PROFILE -->
-        <div id="clientProfile" class="content-section" style="display:none;">
-            <div class="briefing-card">
-                <div class="flex-between mb-1">
-                    <strong id="briefingName">Client Name</strong>
-                    <span class="badge badge-active" data-i18n="active_badge">Active</span>
-                </div>
-                <div class="rating-stars" id="briefingStars"></div>
-                <p class="text-muted mt-1" id="briefingBio" style="font-size:0.85rem;" data-i18n="no_bio">No bio yet</p>
-            </div>
-
-            <div class="profile-card">
-                <div class="profile-header">
-                    <div class="photo" id="clientLogoPreview" style="background-size:cover; background-position:center;">
-                        <i class="fas fa-building"></i>
+            <div class="login-content">
+                <!-- Role cards -->
+                <div class="role-cards-row" id="roleCardsRow">
+                    <div class="role-entry-card" id="clientCard">
+                        <div class="role-icon"><i class="fas fa-user"></i></div>
+                        <h3 data-i18n="client_title">I'm a Client</h3>
+                        <p data-i18n="client_desc">Create your profile, browse interpreter profiles, check availability calendars, and book the right professional for your event.</p>
+                        <button class="role-entry-btn"><span data-i18n="enter_client">Enter Client Section</span> →</button>
                     </div>
-                    <div class="info">
-                        <h3 id="profileNameDisplay" data-i18n="client_profile">My profile</h3>
-                        <span class="badge badge-client">Client</span>
-                        <span id="clientRatingDisplay" style="font-size:0.8rem; color:var(--gold); display:block; margin-top:4px;"></span>
+                    <div class="role-entry-card" id="interpreterCard">
+                        <div class="role-icon"><i class="fas fa-user-tie"></i></div>
+                        <h3 data-i18n="translator_title">I'm a Translator</h3>
+                        <p data-i18n="translator_desc">Receive booking requests and grow your business.</p>
+                        <button class="role-entry-btn"><span data-i18n="enter_interpreter">Enter Interpreter Section</span> →</button>
                     </div>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group"><label data-i18n="company_label">Company name</label><input type="text" id="clientCompany" placeholder="Enter company name" /></div>
-                    <div class="form-group"><label data-i18n="contact_label">Contact person</label><input type="text" id="clientContact" placeholder="Contact person name" /></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label data-i18n="email_lbl">Email</label><input type="email" id="clientEmail" placeholder="Email address" /></div>
-                    <div class="form-group"><label data-i18n="mobile_label">Mobile</label><input type="tel" id="clientPhone" placeholder="Phone number" /></div>
-                </div>
-                <div class="form-group"><label data-i18n="address_label">Address</label><input type="text" id="clientAddress" placeholder="Address" /></div>
-                <div class="form-group"><label data-i18n="domain_label">Work domain</label><input type="text" id="clientDomain" placeholder="Your work domain" /></div>
-                <div class="form-group"><label data-i18n="bio_label">Short history</label><textarea id="clientBio" placeholder="Brief history about your organization" rows="3"></textarea></div>
-                
-                <div class="form-group">
-                    <label data-i18n="company_logo_lbl">Company Logo</label>
-                    <input type="file" id="clientLogoFile" accept="image/*" />
-                    <small id="clientLogoStatus" class="text-muted"></small>
+                <!-- Auth section (hidden initially) -->
+                <div class="auth-section" id="authSection">
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" data-tab="signin" data-i18n="signin_tab">Sign in</button>
+                        <button class="auth-tab" data-tab="signup" data-i18n="signup_tab">Sign up</button>
+                    </div>
+
+                    <form class="auth-form active" id="signinForm" autocomplete="off">
+                        <div class="form-group"><label data-i18n="email_label">Email</label><input type="email" id="loginEmail" data-i18n-placeholder="email_placeholder" placeholder="your@email.com" /></div>
+                        <div class="form-group"><label data-i18n="password_label">Password</label><input type="password" id="loginPassword" data-i18n-placeholder="password_placeholder" placeholder="Enter password" /></div>
+                        <div class="error-message" id="loginError"></div>
+                        <button type="submit" class="btn btn-primary" id="loginBtn" data-i18n="signin_btn">Sign in</button>
+                        <div class="auth-divider" data-i18n="or_divider">or</div>
+                        <button type="button" class="btn btn-outline" id="googleLoginBtn"><i class="fab fa-google"></i> <span data-i18n="google_btn">Continue with Google</span></button>
+                    </form>
+
+                    <form class="auth-form" id="signupForm" autocomplete="off">
+                        <div class="form-group"><label data-i18n="name_label">Full name</label><input type="text" id="signupName" data-i18n-placeholder="name_placeholder" placeholder="Your full name" /></div>
+                        <div class="form-group"><label data-i18n="email_label">Email</label><input type="email" id="signupEmail" data-i18n-placeholder="email_placeholder" placeholder="your@email.com" /></div>
+                        <div class="form-group"><label data-i18n="password_label">Password</label><input type="password" id="signupPassword" data-i18n-placeholder="password_placeholder" placeholder="Create a strong password (min. 6 characters)" /></div>
+                        <div class="error-message" id="signupError"></div>
+                        <button type="submit" class="btn btn-accent" id="signupBtn" data-i18n="signup_btn">Create account</button>
+                        <div class="auth-divider" data-i18n="or_divider">or</div>
+                        <button type="button" class="btn btn-outline" id="googleSignupBtn"><i class="fab fa-google"></i> <span data-i18n="google_btn">Continue with Google</span></button>
+                    </form>
                 </div>
 
-                <button class="btn btn-primary" id="saveClientProfile" data-i18n="save_btn"><i class="fas fa-save"></i> Save changes</button>
-            </div>
-
-            <div class="profile-card">
-                <h3 style="margin-bottom:0.5rem;" data-i18n="ratings_title">Translator Ratings</h3>
-                <p class="text-muted" style="font-size:0.8rem; margin-bottom:0.8rem;" data-i18n="ratings_desc">Ratings from translators you've worked with. 5-star clients get 50% discount on 1 day of booking.</p>
-                <div id="clientRatingsList">
-                    <div class="empty-state" style="padding:1rem;" data-i18n="no_ratings"><i class="far fa-star" style="font-size:2rem;"></i><p style="font-size:0.85rem;">No ratings yet</p></div>
+                <!-- Why Bookly -->
+                <div class="why-section" id="whySection">
+                    <h3>Why Bookly?</h3>
+                    <p style="text-align:center; font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Everything you need for professional interpretation services</p>
+                    <div class="features-grid">
+                        <div class="feature-card"><i class="fas fa-globe"></i><h4>Multi-Language Experts</h4><p>Arabic, English, Kurdish Sorani, Turkish, and Farsi interpreters ready to serve.</p></div>
+                        <div class="feature-card"><i class="fas fa-star"></i><h4>Verified & Rated</h4><p>Every interpreter is evaluated by clients with transparent star ratings.</p></div>
+                        <div class="feature-card"><i class="fas fa-calendar-alt"></i><h4>Live Availability</h4><p>Green dates are open, red are booked. Pick your slot instantly.</p></div>
+                        <div class="feature-card"><i class="fas fa-handshake"></i><h4>Mutual Evaluation</h4><p>Clients and interpreters rate each other to build trust and accountability.</p></div>
+                    </div>
+                    <div class="rule-note">
+                        <i class="fas fa-globe"></i>
+                        <span>Rule: 2 interpreters are required per language pair for both simultaneous and consecutive interpretation. For in‑person sessions, interpreters exchange every 30 minutes. When online interpretation exceeds 90 minutes, one additional online interpreter is needed. Written translation is calculated per word per page of 250 words.</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- CLIENT BOOKINGS -->
-        <div id="clientBookings" class="content-section" style="display:none;">
-            <div class="section-title" data-i18n="my_bookings"><i class="fas fa-calendar-check"></i> My bookings</div>
-            <div id="clientBookingsList">
-                <div class="empty-state" data-i18n="no_bookings"><i class="far fa-calendar-plus"></i><h3>No bookings yet.</h3></div>
-            </div>
-        </div>
+        <!-- MAIN APP -->
+        <div id="mainApp" style="display:none;">
+            <header class="app-header">
+                <div class="brand">
+                    <div id="appLogoContainer" style="cursor:pointer; position:relative;">
+                        <img id="appLogo" src="" alt="Bookly" style="display:none; height:2rem;" />
+                        <span id="appLogoFallback" class="logo-icon"><i class="fas fa-calendar-alt"></i></span>
+                        <input type="file" id="appLogoInput" accept="image/*" style="display:none;" />
+                    </div>
+                    <div>
+                        <h1>Book<span>ly</span></h1>
+                        <span class="slogan-small" data-i18n="slogan">We Connect Cultures</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="header-btn" id="langToggleBtn">عربي</button>
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <button class="header-btn" id="logoutBtn" data-i18n="sign_out">Sign out</button>
+                </div>
+            </header>
 
-        <!-- TRANSLATOR VIEW -->
-        <div id="translatorView" style="display:none;">
-            <div id="translatorProfile" class="content-section">
+            <!-- CLIENT VIEW -->
+            <div id="clientView" class="content-section" style="display:none;">
+                <div class="welcome-banner">
+                    <h2 data-i18n="welcome_client">Welcome to Bookly</h2>
+                    <p data-i18n="welcome_sub">Find the perfect translator for your needs</p>
+                </div>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" data-i18n-placeholder="search_placeholder" placeholder="Search by name or language..." />
+                    <button class="clear-search" id="clearSearch"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="section-title" data-i18n="available_translators"><i class="fas fa-users"></i> Available translators</div>
+                <div class="translator-grid" id="translatorGrid"></div>
+                <div id="emptyState" class="empty-state" style="display:none;" data-i18n="no_translators">
+                    <i class="fas fa-user-tie"></i><h3>No translators have joined yet.</h3>
+                </div>
+            </div>
+
+            <!-- CLIENT PROFILE -->
+            <div id="clientProfile" class="content-section" style="display:none;">
+                <div class="briefing-card">
+                    <div class="flex-between mb-1">
+                        <strong id="briefingName">Client Name</strong>
+                        <span class="badge badge-active" data-i18n="active_badge">Active</span>
+                    </div>
+                    <div class="rating-stars" id="briefingStars"></div>
+                    <p class="text-muted mt-1" id="briefingBio" style="font-size:0.85rem;" data-i18n="no_bio">No bio yet</p>
+                </div>
+
                 <div class="profile-card">
                     <div class="profile-header">
-                        <div class="photo" id="translatorPhotoPreview" style="background-size:cover; background-position:center;">
-                            <i class="fas fa-user-circle"></i>
+                        <div class="photo" id="clientLogoPreview" style="background-size:cover; background-position:center;">
+                            <i class="fas fa-building"></i>
                         </div>
                         <div class="info">
-                            <h3 id="translatorProfileName" data-i18n="translator_profile">My profile</h3>
-                            <span class="badge badge-translator">Translator</span>
-                            <span id="translatorRatingDisplay" style="font-size:0.8rem; color:var(--gold); display:block; margin-top:4px;"></span>
+                            <h3 id="profileNameDisplay" data-i18n="client_profile">My profile</h3>
+                            <span class="badge badge-client">Client</span>
+                            <span id="clientRatingDisplay" style="font-size:0.8rem; color:var(--gold); display:block; margin-top:4px;"></span>
                         </div>
                     </div>
 
                     <div class="form-row">
-                        <div class="form-group"><label data-i18n="name_lbl">Full name</label><input type="text" id="translatorName" placeholder="Your full name" /></div>
-                        <div class="form-group"><label data-i18n="experience_lbl">Experience (years)</label><input type="text" id="translatorExperience" placeholder="e.g., 10+ years" /></div>
+                        <div class="form-group"><label data-i18n="company_label">Company name</label><input type="text" id="clientCompany" placeholder="Enter company name" /></div>
+                        <div class="form-group"><label data-i18n="contact_label">Contact person</label><input type="text" id="clientContact" placeholder="Contact person name" /></div>
                     </div>
-                    <div class="form-group"><label data-i18n="languages_lbl">Languages (comma separated)</label><input type="text" id="translatorLanguages" placeholder="Arabic, English, Kurdish, Turkish, Farsi" /></div>
-                    <div class="form-group"><label data-i18n="interpretation_types_lbl">Types of Interpretation</label>
-                        <div class="checkbox-group" id="interpretationTypes">
-                            <label class="checkbox-label"><input type="checkbox" value="simultaneous" /> <span data-i18n="simultaneous">Simultaneous</span></label>
-                            <label class="checkbox-label"><input type="checkbox" value="consecutive" /> <span data-i18n="consecutive">Consecutive</span></label>
-                            <label class="checkbox-label"><input type="checkbox" value="online" /> <span data-i18n="online">Online</span></label>
-                            <label class="checkbox-label"><input type="checkbox" value="whispering" /> <span data-i18n="whispering">Whispering</span></label>
-                            <label class="checkbox-label"><input type="checkbox" value="written" /> <span data-i18n="written">Written</span></label>
-                            <label class="checkbox-label"><input type="checkbox" value="other" id="otherInterpCheck" /> <span data-i18n="other">Other</span></label>
-                        </div>
-                        <input type="text" id="otherInterpText" data-i18n-placeholder="other_placeholder" placeholder="Specify other interpretation type..." style="margin-top:0.5rem; display:none;" />
-                    </div>
-
-                    <!-- Written translation calculator (visible when 'written' is checked) -->
-                    <div id="writtenCalcSection" style="display:none;">
-                        <div class="calc-group">
-                            <label style="font-weight:600; font-size:0.8rem;">Written Translation Tariff</label>
-                            <div class="calc-row">
-                                <label>IQD/word</label>
-                                <input type="number" id="writtenWordRate" value="70" min="0" step="1" />
-                                <button type="button" class="btn-small" id="incWordRate"><i class="fas fa-chevron-up"></i></button>
-                                <button type="button" class="btn-small" id="decWordRate"><i class="fas fa-chevron-down"></i></button>
-                            </div>
-                            <div class="calc-row">
-                                <label>Words</label>
-                                <input type="number" id="writtenWords" value="0" min="0" step="100" />
-                            </div>
-                            <div class="calc-result" id="wordTotal">Total: IQD 0</div>
-                            <div class="calc-row" style="margin-top:0.5rem;">
-                                <label>IQD/page</label>
-                                <input type="number" id="writtenPageRate" value="15000" min="0" step="1000" />
-                            </div>
-                            <div class="calc-row">
-                                <label>Pages</label>
-                                <input type="number" id="writtenPages" value="0" min="0" step="1" />
-                            </div>
-                            <div class="calc-result" id="pageTotal">Total: IQD 0</div>
-                        </div>
-                    </div>
-
                     <div class="form-row">
-                        <div class="form-group"><label>Daily Fee (IQD)</label><input type="number" id="translatorFee" placeholder="300000" min="0" /></div>
-                        <div class="form-group"><label>Hourly Rate (IQD)</label><input type="number" id="translatorHourlyRate" placeholder="50000" min="0" /></div>
+                        <div class="form-group"><label data-i18n="email_lbl">Email</label><input type="email" id="clientEmail" placeholder="Email address" /></div>
+                        <div class="form-group"><label data-i18n="mobile_label">Mobile</label><input type="tel" id="clientPhone" placeholder="Phone number" /></div>
                     </div>
-
-                    <div class="form-group">
-                        <label>Payment Methods</label>
-                        <input type="text" id="translatorPaymentMethods" placeholder="e.g., Cash, FIB Bank, USD, IQD" />
-                    </div>
-                    <div class="form-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="starDiscountEnabled" />
-                            <span>Enable 5-Star Discount (half daily fee for 5-star clients)</span>
-                        </label>
-                    </div>
-
-                    <div class="form-group"><label data-i18n="whatsapp_lbl">WhatsApp Number (for booking)</label><input type="tel" id="translatorWhatsapp" placeholder="07504486008" /></div>
+                    <div class="form-group"><label data-i18n="address_label">Address</label><input type="text" id="clientAddress" placeholder="Address" /></div>
+                    <div class="form-group"><label data-i18n="domain_label">Work domain</label><input type="text" id="clientDomain" placeholder="Your work domain" /></div>
+                    <div class="form-group"><label data-i18n="bio_label">Short history</label><textarea id="clientBio" placeholder="Brief history about your organization" rows="3"></textarea></div>
                     
                     <div class="form-group">
-                        <label data-i18n="profile_photo_lbl">Profile Photo</label>
-                        <input type="file" id="translatorPhotoFile" accept="image/*" />
-                        <small id="translatorPhotoStatus" class="text-muted"></small>
+                        <label data-i18n="company_logo_lbl">Company Logo</label>
+                        <input type="file" id="clientLogoFile" accept="image/*" />
+                        <small id="clientLogoStatus" class="text-muted"></small>
                     </div>
 
-                    <div class="form-group"><label data-i18n="cv_lbl">CV / Professional Summary</label><textarea id="translatorCv" placeholder="Your experience, education, certifications..." rows="4"></textarea></div>
-                    <button class="btn btn-primary" id="saveTranslatorProfile" data-i18n="save_btn"><i class="fas fa-save"></i> Save changes</button>
+                    <button class="btn btn-primary" id="saveClientProfile" data-i18n="save_btn"><i class="fas fa-save"></i> Save changes</button>
                 </div>
-            </div>
 
-            <div id="translatorBookings" class="content-section" style="display:none;">
-                <div class="section-title" data-i18n="incoming_bookings"><i class="fas fa-calendar-check"></i> Incoming Bookings</div>
-                <div id="translatorBookingsList">
-                    <div class="empty-state">
-                        <i class="far fa-calendar-plus"></i>
-                        <h3 data-i18n="no_translator_bookings">No bookings yet</h3>
-                        <p data-i18n="when_clients_book">When clients book you, they'll appear here</p>
+                <div class="profile-card">
+                    <h3 style="margin-bottom:0.5rem;" data-i18n="ratings_title">Translator Ratings</h3>
+                    <p class="text-muted" style="font-size:0.8rem; margin-bottom:0.8rem;" data-i18n="ratings_desc">Ratings from translators you've worked with. 5-star clients get 50% discount on 1 day of booking.</p>
+                    <div id="clientRatingsList">
+                        <div class="empty-state" style="padding:1rem;" data-i18n="no_ratings"><i class="far fa-star" style="font-size:2rem;"></i><p style="font-size:0.85rem;">No ratings yet</p></div>
                     </div>
                 </div>
             </div>
 
-            <div id="translatorClients" class="content-section" style="display:none;">
-                <div class="section-title" data-i18n="clients"><i class="fas fa-user-friends"></i> Clients</div>
-                <div id="clientCardGrid">
-                    <div class="empty-state">
-                        <i class="fas fa-users"></i>
-                        <h3 data-i18n="no_clients">No clients yet</h3>
-                        <p data-i18n="clients_will_appear">Clients will appear here once they book you</p>
+            <!-- CLIENT BOOKINGS -->
+            <div id="clientBookings" class="content-section" style="display:none;">
+                <div class="section-title" data-i18n="my_bookings"><i class="fas fa-calendar-check"></i> My bookings</div>
+                <div id="clientBookingsList">
+                    <div class="empty-state" data-i18n="no_bookings"><i class="far fa-calendar-plus"></i><h3>No bookings yet.</h3></div>
+                </div>
+            </div>
+
+            <!-- TRANSLATOR VIEW -->
+            <div id="translatorView" style="display:none;">
+                <div id="translatorProfile" class="content-section">
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <div class="photo" id="translatorPhotoPreview" style="background-size:cover; background-position:center;">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <div class="info">
+                                <h3 id="translatorProfileName" data-i18n="translator_profile">My profile</h3>
+                                <span class="badge badge-translator">Translator</span>
+                                <span id="translatorRatingDisplay" style="font-size:0.8rem; color:var(--gold); display:block; margin-top:4px;"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group"><label data-i18n="name_lbl">Full name</label><input type="text" id="translatorName" placeholder="Your full name" /></div>
+                            <div class="form-group"><label data-i18n="experience_lbl">Experience (years)</label><input type="text" id="translatorExperience" placeholder="e.g., 10+ years" /></div>
+                        </div>
+                        <div class="form-group"><label data-i18n="languages_lbl">Languages (comma separated)</label><input type="text" id="translatorLanguages" placeholder="Arabic, English, Kurdish, Turkish, Farsi" /></div>
+                        <div class="form-group"><label data-i18n="interpretation_types_lbl">Types of Interpretation</label>
+                            <div class="checkbox-group" id="interpretationTypes">
+                                <label class="checkbox-label"><input type="checkbox" value="simultaneous" /> <span data-i18n="simultaneous">Simultaneous</span></label>
+                                <label class="checkbox-label"><input type="checkbox" value="consecutive" /> <span data-i18n="consecutive">Consecutive</span></label>
+                                <label class="checkbox-label"><input type="checkbox" value="online" /> <span data-i18n="online">Online</span></label>
+                                <label class="checkbox-label"><input type="checkbox" value="whispering" /> <span data-i18n="whispering">Whispering</span></label>
+                                <label class="checkbox-label"><input type="checkbox" value="written" /> <span data-i18n="written">Written</span></label>
+                                <label class="checkbox-label"><input type="checkbox" value="other" id="otherInterpCheck" /> <span data-i18n="other">Other</span></label>
+                            </div>
+                            <input type="text" id="otherInterpText" data-i18n-placeholder="other_placeholder" placeholder="Specify other interpretation type..." style="margin-top:0.5rem; display:none;" />
+                        </div>
+
+                        <!-- Written translation calculator (visible when 'written' is checked) -->
+                        <div id="writtenCalcSection" style="display:none;">
+                            <div class="calc-group">
+                                <label style="font-weight:600; font-size:0.8rem;">Written Translation Tariff</label>
+                                <div class="calc-row">
+                                    <label>IQD/word</label>
+                                    <input type="number" id="writtenWordRate" value="70" min="0" step="1" />
+                                    <button type="button" class="btn-small" id="incWordRate"><i class="fas fa-chevron-up"></i></button>
+                                    <button type="button" class="btn-small" id="decWordRate"><i class="fas fa-chevron-down"></i></button>
+                                </div>
+                                <div class="calc-row">
+                                    <label>Words</label>
+                                    <input type="number" id="writtenWords" value="0" min="0" step="100" />
+                                </div>
+                                <div class="calc-result" id="wordTotal">Total: IQD 0</div>
+                                <div class="calc-row" style="margin-top:0.5rem;">
+                                    <label>IQD/page</label>
+                                    <input type="number" id="writtenPageRate" value="15000" min="0" step="1000" />
+                                </div>
+                                <div class="calc-row">
+                                    <label>Pages</label>
+                                    <input type="number" id="writtenPages" value="0" min="0" step="1" />
+                                </div>
+                                <div class="calc-result" id="pageTotal">Total: IQD 0</div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group"><label>Daily Fee (IQD)</label><input type="number" id="translatorFee" placeholder="300000" min="0" /></div>
+                            <div class="form-group"><label>Hourly Rate (IQD)</label><input type="number" id="translatorHourlyRate" placeholder="50000" min="0" /></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Payment Methods</label>
+                            <input type="text" id="translatorPaymentMethods" placeholder="e.g., Cash, FIB Bank, USD, IQD" />
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="starDiscountEnabled" />
+                                <span>Enable 5-Star Discount (half daily fee for 5-star clients)</span>
+                            </label>
+                        </div>
+
+                        <div class="form-group"><label data-i18n="whatsapp_lbl">WhatsApp Number (for booking)</label><input type="tel" id="translatorWhatsapp" placeholder="07504486008" /></div>
+                        
+                        <div class="form-group">
+                            <label data-i18n="profile_photo_lbl">Profile Photo</label>
+                            <input type="file" id="translatorPhotoFile" accept="image/*" />
+                            <small id="translatorPhotoStatus" class="text-muted"></small>
+                        </div>
+
+                        <div class="form-group"><label data-i18n="cv_lbl">CV / Professional Summary</label><textarea id="translatorCv" placeholder="Your experience, education, certifications..." rows="4"></textarea></div>
+                        <button class="btn btn-primary" id="saveTranslatorProfile" data-i18n="save_btn"><i class="fas fa-save"></i> Save changes</button>
+                    </div>
+                </div>
+
+                <div id="translatorBookings" class="content-section" style="display:none;">
+                    <div class="section-title" data-i18n="incoming_bookings"><i class="fas fa-calendar-check"></i> Incoming Bookings</div>
+                    <div id="translatorBookingsList">
+                        <div class="empty-state">
+                            <i class="far fa-calendar-plus"></i>
+                            <h3 data-i18n="no_translator_bookings">No bookings yet</h3>
+                            <p data-i18n="when_clients_book">When clients book you, they'll appear here</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="translatorClients" class="content-section" style="display:none;">
+                    <div class="section-title" data-i18n="clients"><i class="fas fa-user-friends"></i> Clients</div>
+                    <div id="clientCardGrid">
+                        <div class="empty-state">
+                            <i class="fas fa-users"></i>
+                            <h3 data-i18n="no_clients">No clients yet</h3>
+                            <p data-i18n="clients_will_appear">Clients will appear here once they book you</p>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <!-- BOTTOM NAV -->
+            <nav class="bottom-nav" id="bottomNav">
+                <button class="nav-item active" data-tab="clientView" id="clientNavTranslators"><i class="fas fa-users"></i><span data-i18n="translators_nav">Translators</span></button>
+                <button class="nav-item" data-tab="clientBookings" id="clientNavBookings"><i class="fas fa-calendar-check"></i><span data-i18n="bookings_nav">Bookings</span><span class="nav-badge hidden" id="clientBookingsBadge">0</span></button>
+                <button class="nav-item" data-tab="clientProfile" id="clientNavProfile"><i class="fas fa-user"></i><span data-i18n="profile_nav">Profile</span></button>
+
+                <button class="nav-item active" data-tab="translatorProfile" id="translatorNavProfile" style="display:none;"><i class="fas fa-user-tie"></i><span data-i18n="my_profile_nav">My Profile</span></button>
+                <button class="nav-item" data-tab="translatorBookings" id="translatorNavBookings" style="display:none;"><i class="fas fa-calendar-check"></i><span data-i18n="bookings_nav">Bookings</span><span class="nav-badge hidden" id="translatorBookingsBadge">0</span></button>
+                <button class="nav-item" data-tab="translatorClients" id="translatorNavClients" style="display:none;"><i class="fas fa-user-friends"></i><span data-i18n="clients_nav">Clients</span></button>
+            </nav>
         </div>
 
-        <!-- BOTTOM NAV -->
-        <nav class="bottom-nav" id="bottomNav">
-            <button class="nav-item active" data-tab="clientView" id="clientNavTranslators"><i class="fas fa-users"></i><span data-i18n="translators_nav">Translators</span></button>
-            <button class="nav-item" data-tab="clientBookings" id="clientNavBookings"><i class="fas fa-calendar-check"></i><span data-i18n="bookings_nav">Bookings</span><span class="nav-badge hidden" id="clientBookingsBadge">0</span></button>
-            <button class="nav-item" data-tab="clientProfile" id="clientNavProfile"><i class="fas fa-user"></i><span data-i18n="profile_nav">Profile</span></button>
-
-            <button class="nav-item active" data-tab="translatorProfile" id="translatorNavProfile" style="display:none;"><i class="fas fa-user-tie"></i><span data-i18n="my_profile_nav">My Profile</span></button>
-            <button class="nav-item" data-tab="translatorBookings" id="translatorNavBookings" style="display:none;"><i class="fas fa-calendar-check"></i><span data-i18n="bookings_nav">Bookings</span><span class="nav-badge hidden" id="translatorBookingsBadge">0</span></button>
-            <button class="nav-item" data-tab="translatorClients" id="translatorNavClients" style="display:none;"><i class="fas fa-user-friends"></i><span data-i18n="clients_nav">Clients</span></button>
-        </nav>
-    </div>
-
-    <!-- BOOKING MODAL -->
-    <div class="modal-overlay" id="bookingModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 data-i18n="book_interpreter">Book Interpreter</h3>
-                <button class="modal-close" id="closeBookingModal">✕</button>
-            </div>
-
-            <div id="bookingTranslatorInfo" style="background:var(--secondary); padding:0.8rem; border-radius:12px; margin-bottom:1rem;">
-                <strong id="bookingTranslatorName">Translator Name</strong>
-                <p style="font-size:0.85rem; color:var(--text-muted); margin-top:4px;" id="bookingTranslatorDetails">Languages • Services • IQD 300,000/day</p>
-                <!-- NEW: written rates display (hidden by default) -->
-                <div id="writtenRatesDisplay" style="display:none; margin-top:6px; font-size:0.8rem; color:var(--text-muted);">
-                    <i class="fas fa-file-alt"></i> <span id="writtenRateText"></span>
+        <!-- BOOKING MODAL -->
+        <div class="modal-overlay" id="bookingModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 data-i18n="book_interpreter">Book Interpreter</h3>
+                    <button class="modal-close" id="closeBookingModal">✕</button>
                 </div>
-            </div>
 
-            <div class="form-group"><label data-i18n="service_type">Service Type</label><select id="bookingService">
-                <option value="simultaneous" data-i18n="simultaneous_interpretation">Simultaneous Interpretation</option>
-                <option value="consecutive" data-i18n="consecutive_interpretation">Consecutive Interpretation</option>
-                <option value="online" data-i18n="online_interpretation">Online Interpretation</option>
-                <option value="whispering" data-i18n="whispering_interpretation">Whispering Interpretation</option>
-                <option value="written" data-i18n="written_translation">Written Translation</option>
-                <option value="other" data-i18n="other_service">Other Service</option>
-            </select></div>
-
-            <!-- File upload for written translation sample -->
-            <div class="form-group" id="sampleFileGroup" style="display:none;">
-                <label>Upload Sample Document (optional)</label>
-                <input type="file" id="bookingSampleFile" accept=".pdf,.doc,.docx,image/*" />
-                <small class="text-muted">Upload a sample page so the interpreter can assess complexity.</small>
-            </div>
-
-            <div class="calendar-wrapper">
-                <div class="calendar-nav">
-                    <button class="nav-btn" id="prevMonthBtn">‹</button>
-                    <span class="month-year" id="calendarMonthYear">June 2026</span>
-                    <button class="nav-btn" id="nextMonthBtn">›</button>
+                <div id="bookingTranslatorInfo" style="background:var(--secondary); padding:0.8rem; border-radius:12px; margin-bottom:1rem;">
+                    <strong id="bookingTranslatorName">Translator Name</strong>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:4px;" id="bookingTranslatorDetails">Languages • Services • IQD 300,000/day</p>
+                    <!-- NEW: written rates display (hidden by default) -->
+                    <div id="writtenRatesDisplay" style="display:none; margin-top:6px; font-size:0.8rem; color:var(--text-muted);">
+                        <i class="fas fa-file-alt"></i> <span id="writtenRateText"></span>
+                    </div>
                 </div>
-                <div class="calendar-grid" id="bookingCalendar"></div>
-            </div>
-            <div class="selected-dates">
-                <div class="flex-between">
-                    <span style="font-weight:600;" data-i18n="selected_dates"> Selected Dates</span>
-                    <button class="clear-btn" id="clearDatesBtn" data-i18n="clear_all">Clear all</button>
-                </div>
-                <div class="date-chips" id="selectedDatesChips"><span style="color:var(--text-muted); font-size:0.8rem;" data-i18n="no_dates">No dates selected</span></div>
-            </div>
-            <div class="pricing-summary" id="pricingSummary">
-                <div class="pricing-row"><span data-i18n="daily_rate">Daily rate:</span><span id="pricingDailyRate">IQD 300,000</span></div>
-                <div class="pricing-row"><span data-i18n="number_of_days">Number of days:</span><span id="pricingDays">0</span></div>
-                <div class="pricing-row total"><span data-i18n="total_estimate">Total estimate:</span><span id="pricingTotal">IQD 0</span></div>
-            </div>
-            <div class="form-group"><label data-i18n="event_location">Event Location</label><input type="text" id="bookingLocation" data-i18n-placeholder="location_placeholder" placeholder="City, venue, or online" /></div>
-            <div class="form-group"><label data-i18n="additional_notes">Additional Notes</label><textarea id="bookingNotes" data-i18n-placeholder="notes_placeholder" placeholder="Special requests, timing, etc..." rows="3"></textarea></div>
 
-            <button class="whatsapp-btn" id="whatsappBookBtn" disabled><i class="fab fa-whatsapp"></i> <span data-i18n="whatsapp_book">Book via WhatsApp</span></button>
+                <div class="form-group"><label data-i18n="service_type">Service Type</label><select id="bookingService">
+                    <option value="simultaneous" data-i18n="simultaneous_interpretation">Simultaneous Interpretation</option>
+                    <option value="consecutive" data-i18n="consecutive_interpretation">Consecutive Interpretation</option>
+                    <option value="online" data-i18n="online_interpretation">Online Interpretation</option>
+                    <option value="whispering" data-i18n="whispering_interpretation">Whispering Interpretation</option>
+                    <option value="written" data-i18n="written_translation">Written Translation</option>
+                    <option value="other" data-i18n="other_service">Other Service</option>
+                </select></div>
+
+                <!-- File upload for written translation sample -->
+                <div class="form-group" id="sampleFileGroup" style="display:none;">
+                    <label>Upload Sample Document (optional)</label>
+                    <input type="file" id="bookingSampleFile" accept=".pdf,.doc,.docx,image/*" />
+                    <small class="text-muted">Upload a sample page so the interpreter can assess complexity.</small>
+                </div>
+
+                <div class="calendar-wrapper">
+                    <div class="calendar-nav">
+                        <button class="nav-btn" id="prevMonthBtn">‹</button>
+                        <span class="month-year" id="calendarMonthYear">June 2026</span>
+                        <button class="nav-btn" id="nextMonthBtn">›</button>
+                    </div>
+                    <div class="calendar-grid" id="bookingCalendar"></div>
+                </div>
+                <div class="selected-dates">
+                    <div class="flex-between">
+                        <span style="font-weight:600;" data-i18n="selected_dates"> Selected Dates</span>
+                        <button class="clear-btn" id="clearDatesBtn" data-i18n="clear_all">Clear all</button>
+                    </div>
+                    <div class="date-chips" id="selectedDatesChips"><span style="color:var(--text-muted); font-size:0.8rem;" data-i18n="no_dates">No dates selected</span></div>
+                </div>
+                <div class="pricing-summary" id="pricingSummary">
+                    <div class="pricing-row"><span data-i18n="daily_rate">Daily rate:</span><span id="pricingDailyRate">IQD 300,000</span></div>
+                    <div class="pricing-row"><span data-i18n="number_of_days">Number of days:</span><span id="pricingDays">0</span></div>
+                    <div class="pricing-row total"><span data-i18n="total_estimate">Total estimate:</span><span id="pricingTotal">IQD 0</span></div>
+                </div>
+                <div class="form-group"><label data-i18n="event_location">Event Location</label><input type="text" id="bookingLocation" data-i18n-placeholder="location_placeholder" placeholder="City, venue, or online" /></div>
+                <div class="form-group"><label data-i18n="additional_notes">Additional Notes</label><textarea id="bookingNotes" data-i18n-placeholder="notes_placeholder" placeholder="Special requests, timing, etc..." rows="3"></textarea></div>
+
+                <button class="whatsapp-btn" id="whatsappBookBtn" disabled><i class="fab fa-whatsapp"></i> <span data-i18n="whatsapp_book">Book via WhatsApp</span></button>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    // ============================================================
-    // FIREBASE CONFIG
-    // ============================================================
-    const firebaseConfig = {
-        apiKey: "AIzaSyD041z_XGsATHpqkrufNAPvCeEFZsq7GNI",
-        authDomain: "bookly-new-9602a.firebaseapp.com",
-        projectId: "bookly-new-9602a",
-        storageBucket: "bookly-new-9602a.firebasestorage.app",
-        messagingSenderId: "572177466552",
-        appId: "1:572177466552:web:d63ae900c493553e53a04d",
-        measurementId: "G-5GDM9B1WX5"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
+    <script>
+        // ============================================================
+        // FIREBASE CONFIG
+        // ============================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyD041z_XGsATHpqkrufNAPvCeEFZsq7GNI",
+            authDomain: "bookly-new-9602a.firebaseapp.com",
+            projectId: "bookly-new-9602a",
+            storageBucket: "bookly-new-9602a.firebasestorage.app",
+            messagingSenderId: "572177466552",
+            appId: "1:572177466552:web:d63ae900c493553e53a04d",
+            measurementId: "G-5GDM9B1WX5"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
 
-    // State
-    const state = {
-        currentUser: null,
-        userRole: null,
-        isLoggedIn: false,
-        selectedRole: null,
-        currentLang: 'en',
-        selectedTranslatorId: null,
-        selectedDates: [],
-        currentMonth: new Date().getMonth(),
-        currentYear: new Date().getFullYear(),
-        cachedTranslators: [],
-        activeTab: null
-    };
+        // State
+        const state = {
+            currentUser: null,
+            userRole: null,
+            isLoggedIn: false,
+            selectedRole: null,
+            currentLang: 'en',
+            selectedTranslatorId: null,
+            selectedDates: [],
+            currentMonth: new Date().getMonth(),
+            currentYear: new Date().getFullYear(),
+            cachedTranslators: [],
+            activeTab: null
+        };
 
-    // ============================================================
-    // TRANSLATIONS (updated with new keys)
-    // ============================================================
-    const translations = {
-        en: {
-            "choose_role": "CHOOSE HOW YOU'D LIKE TO CONTINUE",
-            "client_title": "I'm a Client",
-            "client_desc": "Create your profile, browse interpreter profiles, check availability calendars, and book the right professional for your event.",
-            "translator_title": "I'm a Translator",
-            "translator_desc": "Receive booking requests and grow your business.",
-            "signin_tab": "Sign in",
-            "signup_tab": "Sign up",
-            "email_label": "Email",
-            "password_label": "Password",
-            "name_label": "Full name",
-            "email_placeholder": "your@email.com",
-            "password_placeholder": "Enter password",
-            "name_placeholder": "Your full name",
-            "signin_btn": "Sign in",
-            "signup_btn": "Create account",
-            "or_divider": "or",
-            "google_btn": "Continue with Google",
-            "login_error_fill": "Please fill all fields",
-            "login_error_password": "Password min 6 characters",
-            "login_error_role": "Please select a role",
-            "welcome_back": "Welcome back!",
-            "welcome_new": "Account created!",
-            "brand": "Bookly",
-            "slogan": "We Connect Cultures",
-            "sub_slogan": "Bridge every conversation. Translators on demand across Iraq.",
-            "sign_out": "Sign out",
-            "welcome_client": "Welcome to Bookly",
-            "welcome_sub": "Find the perfect translator for your needs",
-            "search_placeholder": "Search by name or language...",
-            "available_translators": "Available translators",
-            "no_translators": "No translators have joined yet.",
-            "book_btn": "Book",
-            "per_day": "/day",
-            "client_profile": "My profile",
-            "active_badge": "Active",
-            "company_label": "Company name",
-            "contact_label": "Contact person",
-            "email_lbl": "Email",
-            "mobile_label": "Mobile",
-            "address_label": "Address",
-            "domain_label": "Work domain",
-            "bio_label": "Short history",
-            "save_btn": "Save changes",
-            "ratings_title": "Translator Ratings",
-            "ratings_desc": "Ratings from translators you've worked with. 5-star clients get 50% discount on 1 day of booking.",
-            "no_ratings": "No ratings yet",
-            "my_bookings": "My bookings",
-            "no_bookings": "No bookings yet.",
-            "translator_profile": "My profile",
-            "name_lbl": "Full name",
-            "experience_lbl": "Experience (years)",
-            "languages_lbl": "Languages (comma separated)",
-            "interpretation_types_lbl": "Types of Interpretation",
-            "simultaneous": "Simultaneous",
-            "consecutive": "Consecutive",
-            "online": "Online",
-            "whispering": "Whispering",
-            "written": "Written",
-            "other": "Other",
-            "other_placeholder": "Specify other interpretation type...",
-            "word_price_lbl": "Written Translation Tariff (IQD per word)",
-            "daily_fee_lbl": "Daily Interpretation Fee (IQD)",
-            "whatsapp_lbl": "WhatsApp Number (for booking)",
-            "cv_lbl": "CV / Professional Summary",
-            "save_translator_profile": "Save changes",
-            "incoming_bookings": "Incoming Bookings",
-            "no_translator_bookings": "No bookings yet",
-            "when_clients_book": "When clients book you, they'll appear here",
-            "clients": "Clients",
-            "no_clients": "No clients yet",
-            "clients_will_appear": "Clients will appear here once they book you",
-            "translators_nav": "Translators",
-            "bookings_nav": "Bookings",
-            "profile_nav": "Profile",
-            "my_profile_nav": "My Profile",
-            "clients_nav": "Clients",
-            "book_interpreter": "Book Interpreter",
-            "service_type": "Service Type",
-            "simultaneous_interpretation": "Simultaneous Interpretation",
-            "consecutive_interpretation": "Consecutive Interpretation",
-            "online_interpretation": "Online Interpretation",
-            "whispering_interpretation": "Whispering Interpretation",
-            "written_translation": "Written Translation",
-            "other_service": "Other Service",
-            "selected_dates": "Selected Dates",
-            "clear_all": "Clear all",
-            "no_dates": "No dates selected",
-            "daily_rate": "Daily rate:",
-            "number_of_days": "Number of days:",
-            "total_estimate": "Total estimate:",
-            "event_location": "Event Location",
-            "location_placeholder": "City, venue, or online",
-            "additional_notes": "Additional Notes",
-            "notes_placeholder": "Special requests, timing, etc...",
-            "whatsapp_book": "Book via WhatsApp",
-            "past_date_error": "Past dates cannot be selected",
-            "select_one_date": "Select at least one date",
-            "signed_out": "Signed out",
-            "profile_saved": "Profile saved!",
-            "booking_sent": "Booking sent!",
-            "lang_changed_ar": "تم تغيير اللغة إلى العربية",
-            "lang_changed_en": "Language changed to English",
-            "premium_badge": "Premium",
-            "no_bio": "No bio yet",
-            "company_logo_lbl": "Company Logo",
-            "profile_photo_lbl": "Profile Photo",
-            "enter_client": "Enter Client Section",
-            "enter_interpreter": "Enter Interpreter Section",
-            "payment_methods": "Payment Methods",
-            "star_discount": "Enable 5-Star Discount (half daily fee for 5-star clients)",
-            "daily_fee_lbl": "Daily Fee (IQD)",
-            "hourly_rate_lbl": "Hourly Rate (IQD)",
-            "word_rate": "IQD/word",
-            "page_rate": "IQD/page",
-            "upload_sample": "Upload Sample Document (optional)",
-            "sample_hint": "Upload a sample page so the interpreter can assess complexity.",
-            "calc_title": "Written Translation Tariff",
-        },
-        ar: {
-            "choose_role": "اختر كيف تريد المتابعة",
-            "client_title": "أنا عميل",
-            "client_desc": "أنشئ ملفك الشخصي، وتصفح ملفات المترجمين، وتحقق من تقاويم التوفر، واحجز المحترف المناسب لمناسبتك.",
-            "translator_title": "أنا مترجم",
-            "translator_desc": "استقبل طلبات الحجز ونمِّ عملك.",
-            "signin_tab": "تسجيل الدخول",
-            "signup_tab": "إنشاء حساب",
-            "email_label": "البريد الإلكتروني",
-            "password_label": "كلمة المرور",
-            "name_label": "الاسم الكامل",
-            "email_placeholder": "your@email.com",
-            "password_placeholder": "أدخل كلمة المرور",
-            "name_placeholder": "الاسم الكامل",
-            "signin_btn": "تسجيل الدخول",
-            "signup_btn": "إنشاء حساب",
-            "or_divider": "أو",
-            "google_btn": "المتابعة باستخدام Google",
-            "login_error_fill": "يرجى ملء جميع الحقول",
-            "login_error_password": "كلمة المرور 6 أحرف على الأقل",
-            "login_error_role": "يرجى اختيار دور",
-            "welcome_back": "أهلاً بعودتك!",
-            "welcome_new": "تم إنشاء الحساب!",
-            "brand": "بوكلي",
-            "slogan": "نحن نصل الثقافات",
-            "sub_slogan": "جسر لكل محادثة. مترجمون حسب الطلب في العراق.",
-            "sign_out": "تسجيل الخروج",
-            "welcome_client": "مرحباً بك في بوكلي",
-            "welcome_sub": "اعثر على المترجم المناسب لاحتياجاتك",
-            "search_placeholder": "ابحث بالاسم أو اللغة...",
-            "available_translators": "المترجمون المتاحون",
-            "no_translators": "لم ينضم أي مترجم حتى الآن.",
-            "book_btn": "احجز",
-            "per_day": "/اليوم",
-            "client_profile": "ملفي الشخصي",
-            "active_badge": "نشط",
-            "company_label": "اسم الشركة",
-            "contact_label": "الشخص المسؤول",
-            "email_lbl": "البريد الإلكتروني",
-            "mobile_label": "الهاتف",
-            "address_label": "العنوان",
-            "domain_label": "مجال العمل",
-            "bio_label": "نبذة تاريخية",
-            "save_btn": "حفظ التغييرات",
-            "ratings_title": "تقييمات المترجمين",
-            "ratings_desc": "تقييمات المترجمين الذين عملت معهم. العملاء ذوو 5 نجوم يحصلون على خصم 50% على يوم حجز واحد.",
-            "no_ratings": "لا توجد تقييمات بعد",
-            "my_bookings": "حجوزاتي",
-            "no_bookings": "لا توجد حجوزات بعد.",
-            "translator_profile": "ملفي الشخصي",
-            "name_lbl": "الاسم الكامل",
-            "experience_lbl": "الخبرة (بالسنوات)",
-            "languages_lbl": "اللغات (مفصولة بفواصل)",
-            "interpretation_types_lbl": "أنواع الترجمة الفورية",
-            "simultaneous": "فورية",
-            "consecutive": "تتابعية",
-            "online": "عبر الإنترنت",
-            "whispering": "همسية",
-            "written": "تحريرية",
-            "other": "أخرى",
-            "other_placeholder": "حدد نوع ترجمة آخر...",
-            "word_price_lbl": "تعريفة الترجمة التحريرية (دينار/كلمة)",
-            "daily_fee_lbl": "أجر الترجمة الفورية اليومي (دينار)",
-            "whatsapp_lbl": "رقم الواتساب (للحجز)",
-            "cv_lbl": "السيرة الذاتية / ملخص مهني",
-            "save_translator_profile": "حفظ التغييرات",
-            "incoming_bookings": "الحجوزات الواردة",
-            "no_translator_bookings": "لا توجد حجوزات بعد",
-            "when_clients_book": "عندما يحجزك العملاء، ستظهر هنا",
-            "clients": "العملاء",
-            "no_clients": "لا يوجد عملاء بعد",
-            "clients_will_appear": "سيظهر العملاء هنا بمجرد حجزهم لك",
-            "translators_nav": "المترجمون",
-            "bookings_nav": "الحجوزات",
-            "profile_nav": "الملف",
-            "my_profile_nav": "ملفي",
-            "clients_nav": "العملاء",
-            "book_interpreter": "حجز مترجم",
-            "service_type": "نوع الخدمة",
-            "simultaneous_interpretation": "ترجمة فورية",
-            "consecutive_interpretation": "ترجمة تتابعية",
-            "online_interpretation": "ترجمة عبر الإنترنت",
-            "whispering_interpretation": "ترجمة همسية",
-            "written_translation": "ترجمة تحريرية",
-            "other_service": "خدمة أخرى",
-            "selected_dates": "التواريخ المختارة",
-            "clear_all": "مسح الكل",
-            "no_dates": "لم يتم اختيار تواريخ",
-            "daily_rate": "السعر اليومي:",
-            "number_of_days": "عدد الأيام:",
-            "total_estimate": "الإجمالي التقديري:",
-            "event_location": "موقع الفعالية",
-            "location_placeholder": "المدينة، المكان، أو عبر الإنترنت",
-            "additional_notes": "ملاحظات إضافية",
-            "notes_placeholder": "طلبات خاصة، التوقيت، إلخ...",
-            "whatsapp_book": "احجز عبر الواتساب",
-            "past_date_error": "لا يمكن اختيار تواريخ سابقة",
-            "select_one_date": "يرجى اختيار تاريخ واحد على الأقل",
-            "signed_out": "تم تسجيل الخروج",
-            "profile_saved": "تم حفظ الملف!",
-            "booking_sent": "تم إرسال الحجز!",
-            "lang_changed_ar": "تم تغيير اللغة إلى العربية",
-            "lang_changed_en": "Language changed to English",
-            "premium_badge": "ممتاز",
-            "no_bio": "لا توجد نبذة بعد",
-            "company_logo_lbl": "شعار الشركة",
-            "profile_photo_lbl": "الصورة الشخصية",
-            "enter_client": "دخول قسم العملاء",
-            "enter_interpreter": "دخول قسم المترجمين",
-            "payment_methods": "طرق الدفع",
-            "star_discount": "تفعيل خصم 5 نجوم (نصف الأجر اليومي للعملاء ذوي 5 نجوم)",
-            "daily_fee_lbl": "الأجر اليومي (دينار)",
-            "hourly_rate_lbl": "أجر الساعة (دينار)",
-            "word_rate": "دينار/كلمة",
-            "page_rate": "دينار/صفحة",
-            "upload_sample": "رفع عينة من المستند (اختياري)",
-            "sample_hint": "ارفع صفحة عينة ليتمكن المترجم من تقييم التعقيد.",
-            "calc_title": "تعريفة الترجمة التحريرية",
-        }
-    };
+        // ============================================================
+        // TRANSLATIONS
+        // ============================================================
+        const translations = {
+            en: {
+                "choose_role": "CHOOSE HOW YOU'D LIKE TO CONTINUE",
+                "client_title": "I'm a Client",
+                "client_desc": "Create your profile, browse interpreter profiles, check availability calendars, and book the right professional for your event.",
+                "translator_title": "I'm a Translator",
+                "translator_desc": "Receive booking requests and grow your business.",
+                "signin_tab": "Sign in",
+                "signup_tab": "Sign up",
+                "email_label": "Email",
+                "password_label": "Password",
+                "name_label": "Full name",
+                "email_placeholder": "your@email.com",
+                "password_placeholder": "Enter password",
+                "name_placeholder": "Your full name",
+                "signin_btn": "Sign in",
+                "signup_btn": "Create account",
+                "or_divider": "or",
+                "google_btn": "Continue with Google",
+                "login_error_fill": "Please fill all fields",
+                "login_error_password": "Password min 6 characters",
+                "login_error_role": "Please select a role",
+                "welcome_back": "Welcome back!",
+                "welcome_new": "Account created!",
+                "brand": "Bookly",
+                "slogan": "We Connect Cultures",
+                "sub_slogan": "Bridge every conversation. Translators on demand across Iraq.",
+                "sign_out": "Sign out",
+                "welcome_client": "Welcome to Bookly",
+                "welcome_sub": "Find the perfect translator for your needs",
+                "search_placeholder": "Search by name or language...",
+                "available_translators": "Available translators",
+                "no_translators": "No translators have joined yet.",
+                "book_btn": "Book",
+                "per_day": "/day",
+                "client_profile": "My profile",
+                "active_badge": "Active",
+                "company_label": "Company name",
+                "contact_label": "Contact person",
+                "email_lbl": "Email",
+                "mobile_label": "Mobile",
+                "address_label": "Address",
+                "domain_label": "Work domain",
+                "bio_label": "Short history",
+                "save_btn": "Save changes",
+                "ratings_title": "Translator Ratings",
+                "ratings_desc": "Ratings from translators you've worked with. 5-star clients get 50% discount on 1 day of booking.",
+                "no_ratings": "No ratings yet",
+                "my_bookings": "My bookings",
+                "no_bookings": "No bookings yet.",
+                "translator_profile": "My profile",
+                "name_lbl": "Full name",
+                "experience_lbl": "Experience (years)",
+                "languages_lbl": "Languages (comma separated)",
+                "interpretation_types_lbl": "Types of Interpretation",
+                "simultaneous": "Simultaneous",
+                "consecutive": "Consecutive",
+                "online": "Online",
+                "whispering": "Whispering",
+                "written": "Written",
+                "other": "Other",
+                "other_placeholder": "Specify other interpretation type...",
+                "word_price_lbl": "Written Translation Tariff (IQD per word)",
+                "daily_fee_lbl": "Daily Interpretation Fee (IQD)",
+                "whatsapp_lbl": "WhatsApp Number (for booking)",
+                "cv_lbl": "CV / Professional Summary",
+                "save_translator_profile": "Save changes",
+                "incoming_bookings": "Incoming Bookings",
+                "no_translator_bookings": "No bookings yet",
+                "when_clients_book": "When clients book you, they'll appear here",
+                "clients": "Clients",
+                "no_clients": "No clients yet",
+                "clients_will_appear": "Clients will appear here once they book you",
+                "translators_nav": "Translators",
+                "bookings_nav": "Bookings",
+                "profile_nav": "Profile",
+                "my_profile_nav": "My Profile",
+                "clients_nav": "Clients",
+                "book_interpreter": "Book Interpreter",
+                "service_type": "Service Type",
+                "simultaneous_interpretation": "Simultaneous Interpretation",
+                "consecutive_interpretation": "Consecutive Interpretation",
+                "online_interpretation": "Online Interpretation",
+                "whispering_interpretation": "Whispering Interpretation",
+                "written_translation": "Written Translation",
+                "other_service": "Other Service",
+                "selected_dates": "Selected Dates",
+                "clear_all": "Clear all",
+                "no_dates": "No dates selected",
+                "daily_rate": "Daily rate:",
+                "number_of_days": "Number of days:",
+                "total_estimate": "Total estimate:",
+                "event_location": "Event Location",
+                "location_placeholder": "City, venue, or online",
+                "additional_notes": "Additional Notes",
+                "notes_placeholder": "Special requests, timing, etc...",
+                "whatsapp_book": "Book via WhatsApp",
+                "past_date_error": "Past dates cannot be selected",
+                "select_one_date": "Select at least one date",
+                "signed_out": "Signed out",
+                "profile_saved": "Profile saved!",
+                "booking_sent": "Booking sent!",
+                "lang_changed_ar": "تم تغيير اللغة إلى العربية",
+                "lang_changed_en": "Language changed to English",
+                "premium_badge": "Premium",
+                "no_bio": "No bio yet",
+                "company_logo_lbl": "Company Logo",
+                "profile_photo_lbl": "Profile Photo",
+                "enter_client": "Enter Client Section",
+                "enter_interpreter": "Enter Interpreter Section",
+                "payment_methods": "Payment Methods",
+                "star_discount": "Enable 5-Star Discount (half daily fee for 5-star clients)",
+                "daily_fee_lbl": "Daily Fee (IQD)",
+                "hourly_rate_lbl": "Hourly Rate (IQD)",
+                "word_rate": "IQD/word",
+                "page_rate": "IQD/page",
+                "upload_sample": "Upload Sample Document (optional)",
+                "sample_hint": "Upload a sample page so the interpreter can assess complexity.",
+                "calc_title": "Written Translation Tariff",
+            },
+            ar: {
+                "choose_role": "اختر كيف تريد المتابعة",
+                "client_title": "أنا عميل",
+                "client_desc": "أنشئ ملفك الشخصي، وتصفح ملفات المترجمين، وتحقق من تقاويم التوفر، واحجز المحترف المناسب لمناسبتك.",
+                "translator_title": "أنا مترجم",
+                "translator_desc": "استقبل طلبات الحجز ونمِّ عملك.",
+                "signin_tab": "تسجيل الدخول",
+                "signup_tab": "إنشاء حساب",
+                "email_label": "البريد الإلكتروني",
+                "password_label": "كلمة المرور",
+                "name_label": "الاسم الكامل",
+                "email_placeholder": "your@email.com",
+                "password_placeholder": "أدخل كلمة المرور",
+                "name_placeholder": "الاسم الكامل",
+                "signin_btn": "تسجيل الدخول",
+                "signup_btn": "إنشاء حساب",
+                "or_divider": "أو",
+                "google_btn": "المتابعة باستخدام Google",
+                "login_error_fill": "يرجى ملء جميع الحقول",
+                "login_error_password": "كلمة المرور 6 أحرف على الأقل",
+                "login_error_role": "يرجى اختيار دور",
+                "welcome_back": "أهلاً بعودتك!",
+                "welcome_new": "تم إنشاء الحساب!",
+                "brand": "بوكلي",
+                "slogan": "نحن نصل الثقافات",
+                "sub_slogan": "جسر لكل محادثة. مترجمون حسب الطلب في العراق.",
+                "sign_out": "تسجيل الخروج",
+                "welcome_client": "مرحباً بك في بوكلي",
+                "welcome_sub": "اعثر على المترجم المناسب لاحتياجاتك",
+                "search_placeholder": "ابحث بالاسم أو اللغة...",
+                "available_translators": "المترجمون المتاحون",
+                "no_translators": "لم ينضم أي مترجم حتى الآن.",
+                "book_btn": "احجز",
+                "per_day": "/اليوم",
+                "client_profile": "ملفي الشخصي",
+                "active_badge": "نشط",
+                "company_label": "اسم الشركة",
+                "contact_label": "الشخص المسؤول",
+                "email_lbl": "البريد الإلكتروني",
+                "mobile_label": "الهاتف",
+                "address_label": "العنوان",
+                "domain_label": "مجال العمل",
+                "bio_label": "نبذة تاريخية",
+                "save_btn": "حفظ التغييرات",
+                "ratings_title": "تقييمات المترجمين",
+                "ratings_desc": "تقييمات المترجمين الذين عملت معهم. العملاء ذوو 5 نجوم يحصلون على خصم 50% على يوم حجز واحد.",
+                "no_ratings": "لا توجد تقييمات بعد",
+                "my_bookings": "حجوزاتي",
+                "no_bookings": "لا توجد حجوزات بعد.",
+                "translator_profile": "ملفي الشخصي",
+                "name_lbl": "الاسم الكامل",
+                "experience_lbl": "الخبرة (بالسنوات)",
+                "languages_lbl": "اللغات (مفصولة بفواصل)",
+                "interpretation_types_lbl": "أنواع الترجمة الفورية",
+                "simultaneous": "فورية",
+                "consecutive": "تتابعية",
+                "online": "عبر الإنترنت",
+                "whispering": "همسية",
+                "written": "تحريرية",
+                "other": "أخرى",
+                "other_placeholder": "حدد نوع ترجمة آخر...",
+                "word_price_lbl": "تعريفة الترجمة التحريرية (دينار/كلمة)",
+                "daily_fee_lbl": "أجر الترجمة الفورية اليومي (دينار)",
+                "whatsapp_lbl": "رقم الواتساب (للحجز)",
+                "cv_lbl": "السيرة الذاتية / ملخص مهني",
+                "save_translator_profile": "حفظ التغييرات",
+                "incoming_bookings": "الحجوزات الواردة",
+                "no_translator_bookings": "لا توجد حجوزات بعد",
+                "when_clients_book": "عندما يحجزك العملاء، ستظهر هنا",
+                "clients": "العملاء",
+                "no_clients": "لا يوجد عملاء بعد",
+                "clients_will_appear": "سيظهر العملاء هنا بمجرد حجزهم لك",
+                "translators_nav": "المترجمون",
+                "bookings_nav": "الحجوزات",
+                "profile_nav": "الملف",
+                "my_profile_nav": "ملفي",
+                "clients_nav": "العملاء",
+                "book_interpreter": "حجز مترجم",
+                "service_type": "نوع الخدمة",
+                "simultaneous_interpretation": "ترجمة فورية",
+                "consecutive_interpretation": "ترجمة تتابعية",
+                "online_interpretation": "ترجمة عبر الإنترنت",
+                "whispering_interpretation": "ترجمة همسية",
+                "written_translation": "ترجمة تحريرية",
+                "other_service": "خدمة أخرى",
+                "selected_dates": "التواريخ المختارة",
+                "clear_all": "مسح الكل",
+                "no_dates": "لم يتم اختيار تواريخ",
+                "daily_rate": "السعر اليومي:",
+                "number_of_days": "عدد الأيام:",
+                "total_estimate": "الإجمالي التقديري:",
+                "event_location": "موقع الفعالية",
+                "location_placeholder": "المدينة، المكان، أو عبر الإنترنت",
+                "additional_notes": "ملاحظات إضافية",
+                "notes_placeholder": "طلبات خاصة، التوقيت، إلخ...",
+                "whatsapp_book": "احجز عبر الواتساب",
+                "past_date_error": "لا يمكن اختيار تواريخ سابقة",
+                "select_one_date": "يرجى اختيار تاريخ واحد على الأقل",
+                "signed_out": "تم تسجيل الخروج",
+                "profile_saved": "تم حفظ الملف!",
+                "booking_sent": "تم إرسال الحجز!",
+                "lang_changed_ar": "تم تغيير اللغة إلى العربية",
+                "lang_changed_en": "Language changed to English",
+                "premium_badge": "ممتاز",
+                "no_bio": "لا توجد نبذة بعد",
+                "company_logo_lbl": "شعار الشركة",
+                "profile_photo_lbl": "الصورة الشخصية",
+                "enter_client": "دخول قسم العملاء",
+                "enter_interpreter": "دخول قسم المترجمين",
+                "payment_methods": "طرق الدفع",
+                "star_discount": "تفعيل خصم 5 نجوم (نصف الأجر اليومي للعملاء ذوي 5 نجوم)",
+                "daily_fee_lbl": "الأجر اليومي (دينار)",
+                "hourly_rate_lbl": "أجر الساعة (دينار)",
+                "word_rate": "دينار/كلمة",
+                "page_rate": "دينار/صفحة",
+                "upload_sample": "رفع عينة من المستند (اختياري)",
+                "sample_hint": "ارفع صفحة عينة ليتمكن المترجم من تقييم التعقيد.",
+                "calc_title": "تعريفة الترجمة التحريرية",
+            }
+        };
 
-    // ============================================================
-    // HELPER FUNCTIONS
-    // ============================================================
-    function translatePage() {
-        const lang = state.currentLang;
-        const t = translations[lang];
-        if (!t) return;
-        document.querySelectorAll('[data-i18n]').forEach(el => {
-            const key = el.dataset.i18n;
-            if (t[key]) el.textContent = t[key];
-        });
-        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-            const key = el.dataset.i18nPlaceholder;
-            if (t[key]) el.placeholder = t[key];
-        });
-        document.querySelectorAll('.book-btn').forEach(btn => {
-            btn.innerHTML = `<i class="fas fa-calendar-check"></i> ${t['book_btn'] || 'Book'}`;
-        });
-        document.querySelectorAll('.badge-active').forEach(badge => {
-            if(badge.dataset.i18n === 'active_badge') badge.textContent = t['active_badge'];
-        });
-    }
-
-    function showToast(key, type = 'info', duration = 3000) {
-        const t = translations[state.currentLang];
-        const message = (t && t[key]) ? t[key] : key;
-        const container = document.getElementById('toastContainer');
-        const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle' };
-        const toast = document.createElement('div');
-        toast.className = `toast toast-${type}`;
-        toast.innerHTML = `<i class="fas ${icons[type]}"></i> ${message}`;
-        container.appendChild(toast);
-        setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, duration);
-    }
-
-    function formatCurrency(amount) { return `IQD ${Number(amount).toLocaleString()}`; }
-
-    function generateStarHTML(rating) {
-        const full = Math.floor(rating || 0);
-        const empty = 5 - full;
-        let html = '';
-        for (let i = 0; i < full; i++) html += '<i class="fas fa-star"></i>';
-        for (let i = 0; i < empty; i++) html += '<i class="far fa-star"></i>';
-        return html;
-    }
-
-    function fileToBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = reject;
-            reader.readAsDataURL(file);
-        });
-    }
-
-    // ============================================================
-    // APP LOGO
-    // ============================================================
-    const appLogoImg = document.getElementById('appLogo');
-    const appLogoFallback = document.getElementById('appLogoFallback');
-    const appLogoInput = document.getElementById('appLogoInput');
-    document.getElementById('appLogoContainer').addEventListener('click', () => appLogoInput.click());
-    appLogoInput.addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        try {
-            const base64 = await fileToBase64(file);
-            await db.collection('settings').doc('app').set({ logoBase64: base64 }, { merge: true });
-            setAppLogo(base64);
-            showToast('App logo updated!', 'success');
-        } catch (error) { showToast('Logo upload failed: ' + error.message, 'error'); }
-    });
-    function setAppLogo(base64) {
-        if (base64) { appLogoImg.src = base64; appLogoImg.style.display = 'block'; appLogoFallback.style.display = 'none'; }
-        else { appLogoImg.style.display = 'none'; appLogoFallback.style.display = 'inline'; }
-    }
-    async function loadAppLogo() {
-        const doc = await db.collection('settings').doc('app').get();
-        if (doc.exists && doc.data().logoBase64) setAppLogo(doc.data().logoBase64);
-        else setAppLogo(null);
-    }
-    loadAppLogo();
-
-    // ============================================================
-    // LANGUAGE TOGGLE
-    // ============================================================
-    document.getElementById('langToggleBtn').addEventListener('click', function() {
-        state.currentLang = state.currentLang === 'en' ? 'ar' : 'en';
-        document.documentElement.dir = state.currentLang === 'ar' ? 'rtl' : 'ltr';
-        document.body.style.fontFamily = state.currentLang === 'ar' ? "'Noto Sans Arabic', 'Inter', sans-serif" : "'Inter', system-ui, sans-serif";
-        translatePage();
-        this.textContent = state.currentLang === 'ar' ? 'English' : 'عربي';
-        const toastKey = state.currentLang === 'ar' ? 'lang_changed_ar' : 'lang_changed_en';
-        showToast(toastKey, 'info');
-    });
-
-    // ============================================================
-    // ROLE CARD CLICKS
-    // ============================================================
-    document.getElementById('clientCard').addEventListener('click', function() {
-        state.selectedRole = 'client';
-        document.getElementById('roleCardsRow').style.display = 'none';
-        document.getElementById('whySection').style.display = 'none';
-        document.getElementById('authSection').style.display = 'block';
-        document.getElementById('authSection').scrollIntoView({ behavior: 'smooth' });
-    });
-    document.getElementById('interpreterCard').addEventListener('click', function() {
-        state.selectedRole = 'translator';
-        document.getElementById('roleCardsRow').style.display = 'none';
-        document.getElementById('whySection').style.display = 'none';
-        document.getElementById('authSection').style.display = 'block';
-        document.getElementById('authSection').scrollIntoView({ behavior: 'smooth' });
-    });
-
-    // ============================================================
-    // AUTH TABS
-    // ============================================================
-    document.querySelectorAll('.auth-tab').forEach(tab => {
-        tab.addEventListener('click', function() {
-            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-            this.classList.add('active');
-            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
-            document.getElementById(this.dataset.tab === 'signin' ? 'signinForm' : 'signupForm').classList.add('active');
-        });
-    });
-
-    // ============================================================
-    // LOGIN / SIGNUP / GOOGLE AUTH
-    // ============================================================
-    document.getElementById('loginBtn').addEventListener('click', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('loginEmail').value.trim();
-        const password = document.getElementById('loginPassword').value;
-        const err = document.getElementById('loginError');
-        err.classList.remove('show');
-        if(!email||!password) {
-            err.textContent = translations[state.currentLang].login_error_fill;
-            err.classList.add('show');
-            return;
-        }
-        try {
-            await auth.signInWithEmailAndPassword(email, password);
-            showToast('welcome_back', 'success');
-        } catch(error) {
-            err.textContent = error.message;
-            err.classList.add('show');
-            showToast(error.message, 'error');
-        }
-    });
-
-    document.getElementById('signupBtn').addEventListener('click', async (e) => {
-        e.preventDefault();
-        const name = document.getElementById('signupName').value.trim();
-        const email = document.getElementById('signupEmail').value.trim();
-        const password = document.getElementById('signupPassword').value;
-        const err = document.getElementById('signupError');
-        err.classList.remove('show');
-        if(!name||!email||!password) {
-            err.textContent = translations[state.currentLang].login_error_fill;
-            err.classList.add('show');
-            return;
-        }
-        if(password.length < 6) {
-            err.textContent = translations[state.currentLang].login_error_password;
-            err.classList.add('show');
-            return;
-        }
-        if(!state.selectedRole) {
-            err.textContent = translations[state.currentLang].login_error_role;
-            err.classList.add('show');
-            return;
-        }
-        try {
-            const result = await auth.createUserWithEmailAndPassword(email, password);
-            await result.user.updateProfile({ displayName: name });
-            await db.collection('users').doc(result.user.uid).set({
-                name, email, role: state.selectedRole,
-                uid: result.user.uid,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        // ============================================================
+        // HELPER FUNCTIONS
+        // ============================================================
+        function translatePage() {
+            const lang = state.currentLang;
+            const t = translations[lang];
+            if (!t) return;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (t[key]) el.textContent = t[key];
             });
-            showToast('welcome_new', 'success');
-        } catch(error) {
-            err.textContent = error.message;
-            err.classList.add('show');
-            showToast(error.message, 'error');
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.dataset.i18nPlaceholder;
+                if (t[key]) el.placeholder = t[key];
+            });
+            document.querySelectorAll('.book-btn').forEach(btn => {
+                btn.innerHTML = `<i class="fas fa-calendar-check"></i> ${t['book_btn'] || 'Book'}`;
+            });
+            document.querySelectorAll('.badge-active').forEach(badge => {
+                if(badge.dataset.i18n === 'active_badge') badge.textContent = t['active_badge'];
+            });
         }
-    });
 
-    async function handleGoogleAuth() {
-        if(!state.selectedRole) { showToast('login_error_role', 'error'); return; }
-        const provider = new firebase.auth.GoogleAuthProvider();
-        try {
-            const result = await auth.signInWithPopup(provider);
-            const userDoc = await db.collection('users').doc(result.user.uid).get();
-            if(!userDoc.exists || !userDoc.data().role) {
+        function showToast(key, type = 'info', duration = 3000) {
+            const t = translations[state.currentLang];
+            const message = (t && t[key]) ? t[key] : key;
+            const container = document.getElementById('toastContainer');
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle' };
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `<i class="fas ${icons[type]}"></i> ${message}`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, duration);
+        }
+
+        function formatCurrency(amount) { return `IQD ${Number(amount).toLocaleString()}`; }
+
+        function generateStarHTML(rating) {
+            const full = Math.floor(rating || 0);
+            const empty = 5 - full;
+            let html = '';
+            for (let i = 0; i < full; i++) html += '<i class="fas fa-star"></i>';
+            for (let i = 0; i < empty; i++) html += '<i class="far fa-star"></i>';
+            return html;
+        }
+
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // ============================================================
+        // APP LOGO
+        // ============================================================
+        const appLogoImg = document.getElementById('appLogo');
+        const appLogoFallback = document.getElementById('appLogoFallback');
+        const appLogoInput = document.getElementById('appLogoInput');
+        document.getElementById('appLogoContainer').addEventListener('click', () => appLogoInput.click());
+        appLogoInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            try {
+                const base64 = await fileToBase64(file);
+                await db.collection('settings').doc('app').set({ logoBase64: base64 }, { merge: true });
+                setAppLogo(base64);
+                showToast('App logo updated!', 'success');
+            } catch (error) { showToast('Logo upload failed: ' + error.message, 'error'); }
+        });
+        function setAppLogo(base64) {
+            if (base64) { appLogoImg.src = base64; appLogoImg.style.display = 'block'; appLogoFallback.style.display = 'none'; }
+            else { appLogoImg.style.display = 'none'; appLogoFallback.style.display = 'inline'; }
+        }
+        async function loadAppLogo() {
+            const doc = await db.collection('settings').doc('app').get();
+            if (doc.exists && doc.data().logoBase64) setAppLogo(doc.data().logoBase64);
+            else setAppLogo(null);
+        }
+        loadAppLogo();
+
+        // ============================================================
+        // LANGUAGE TOGGLE
+        // ============================================================
+        document.getElementById('langToggleBtn').addEventListener('click', function() {
+            state.currentLang = state.currentLang === 'en' ? 'ar' : 'en';
+            document.documentElement.dir = state.currentLang === 'ar' ? 'rtl' : 'ltr';
+            document.body.style.fontFamily = state.currentLang === 'ar' ? "'Noto Sans Arabic', 'Inter', sans-serif" : "'Inter', system-ui, sans-serif";
+            translatePage();
+            this.textContent = state.currentLang === 'ar' ? 'English' : 'عربي';
+            const toastKey = state.currentLang === 'ar' ? 'lang_changed_ar' : 'lang_changed_en';
+            showToast(toastKey, 'info');
+        });
+
+        // ============================================================
+        // ROLE CARD CLICKS
+        // ============================================================
+        document.getElementById('clientCard').addEventListener('click', function() {
+            state.selectedRole = 'client';
+            document.getElementById('roleCardsRow').style.display = 'none';
+            document.getElementById('whySection').style.display = 'none';
+            document.getElementById('authSection').style.display = 'block';
+            document.getElementById('authSection').scrollIntoView({ behavior: 'smooth' });
+        });
+        document.getElementById('interpreterCard').addEventListener('click', function() {
+            state.selectedRole = 'translator';
+            document.getElementById('roleCardsRow').style.display = 'none';
+            document.getElementById('whySection').style.display = 'none';
+            document.getElementById('authSection').style.display = 'block';
+            document.getElementById('authSection').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // ============================================================
+        // AUTH TABS
+        // ============================================================
+        document.querySelectorAll('.auth-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+                document.getElementById(this.dataset.tab === 'signin' ? 'signinForm' : 'signupForm').classList.add('active');
+            });
+        });
+
+        // ============================================================
+        // LOGIN / SIGNUP / GOOGLE AUTH
+        // ============================================================
+        document.getElementById('loginBtn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const err = document.getElementById('loginError');
+            err.classList.remove('show');
+            if(!email||!password) {
+                err.textContent = translations[state.currentLang].login_error_fill;
+                err.classList.add('show');
+                return;
+            }
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+                showToast('welcome_back', 'success');
+            } catch(error) {
+                err.textContent = error.message;
+                err.classList.add('show');
+                showToast(error.message, 'error');
+            }
+        });
+
+        document.getElementById('signupBtn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const err = document.getElementById('signupError');
+            err.classList.remove('show');
+            if(!name||!email||!password) {
+                err.textContent = translations[state.currentLang].login_error_fill;
+                err.classList.add('show');
+                return;
+            }
+            if(password.length < 6) {
+                err.textContent = translations[state.currentLang].login_error_password;
+                err.classList.add('show');
+                return;
+            }
+            if(!state.selectedRole) {
+                err.textContent = translations[state.currentLang].login_error_role;
+                err.classList.add('show');
+                return;
+            }
+            try {
+                const result = await auth.createUserWithEmailAndPassword(email, password);
+                await result.user.updateProfile({ displayName: name });
                 await db.collection('users').doc(result.user.uid).set({
-                    name: result.user.displayName,
-                    email: result.user.email,
-                    role: state.selectedRole,
+                    name, email, role: state.selectedRole,
                     uid: result.user.uid,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                }, { merge: true });
+                });
+                showToast('welcome_new', 'success');
+            } catch(error) {
+                err.textContent = error.message;
+                err.classList.add('show');
+                showToast(error.message, 'error');
             }
-            showToast('welcome_back', 'success');
-        } catch(error) {
-            showToast('Google login failed: ' + error.message, 'error');
+        });
+
+        async function handleGoogleAuth() {
+            if(!state.selectedRole) { showToast('login_error_role', 'error'); return; }
+            const provider = new firebase.auth.GoogleAuthProvider();
+            try {
+                const result = await auth.signInWithPopup(provider);
+                const userDoc = await db.collection('users').doc(result.user.uid).get();
+                if(!userDoc.exists || !userDoc.data().role) {
+                    await db.collection('users').doc(result.user.uid).set({
+                        name: result.user.displayName,
+                        email: result.user.email,
+                        role: state.selectedRole,
+                        uid: result.user.uid,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    }, { merge: true });
+                }
+                showToast('welcome_back', 'success');
+            } catch(error) {
+                showToast('Google login failed: ' + error.message, 'error');
+            }
         }
-    }
-    document.getElementById('googleLoginBtn').addEventListener('click', handleGoogleAuth);
-    document.getElementById('googleSignupBtn').addEventListener('click', handleGoogleAuth);
+        document.getElementById('googleLoginBtn').addEventListener('click', handleGoogleAuth);
+        document.getElementById('googleSignupBtn').addEventListener('click', handleGoogleAuth);
 
-    document.getElementById('logoutBtn').addEventListener('click', async () => {
-        await auth.signOut();
-        showToast('signed_out', 'info');
-    });
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            await auth.signOut();
+            showToast('signed_out', 'info');
+        });
 
-    // ============================================================
-    // AUTH STATE OBSERVER
-    // ============================================================
-    auth.onAuthStateChanged(async (user) => {
-        if(user) {
-            state.currentUser = user;
-            state.isLoggedIn = true;
-            document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('mainApp').style.display = 'block';
-            document.getElementById('userAvatar').textContent = (user.displayName||'User')[0].toUpperCase();
-
-            const doc = await db.collection('users').doc(user.uid).get();
-            if(doc.exists && doc.data().role) state.userRole = doc.data().role;
-            else {
-                state.userRole = state.selectedRole||'client';
-                await db.collection('users').doc(user.uid).set({ role: state.userRole }, { merge: true });
+        // ============================================================
+        // AUTH STATE OBSERVER (flicker fix)
+        // ============================================================
+        let authReady = false;
+        auth.onAuthStateChanged(async (user) => {
+            if (!authReady) {
+                document.getElementById('appLoader').style.display = 'none';
+                authReady = true;
             }
 
-            const isTranslator = state.userRole === 'translator';
-            document.getElementById('clientView').style.display = isTranslator?'none':'block';
-            document.getElementById('clientProfile').style.display = 'none';
-            document.getElementById('clientBookings').style.display = 'none';
-            document.getElementById('translatorView').style.display = isTranslator?'block':'none';
+            if (user) {
+                state.currentUser = user;
+                state.isLoggedIn = true;
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'block';
+                document.getElementById('userAvatar').textContent = (user.displayName || 'User')[0].toUpperCase();
 
-            document.getElementById('clientNavTranslators').style.display = isTranslator?'none':'flex';
-            document.getElementById('clientNavBookings').style.display = isTranslator?'none':'flex';
-            document.getElementById('clientNavProfile').style.display = isTranslator?'none':'flex';
-            document.getElementById('translatorNavProfile').style.display = isTranslator?'flex':'none';
-            document.getElementById('translatorNavBookings').style.display = isTranslator?'flex':'none';
-            document.getElementById('translatorNavClients').style.display = isTranslator?'flex':'none';
+                const doc = await db.collection('users').doc(user.uid).get();
+                if (doc.exists && doc.data().role) state.userRole = doc.data().role;
+                else {
+                    state.userRole = state.selectedRole || 'client';
+                    await db.collection('users').doc(user.uid).set({ role: state.userRole }, { merge: true });
+                }
 
-            if(isTranslator) {
-                switchTranslatorTab('translatorProfile');
-                loadTranslatorProfile(user.uid);
-                loadTranslatorBookings(user.uid);
-                renderClientCards();
+                const isTranslator = state.userRole === 'translator';
+                document.getElementById('clientView').style.display = isTranslator ? 'none' : 'block';
+                document.getElementById('clientProfile').style.display = 'none';
+                document.getElementById('clientBookings').style.display = 'none';
+                document.getElementById('translatorView').style.display = isTranslator ? 'block' : 'none';
+
+                document.getElementById('clientNavTranslators').style.display = isTranslator ? 'none' : 'flex';
+                document.getElementById('clientNavBookings').style.display = isTranslator ? 'none' : 'flex';
+                document.getElementById('clientNavProfile').style.display = isTranslator ? 'none' : 'flex';
+                document.getElementById('translatorNavProfile').style.display = isTranslator ? 'flex' : 'none';
+                document.getElementById('translatorNavBookings').style.display = isTranslator ? 'flex' : 'none';
+                document.getElementById('translatorNavClients').style.display = isTranslator ? 'flex' : 'none';
+
+                if (isTranslator) {
+                    switchTranslatorTab('translatorProfile');
+                    loadTranslatorProfile(user.uid);
+                    loadTranslatorBookings(user.uid);
+                    renderClientCards();
+                } else {
+                    switchClientTab('clientView');
+                    loadTranslators();
+                    loadClientProfile(user.uid);
+                    loadClientBookings(user.uid);
+                }
+                translatePage();
             } else {
-                switchClientTab('clientView');
-                loadTranslators();
-                loadClientProfile(user.uid);
-                loadClientBookings(user.uid);
+                state.isLoggedIn = false;
+                state.currentUser = null;
+                document.getElementById('loginPage').style.display = 'flex';
+                document.getElementById('mainApp').style.display = 'none';
+                document.getElementById('roleCardsRow').style.display = 'flex';
+                document.getElementById('authSection').style.display = 'none';
+                document.getElementById('whySection').style.display = '';
+                translatePage();
             }
-            translatePage();
-        } else {
-            state.isLoggedIn = false;
-            state.currentUser = null;
-            document.getElementById('loginPage').style.display = 'flex';
-            document.getElementById('mainApp').style.display = 'none';
-            document.getElementById('roleCardsRow').style.display = 'flex';
-            document.getElementById('authSection').style.display = 'none';
-            document.getElementById('whySection').style.display = '';
-            translatePage();
+        });
+
+        // ============================================================
+        // NAVIGATION
+        // ============================================================
+        function switchClientTab(tabId) {
+            document.querySelectorAll('#clientView, #clientProfile, #clientBookings').forEach(el => el.style.display = 'none');
+            document.getElementById(tabId).style.display = 'block';
+            document.querySelectorAll('#clientNavTranslators, #clientNavBookings, #clientNavProfile').forEach(el => el.classList.remove('active'));
+            const map = { clientView: 'clientNavTranslators', clientBookings: 'clientNavBookings', clientProfile: 'clientNavProfile' };
+            document.getElementById(map[tabId]).classList.add('active');
         }
-    });
-
-    // ============================================================
-    // NAVIGATION
-    // ============================================================
-    function switchClientTab(tabId) {
-        document.querySelectorAll('#clientView, #clientProfile, #clientBookings').forEach(el => el.style.display='none');
-        document.getElementById(tabId).style.display='block';
-        document.querySelectorAll('#clientNavTranslators, #clientNavBookings, #clientNavProfile').forEach(el => el.classList.remove('active'));
-        const map = { clientView: 'clientNavTranslators', clientBookings: 'clientNavBookings', clientProfile: 'clientNavProfile' };
-        document.getElementById(map[tabId]).classList.add('active');
-    }
-    function switchTranslatorTab(tabId) {
-        document.querySelectorAll('#translatorProfile, #translatorBookings, #translatorClients').forEach(el => el.style.display='none');
-        document.getElementById(tabId).style.display='block';
-        document.querySelectorAll('#translatorNavProfile, #translatorNavBookings, #translatorNavClients').forEach(el => el.classList.remove('active'));
-        const map = { translatorProfile: 'translatorNavProfile', translatorBookings: 'translatorNavBookings', translatorClients: 'translatorNavClients' };
-        document.getElementById(map[tabId]).classList.add('active');
-    }
-
-    document.getElementById('clientNavTranslators').onclick = () => { switchClientTab('clientView'); loadTranslators(); };
-    document.getElementById('clientNavBookings').onclick = () => { switchClientTab('clientBookings'); if(state.currentUser) loadClientBookings(state.currentUser.uid); };
-    document.getElementById('clientNavProfile').onclick = () => { switchClientTab('clientProfile'); if(state.currentUser) loadClientProfile(state.currentUser.uid); };
-    document.getElementById('translatorNavProfile').onclick = () => { switchTranslatorTab('translatorProfile'); if(state.currentUser) loadTranslatorProfile(state.currentUser.uid); };
-    document.getElementById('translatorNavBookings').onclick = () => { switchTranslatorTab('translatorBookings'); if(state.currentUser) loadTranslatorBookings(state.currentUser.uid); };
-    document.getElementById('translatorNavClients').onclick = () => { switchTranslatorTab('translatorClients'); renderClientCards(); };
-
-    // ============================================================
-    // WRITTEN TRANSLATION CALCULATOR
-    // ============================================================
-    function setupCalculator() {
-        const wordRateInput = document.getElementById('writtenWordRate');
-        const wordCountInput = document.getElementById('writtenWords');
-        const wordTotalSpan = document.getElementById('wordTotal');
-        const pageRateInput = document.getElementById('writtenPageRate');
-        const pageCountInput = document.getElementById('writtenPages');
-        const pageTotalSpan = document.getElementById('pageTotal');
-
-        function updateWordTotal() {
-            const rate = parseFloat(wordRateInput.value) || 0;
-            const words = parseFloat(wordCountInput.value) || 0;
-            wordTotalSpan.textContent = `Total: ${formatCurrency(rate * words)}`;
-        }
-        function updatePageTotal() {
-            const rate = parseFloat(pageRateInput.value) || 0;
-            const pages = parseFloat(pageCountInput.value) || 0;
-            pageTotalSpan.textContent = `Total: ${formatCurrency(rate * pages)}`;
+        function switchTranslatorTab(tabId) {
+            document.querySelectorAll('#translatorProfile, #translatorBookings, #translatorClients').forEach(el => el.style.display = 'none');
+            document.getElementById(tabId).style.display = 'block';
+            document.querySelectorAll('#translatorNavProfile, #translatorNavBookings, #translatorNavClients').forEach(el => el.classList.remove('active'));
+            const map = { translatorProfile: 'translatorNavProfile', translatorBookings: 'translatorNavBookings', translatorClients: 'translatorNavClients' };
+            document.getElementById(map[tabId]).classList.add('active');
         }
 
-        wordRateInput.addEventListener('input', updateWordTotal);
-        wordCountInput.addEventListener('input', updateWordTotal);
-        pageRateInput.addEventListener('input', updatePageTotal);
-        pageCountInput.addEventListener('input', updatePageTotal);
+        document.getElementById('clientNavTranslators').onclick = () => { switchClientTab('clientView'); loadTranslators(); };
+        document.getElementById('clientNavBookings').onclick = () => { switchClientTab('clientBookings'); if(state.currentUser) loadClientBookings(state.currentUser.uid); };
+        document.getElementById('clientNavProfile').onclick = () => { switchClientTab('clientProfile'); if(state.currentUser) loadClientProfile(state.currentUser.uid); };
+        document.getElementById('translatorNavProfile').onclick = () => { switchTranslatorTab('translatorProfile'); if(state.currentUser) loadTranslatorProfile(state.currentUser.uid); };
+        document.getElementById('translatorNavBookings').onclick = () => { switchTranslatorTab('translatorBookings'); if(state.currentUser) loadTranslatorBookings(state.currentUser.uid); };
+        document.getElementById('translatorNavClients').onclick = () => { switchTranslatorTab('translatorClients'); renderClientCards(); };
 
-        document.getElementById('incWordRate').addEventListener('click', () => {
-            wordRateInput.value = (parseFloat(wordRateInput.value) || 0) + 1;
+        // ============================================================
+        // WRITTEN TRANSLATION CALCULATOR
+        // ============================================================
+        function setupCalculator() {
+            const wordRateInput = document.getElementById('writtenWordRate');
+            const wordCountInput = document.getElementById('writtenWords');
+            const wordTotalSpan = document.getElementById('wordTotal');
+            const pageRateInput = document.getElementById('writtenPageRate');
+            const pageCountInput = document.getElementById('writtenPages');
+            const pageTotalSpan = document.getElementById('pageTotal');
+
+            function updateWordTotal() {
+                const rate = parseFloat(wordRateInput.value) || 0;
+                const words = parseFloat(wordCountInput.value) || 0;
+                wordTotalSpan.textContent = `Total: ${formatCurrency(rate * words)}`;
+            }
+            function updatePageTotal() {
+                const rate = parseFloat(pageRateInput.value) || 0;
+                const pages = parseFloat(pageCountInput.value) || 0;
+                pageTotalSpan.textContent = `Total: ${formatCurrency(rate * pages)}`;
+            }
+
+            wordRateInput.addEventListener('input', updateWordTotal);
+            wordCountInput.addEventListener('input', updateWordTotal);
+            pageRateInput.addEventListener('input', updatePageTotal);
+            pageCountInput.addEventListener('input', updatePageTotal);
+
+            document.getElementById('incWordRate').addEventListener('click', () => {
+                wordRateInput.value = (parseFloat(wordRateInput.value) || 0) + 1;
+                updateWordTotal();
+            });
+            document.getElementById('decWordRate').addEventListener('click', () => {
+                wordRateInput.value = Math.max(0, (parseFloat(wordRateInput.value) || 0) - 1);
+                updateWordTotal();
+            });
+
             updateWordTotal();
+            updatePageTotal();
+        }
+
+        // Toggle calculator on 'written' checkbox change
+        const writtenCheckbox = document.querySelector('#interpretationTypes input[value="written"]');
+        if (writtenCheckbox) {
+            writtenCheckbox.addEventListener('change', function() {
+                document.getElementById('writtenCalcSection').style.display = this.checked ? 'block' : 'none';
+            });
+        }
+
+        // Other checkbox toggle
+        document.getElementById('otherInterpCheck').addEventListener('change', function() {
+            document.getElementById('otherInterpText').style.display = this.checked ? 'block' : 'none';
+            if (!this.checked) document.getElementById('otherInterpText').value = '';
         });
-        document.getElementById('decWordRate').addEventListener('click', () => {
-            wordRateInput.value = Math.max(0, (parseFloat(wordRateInput.value) || 0) - 1);
-            updateWordTotal();
-        });
 
-        updateWordTotal();
-        updatePageTotal();
-    }
+        // ============================================================
+        // BOOKING SERVICE CHANGE (show sample file + written rates)
+        // ============================================================
+        document.getElementById('bookingService').addEventListener('change', function() {
+            const service = this.value;
+            document.getElementById('sampleFileGroup').style.display = service === 'written' ? 'block' : 'none';
 
-    // Toggle calculator on 'written' checkbox change
-    const writtenCheckbox = document.querySelector('#interpretationTypes input[value="written"]');
-    if (writtenCheckbox) {
-        writtenCheckbox.addEventListener('change', function() {
-            document.getElementById('writtenCalcSection').style.display = this.checked ? 'block' : 'none';
-        });
-    }
+            const infoDiv = document.getElementById('bookingTranslatorInfo');
+            const writtenDiv = document.getElementById('writtenRatesDisplay');
+            const detailsEl = document.getElementById('bookingTranslatorDetails');
+            const rateTextEl = document.getElementById('writtenRateText');
 
-    // Other checkbox toggle
-    document.getElementById('otherInterpCheck').addEventListener('change', function() {
-        document.getElementById('otherInterpText').style.display = this.checked ? 'block' : 'none';
-        if (!this.checked) document.getElementById('otherInterpText').value = '';
-    });
-
-    // ============================================================
-    // BOOKING SERVICE CHANGE (show sample file + written rates)
-    // ============================================================
-    document.getElementById('bookingService').addEventListener('change', function() {
-        const service = this.value;
-        // Show/hide sample file upload
-        document.getElementById('sampleFileGroup').style.display = service === 'written' ? 'block' : 'none';
-
-        // Update written rates display
-        const infoDiv = document.getElementById('bookingTranslatorInfo');
-        const writtenDiv = document.getElementById('writtenRatesDisplay');
-        const detailsEl = document.getElementById('bookingTranslatorDetails');
-        const rateTextEl = document.getElementById('writtenRateText');
-
-        if (service === 'written') {
-            const wordPrice = infoDiv.dataset.wordPrice;
-            const pagePrice = infoDiv.dataset.pagePrice;
-            if (wordPrice || pagePrice) {
-                let text = '';
-                if (wordPrice) text += `IQD ${wordPrice}/word`;
-                if (wordPrice && pagePrice) text += ' | ';
-                if (pagePrice) text += `IQD ${pagePrice}/page`;
-                rateTextEl.textContent = text;
-                writtenDiv.style.display = 'block';
-                detailsEl.textContent = `Written Translation Rates: ${text}`;
+            if (service === 'written') {
+                const wordPrice = infoDiv.dataset.wordPrice;
+                const pagePrice = infoDiv.dataset.pagePrice;
+                if (wordPrice || pagePrice) {
+                    let text = '';
+                    if (wordPrice) text += `IQD ${wordPrice}/word`;
+                    if (wordPrice && pagePrice) text += ' | ';
+                    if (pagePrice) text += `IQD ${pagePrice}/page`;
+                    rateTextEl.textContent = text;
+                    writtenDiv.style.display = 'block';
+                    detailsEl.textContent = `Written Translation Rates: ${text}`;
+                } else {
+                    writtenDiv.style.display = 'none';
+                    detailsEl.textContent = infoDiv.dataset.originalDetails || detailsEl.textContent;
+                }
             } else {
                 writtenDiv.style.display = 'none';
                 detailsEl.textContent = infoDiv.dataset.originalDetails || detailsEl.textContent;
             }
-        } else {
-            writtenDiv.style.display = 'none';
-            detailsEl.textContent = infoDiv.dataset.originalDetails || detailsEl.textContent;
-        }
-    });
+        });
 
-    // ============================================================
-    // LOAD TRANSLATORS (client view) – shows payment info, star discount, AND written fees
-    // ============================================================
-    async function loadTranslators() {
-        const grid = document.getElementById('translatorGrid');
-        const empty = document.getElementById('emptyState');
-        grid.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner"></i></div>';
-        try {
-            const snap = await db.collection('translators').get();
-            if(snap.empty) { grid.innerHTML=''; empty.style.display='block'; state.cachedTranslators=[]; return; }
-            empty.style.display='none';
-            state.cachedTranslators = [];
-            let html = '';
-            const t = translations[state.currentLang];
-            snap.forEach(doc => {
-                const d = doc.data();
-                const translator = {
-                    id: doc.id,
-                    name: d.name || 'Unnamed',
-                    languages: d.languages || 'Not specified',
-                    services: d.services || [],
-                    fee: d.fee || 300000,
-                    rating: d.rating || 0,
-                    reviews: d.reviews || 0,
-                    whatsapp: d.whatsapp || '',
-                    photoBase64: d.photoBase64 || '',
-                    paymentMethods: d.paymentMethods || '',
-                    starDiscount: d.starDiscount || false,
-                    wordPrice: d.wordPrice,
-                    pagePrice: d.pagePrice
-                };
-                state.cachedTranslators.push(translator);
-
-                const starsHTML = generateStarHTML(translator.rating);
-                const avatarStyle = translator.photoBase64 ? `background-image:url(${translator.photoBase64}); background-size:cover; background-position:center;` : '';
-                const starDiscountBadge = translator.starDiscount ? '<span class="badge badge-star-discount"><i class="fas fa-star"></i> 5-Star Discount</span>' : '';
-                // Show written translation fees if set
-                const writtenFeesLine = (translator.wordPrice || translator.pagePrice) ? 
-                    `<div class="payment-info" style="margin-top:4px;"><i class="fas fa-file-alt"></i> ${translator.wordPrice ? `IQD ${translator.wordPrice}/word` : ''}${translator.wordPrice && translator.pagePrice ? ' | ' : ''}${translator.pagePrice ? `IQD ${translator.pagePrice}/page` : ''}</div>` : '';
-
-                html += `<div class="translator-card" data-id="${doc.id}">
-                    <div class="avatar-large" style="${avatarStyle}">${translator.photoBase64 ? '' : '<i class="fas fa-user-circle"></i>'}</div>
-                    <div class="info">
-                        <h4>${translator.name}</h4>
-                        <div class="langs">${translator.languages}</div>
-                        <div class="rating">${starsHTML} ${translator.rating.toFixed(1)} (${translator.reviews} reviews)</div>
-                        <div class="services">${translator.services.map(s=>`<span class="service-tag tag-${s}" data-i18n="${s}">${t[s]||s}</span>`).join('')}</div>
-                        ${translator.paymentMethods ? `<div class="payment-info"><i class="fas fa-money-bill-wave"></i> ${translator.paymentMethods}</div>` : ''}
-                        ${starDiscountBadge}
-                        ${writtenFeesLine}
-                    </div>
-                    <div class="price-book">
-                        <div class="price">${formatCurrency(translator.fee)} <span data-i18n="per_day">/day</span></div>
-                        <button class="book-btn" data-i18n="book_btn"><i class="fas fa-calendar-check"></i> ${t['book_btn']||'Book'}</button>
-                    </div>
-                </div>`;
-            });
-            grid.innerHTML = html;
-            grid.querySelectorAll('.book-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => { e.stopPropagation(); openBookingModal(btn.closest('.translator-card').dataset.id); });
-            });
-            grid.querySelectorAll('.translator-card').forEach(card => card.addEventListener('click', () => openBookingModal(card.dataset.id)));
-        } catch(e) { grid.innerHTML=''; empty.style.display='block'; showToast('Error loading translators','error'); }
-    }
-
-    // ============================================================
-    // CLIENT PROFILE
-    // ============================================================
-    async function loadClientProfile(uid) {
-        try {
-            const doc = await db.collection('clients').doc(uid).get();
-            if(doc.exists) {
-                const d = doc.data();
-                document.getElementById('clientCompany').value = d.company||'';
-                document.getElementById('clientContact').value = d.contact||'';
-                document.getElementById('clientEmail').value = d.email||'';
-                document.getElementById('clientPhone').value = d.phone||'';
-                document.getElementById('clientAddress').value = d.address||'';
-                document.getElementById('clientDomain').value = d.domain||'';
-                document.getElementById('clientBio').value = d.bio||'';
-                document.getElementById('profileNameDisplay').textContent = d.company||'My profile';
-                const starsHTML = generateStarHTML(d.stars||0);
-                document.getElementById('briefingName').textContent = d.company||d.contact||'Client';
-                document.getElementById('briefingBio').textContent = d.bio||d.domain||'No bio yet';
-                document.getElementById('briefingStars').innerHTML = starsHTML + ` <span class="rating-text">${(d.stars||0).toFixed(1)} (${d.reviews||0} reviews)</span>`;
-                document.getElementById('clientRatingDisplay').innerHTML = starsHTML + ' ' + (d.stars||0).toFixed(1);
-                const preview = document.getElementById('clientLogoPreview');
-                if (d.logoBase64) { preview.style.backgroundImage = `url(${d.logoBase64})`; preview.innerHTML = ''; }
-                else { preview.style.backgroundImage = ''; preview.innerHTML = '<i class="fas fa-building"></i>'; }
-            }
-        } catch(e) {}
-    }
-
-    document.getElementById('saveClientProfile').addEventListener('click', async () => {
-        if(!state.currentUser) return showToast('login_error_role', 'error');
-        const logoFile = document.getElementById('clientLogoFile').files[0];
-        let logoBase64 = null;
-        if (logoFile) {
+        // ============================================================
+        // LOAD TRANSLATORS
+        // ============================================================
+        async function loadTranslators() {
+            const grid = document.getElementById('translatorGrid');
+            const empty = document.getElementById('emptyState');
+            grid.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner"></i></div>';
             try {
-                logoBase64 = await fileToBase64(logoFile);
-                document.getElementById('clientLogoStatus').textContent = 'Logo ready!';
-            } catch (error) { showToast('Logo encoding failed: ' + error.message, 'error'); return; }
-        }
-        const data = {
-            company: document.getElementById('clientCompany').value,
-            contact: document.getElementById('clientContact').value,
-            email: document.getElementById('clientEmail').value,
-            phone: document.getElementById('clientPhone').value,
-            address: document.getElementById('clientAddress').value,
-            domain: document.getElementById('clientDomain').value,
-            bio: document.getElementById('clientBio').value,
-            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-        };
-        if (logoBase64) data.logoBase64 = logoBase64;
-        try {
-            await db.collection('clients').doc(state.currentUser.uid).set(data, { merge: true });
-            showToast('profile_saved', 'success');
-            loadClientProfile(state.currentUser.uid);
-        } catch(e) { showToast('Error saving profile', 'error'); }
-    });
+                const snap = await db.collection('translators').get();
+                if(snap.empty) { grid.innerHTML=''; empty.style.display='block'; state.cachedTranslators=[]; return; }
+                empty.style.display='none';
+                state.cachedTranslators = [];
+                let html = '';
+                const t = translations[state.currentLang];
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    const translator = {
+                        id: doc.id,
+                        name: d.name || 'Unnamed',
+                        languages: d.languages || 'Not specified',
+                        services: d.services || [],
+                        fee: d.fee || 300000,
+                        rating: d.rating || 0,
+                        reviews: d.reviews || 0,
+                        whatsapp: d.whatsapp || '',
+                        photoBase64: d.photoBase64 || '',
+                        paymentMethods: d.paymentMethods || '',
+                        starDiscount: d.starDiscount || false,
+                        wordPrice: d.wordPrice,
+                        pagePrice: d.pagePrice
+                    };
+                    state.cachedTranslators.push(translator);
 
-    // ============================================================
-    // TRANSLATOR PROFILE (LOAD & SAVE with new fields)
-    // ============================================================
-    async function loadTranslatorProfile(uid) {
-        try {
-            const doc = await db.collection('translators').doc(uid).get();
-            if(doc.exists) {
-                const d = doc.data();
-                document.getElementById('translatorName').value = d.name || '';
-                document.getElementById('translatorExperience').value = d.experience || '';
-                document.getElementById('translatorLanguages').value = d.languages || '';
-                document.getElementById('translatorFee').value = d.fee || '';
-                document.getElementById('translatorHourlyRate').value = d.hourlyRate || '';
-                document.getElementById('translatorWhatsapp').value = d.whatsapp || '';
-                document.getElementById('translatorCv').value = d.cv || '';
-                document.getElementById('translatorPaymentMethods').value = d.paymentMethods || '';
-                document.getElementById('starDiscountEnabled').checked = d.starDiscount || false;
+                    const starsHTML = generateStarHTML(translator.rating);
+                    const avatarStyle = translator.photoBase64 ? `background-image:url(${translator.photoBase64}); background-size:cover; background-position:center;` : '';
+                    const starDiscountBadge = translator.starDiscount ? '<span class="badge badge-star-discount"><i class="fas fa-star"></i> 5-Star Discount</span>' : '';
+                    const writtenFeesLine = (translator.wordPrice || translator.pagePrice) ? 
+                        `<div class="payment-info" style="margin-top:4px;"><i class="fas fa-file-alt"></i> ${translator.wordPrice ? `IQD ${translator.wordPrice}/word` : ''}${translator.wordPrice && translator.pagePrice ? ' | ' : ''}${translator.pagePrice ? `IQD ${translator.pagePrice}/page` : ''}</div>` : '';
 
-                // Calculator fields
-                if (d.wordPrice) document.getElementById('writtenWordRate').value = d.wordPrice;
-                if (d.pagePrice) document.getElementById('writtenPageRate').value = d.pagePrice;
-
-                // Checkboxes
-                const services = d.services || [];
-                document.querySelectorAll('#interpretationTypes input[type="checkbox"]').forEach(cb => {
-                    cb.checked = services.includes(cb.value);
+                    html += `<div class="translator-card" data-id="${doc.id}">
+                        <div class="avatar-large" style="${avatarStyle}">${translator.photoBase64 ? '' : '<i class="fas fa-user-circle"></i>'}</div>
+                        <div class="info">
+                            <h4>${translator.name}</h4>
+                            <div class="langs">${translator.languages}</div>
+                            <div class="rating">${starsHTML} ${translator.rating.toFixed(1)} (${translator.reviews} reviews)</div>
+                            <div class="services">${translator.services.map(s=>`<span class="service-tag tag-${s}" data-i18n="${s}">${t[s]||s}</span>`).join('')}</div>
+                            ${translator.paymentMethods ? `<div class="payment-info"><i class="fas fa-money-bill-wave"></i> ${translator.paymentMethods}</div>` : ''}
+                            ${starDiscountBadge}
+                            ${writtenFeesLine}
+                        </div>
+                        <div class="price-book">
+                            <div class="price">${formatCurrency(translator.fee)} <span data-i18n="per_day">/day</span></div>
+                            <button class="book-btn" data-i18n="book_btn"><i class="fas fa-calendar-check"></i> ${t['book_btn']||'Book'}</button>
+                        </div>
+                    </div>`;
                 });
-                if (d.otherService) {
-                    document.getElementById('otherInterpCheck').checked = true;
-                    document.getElementById('otherInterpText').style.display = 'block';
-                    document.getElementById('otherInterpText').value = d.otherService;
-                }
+                grid.innerHTML = html;
+                grid.querySelectorAll('.book-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => { e.stopPropagation(); openBookingModal(btn.closest('.translator-card').dataset.id); });
+                });
+                grid.querySelectorAll('.translator-card').forEach(card => card.addEventListener('click', () => openBookingModal(card.dataset.id)));
+            } catch(e) { grid.innerHTML=''; empty.style.display='block'; showToast('Error loading translators','error'); }
+        }
 
-                // Show calculator if 'written' is in services
-                document.getElementById('writtenCalcSection').style.display = services.includes('written') ? 'block' : 'none';
-
-                // Rating
-                if(d.rating) {
-                    const starsHTML = generateStarHTML(d.rating);
-                    document.getElementById('translatorRatingDisplay').innerHTML = starsHTML + ' ' + d.rating.toFixed(1);
-                }
-
-                // Photo
-                const preview = document.getElementById('translatorPhotoPreview');
-                if (d.photoBase64) {
-                    preview.style.backgroundImage = `url(${d.photoBase64})`;
-                    preview.innerHTML = '';
-                } else {
-                    preview.style.backgroundImage = '';
-                    preview.innerHTML = '<i class="fas fa-user-circle"></i>';
-                }
-
-                document.getElementById('translatorProfileName').textContent = d.name || 'My profile';
-            }
-        } catch(e) {}
-    }
-
-    document.getElementById('saveTranslatorProfile').addEventListener('click', async () => {
-        if(!state.currentUser) return showToast('login_error_role', 'error');
-
-        const photoFile = document.getElementById('translatorPhotoFile').files[0];
-        let photoBase64 = null;
-        if (photoFile) {
+        // ============================================================
+        // CLIENT PROFILE
+        // ============================================================
+        async function loadClientProfile(uid) {
             try {
-                photoBase64 = await fileToBase64(photoFile);
-                document.getElementById('translatorPhotoStatus').textContent = 'Photo ready!';
-            } catch (error) { showToast('Photo encoding failed: ' + error.message, 'error'); return; }
+                const doc = await db.collection('clients').doc(uid).get();
+                if(doc.exists) {
+                    const d = doc.data();
+                    document.getElementById('clientCompany').value = d.company||'';
+                    document.getElementById('clientContact').value = d.contact||'';
+                    document.getElementById('clientEmail').value = d.email||'';
+                    document.getElementById('clientPhone').value = d.phone||'';
+                    document.getElementById('clientAddress').value = d.address||'';
+                    document.getElementById('clientDomain').value = d.domain||'';
+                    document.getElementById('clientBio').value = d.bio||'';
+                    document.getElementById('profileNameDisplay').textContent = d.company||'My profile';
+                    const starsHTML = generateStarHTML(d.stars||0);
+                    document.getElementById('briefingName').textContent = d.company||d.contact||'Client';
+                    document.getElementById('briefingBio').textContent = d.bio||d.domain||'No bio yet';
+                    document.getElementById('briefingStars').innerHTML = starsHTML + ` <span class="rating-text">${(d.stars||0).toFixed(1)} (${d.reviews||0} reviews)</span>`;
+                    document.getElementById('clientRatingDisplay').innerHTML = starsHTML + ' ' + (d.stars||0).toFixed(1);
+                    const preview = document.getElementById('clientLogoPreview');
+                    if (d.logoBase64) { preview.style.backgroundImage = `url(${d.logoBase64})`; preview.innerHTML = ''; }
+                    else { preview.style.backgroundImage = ''; preview.innerHTML = '<i class="fas fa-building"></i>'; }
+                }
+            } catch(e) {}
         }
 
-        const services = [];
-        document.querySelectorAll('#interpretationTypes input[type="checkbox"]:checked').forEach(cb => services.push(cb.value));
+        document.getElementById('saveClientProfile').addEventListener('click', async () => {
+            if(!state.currentUser) return showToast('login_error_role', 'error');
+            const logoFile = document.getElementById('clientLogoFile').files[0];
+            let logoBase64 = null;
+            if (logoFile) {
+                try {
+                    logoBase64 = await fileToBase64(logoFile);
+                    document.getElementById('clientLogoStatus').textContent = 'Logo ready!';
+                } catch (error) { showToast('Logo encoding failed: ' + error.message, 'error'); return; }
+            }
+            const data = {
+                company: document.getElementById('clientCompany').value,
+                contact: document.getElementById('clientContact').value,
+                email: document.getElementById('clientEmail').value,
+                phone: document.getElementById('clientPhone').value,
+                address: document.getElementById('clientAddress').value,
+                domain: document.getElementById('clientDomain').value,
+                bio: document.getElementById('clientBio').value,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            if (logoBase64) data.logoBase64 = logoBase64;
+            try {
+                await db.collection('clients').doc(state.currentUser.uid).set(data, { merge: true });
+                showToast('profile_saved', 'success');
+                loadClientProfile(state.currentUser.uid);
+            } catch(e) { showToast('Error saving profile', 'error'); }
+        });
 
-        const writtenWordRate = parseFloat(document.getElementById('writtenWordRate').value) || 70;
-        const writtenPageRate = parseFloat(document.getElementById('writtenPageRate').value) || 15000;
-        const paymentMethods = document.getElementById('translatorPaymentMethods').value;
-        const starDiscountEnabled = document.getElementById('starDiscountEnabled').checked;
-        const hourlyRate = parseFloat(document.getElementById('translatorHourlyRate').value) || 0;
+        // ============================================================
+        // TRANSLATOR PROFILE
+        // ============================================================
+        async function loadTranslatorProfile(uid) {
+            try {
+                const doc = await db.collection('translators').doc(uid).get();
+                if(doc.exists) {
+                    const d = doc.data();
+                    document.getElementById('translatorName').value = d.name || '';
+                    document.getElementById('translatorExperience').value = d.experience || '';
+                    document.getElementById('translatorLanguages').value = d.languages || '';
+                    document.getElementById('translatorFee').value = d.fee || '';
+                    document.getElementById('translatorHourlyRate').value = d.hourlyRate || '';
+                    document.getElementById('translatorWhatsapp').value = d.whatsapp || '';
+                    document.getElementById('translatorCv').value = d.cv || '';
+                    document.getElementById('translatorPaymentMethods').value = d.paymentMethods || '';
+                    document.getElementById('starDiscountEnabled').checked = d.starDiscount || false;
 
-        const data = {
-            name: document.getElementById('translatorName').value,
-            experience: document.getElementById('translatorExperience').value,
-            languages: document.getElementById('translatorLanguages').value,
-            services,
-            otherService: document.getElementById('otherInterpText').value,
-            fee: parseInt(document.getElementById('translatorFee').value) || 0,
-            wordPrice: writtenWordRate,
-            pagePrice: writtenPageRate,
-            hourlyRate: hourlyRate,
-            whatsapp: document.getElementById('translatorWhatsapp').value,
-            cv: document.getElementById('translatorCv').value,
-            paymentMethods: paymentMethods,
-            starDiscount: starDiscountEnabled,
-            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-        };
+                    if (d.wordPrice) document.getElementById('writtenWordRate').value = d.wordPrice;
+                    if (d.pagePrice) document.getElementById('writtenPageRate').value = d.pagePrice;
 
-        if (photoBase64) data.photoBase64 = photoBase64;
+                    const services = d.services || [];
+                    document.querySelectorAll('#interpretationTypes input[type="checkbox"]').forEach(cb => {
+                        cb.checked = services.includes(cb.value);
+                    });
+                    if (d.otherService) {
+                        document.getElementById('otherInterpCheck').checked = true;
+                        document.getElementById('otherInterpText').style.display = 'block';
+                        document.getElementById('otherInterpText').value = d.otherService;
+                    }
 
-        try {
-            await db.collection('translators').doc(state.currentUser.uid).set(data, { merge: true });
-            showToast('profile_saved', 'success');
-            loadTranslatorProfile(state.currentUser.uid);
-        } catch(e) { showToast('Error saving profile', 'error'); }
-    });
+                    document.getElementById('writtenCalcSection').style.display = services.includes('written') ? 'block' : 'none';
 
-    // ============================================================
-    // BOOKINGS
-    // ============================================================
-    async function loadClientBookings(uid) {
-        try {
-            const snap = await db.collection('bookings').where('clientId','==',uid).orderBy('createdAt','desc').get();
-            const container = document.getElementById('clientBookingsList');
-            const badge = document.getElementById('clientBookingsBadge');
-            if(snap.empty) { container.innerHTML=`<div class="empty-state"><i class="far fa-calendar-plus"></i><h3 data-i18n="no_bookings">${translations[state.currentLang].no_bookings}</h3></div>`; badge.classList.add('hidden'); return; }
-            let html = ''; let count = snap.size;
-            snap.forEach(doc => { const d=doc.data(); html += `<div class="booking-item"><div><strong>${d.service||'Booking'} - ${d.translatorName||'Translator'}</strong><div class="text-muted" style="font-size:0.8rem;"> ${(d.dates||[]).join(', ')}</div><div class="text-muted" style="font-size:0.8rem;"> ${d.fee||'N/A'}</div>${d.location?`<div class="text-muted" style="font-size:0.8rem;"> ${d.location}</div>`:''}</div><span class="booking-status status-${d.status||'pending'}">${d.status||'pending'}</span></div>`; });
-            badge.textContent = count; badge.classList.remove('hidden'); container.innerHTML = html;
-        } catch(e) {}
-    }
-    async function loadTranslatorBookings(uid) {
-        try {
-            const snap = await db.collection('bookings').where('translatorId','==',uid).orderBy('createdAt','desc').get();
-            const container = document.getElementById('translatorBookingsList');
-            const badge = document.getElementById('translatorBookingsBadge');
-            if(snap.empty) { container.innerHTML=`<div class="empty-state"><i class="far fa-calendar-plus"></i><h3 data-i18n="no_translator_bookings">${translations[state.currentLang].no_translator_bookings}</h3><p data-i18n="when_clients_book">${translations[state.currentLang].when_clients_book}</p></div>`; badge.classList.add('hidden'); return; }
-            let html = ''; let count = snap.size;
-            snap.forEach(doc => { const d=doc.data(); html += `<div class="booking-item"><div><strong>${d.clientName||'Client'}</strong><div class="text-muted" style="font-size:0.8rem;"> ${(d.dates||[]).join(', ')} • ${d.service}</div>${d.location?`<div class="text-muted" style="font-size:0.8rem;"> ${d.location}</div>`:''}</div><span class="booking-status status-${d.status||'pending'}">${d.status||'pending'}</span></div>`; });
-            badge.textContent = count; badge.classList.remove('hidden'); container.innerHTML = html;
-        } catch(e) {}
-    }
+                    if(d.rating) {
+                        const starsHTML = generateStarHTML(d.rating);
+                        document.getElementById('translatorRatingDisplay').innerHTML = starsHTML + ' ' + d.rating.toFixed(1);
+                    }
 
-    function renderClientCards() {
-        const grid = document.getElementById('clientCardGrid');
-        const t = translations[state.currentLang];
-        const sample = [
-            { name: "Translation Tube", workDomain: "Event Management", bio: "Professional interpretation for events.", stars: 4.0, reviews: 12 },
-            { name: "ETS Company", workDomain: "Corporate Training", bio: "Training and development solutions.", stars: 5.0, reviews: 8 }
-        ];
-        grid.innerHTML = sample.map(c => `
-            <div class="client-card">
-                <div class="flex-between mb-1"><strong>${c.name}</strong><span class="badge badge-premium" data-i18n="premium_badge">${t['premium_badge']}</span></div>
-                <div class="rating-stars mb-1">${generateStarHTML(c.stars)} <span class="rating-text">${c.stars.toFixed(1)} (${c.reviews} reviews)</span></div>
-                <div class="text-muted" style="font-size:0.8rem;"> ${c.workDomain}</div>
-                <p class="text-muted mt-1" style="font-size:0.85rem;">${c.bio}</p>
-            </div>
-        `).join('');
-    }
+                    const preview = document.getElementById('translatorPhotoPreview');
+                    if (d.photoBase64) {
+                        preview.style.backgroundImage = `url(${d.photoBase64})`;
+                        preview.innerHTML = '';
+                    } else {
+                        preview.style.backgroundImage = '';
+                        preview.innerHTML = '<i class="fas fa-user-circle"></i>';
+                    }
 
-    // ============================================================
-    // CALENDAR & BOOKING MODAL (with written rates in openBookingModal)
-    // ============================================================
-    function generateCalendar(month, year) {
-        const container = document.getElementById('bookingCalendar');
-        const monthYear = document.getElementById('calendarMonthYear');
-        const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-        monthYear.textContent = `${months[month]} ${year}`;
-        const firstDay = new Date(year,month,1).getDay();
-        const daysInMonth = new Date(year,month+1,0).getDate();
-        let html = '';
-        ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => html += `<div class="day-name">${d}</div>`);
-        for(let i=0; i<firstDay; i++) html += '<div class="day empty"></div>';
-        const today = new Date(); today.setHours(0,0,0,0);
-        for(let d=1; d<=daysInMonth; d++) {
-            const dateObj = new Date(year,month,d);
-            const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-            let cls = 'day';
-            if(dateObj < today) cls += ' past';
-            else if(state.selectedDates.includes(dateStr)) cls += ' selected';
-            else cls += ' available';
-            if(dateObj.toDateString() === today.toDateString()) cls += ' today';
-            html += `<div class="${cls}" data-date="${dateStr}">${d}</div>`;
+                    document.getElementById('translatorProfileName').textContent = d.name || 'My profile';
+                }
+            } catch(e) {}
         }
-        container.innerHTML = html;
-        container.querySelectorAll('.day.available, .day.selected').forEach(el => el.addEventListener('click', function() {
-            const date = this.dataset.date;
-            const idx = state.selectedDates.indexOf(date);
-            if(idx > -1) state.selectedDates.splice(idx,1); else { state.selectedDates.push(date); state.selectedDates.sort(); }
-            generateCalendar(month, year); updateSelectedDates(); updatePricing(); updateWhatsAppButton();
-        }));
-        container.querySelectorAll('.day.past').forEach(el => el.addEventListener('click', ()=> showToast('past_date_error', 'info')));
-    }
-    document.getElementById('prevMonthBtn').addEventListener('click', ()=>{ if(state.currentMonth===0){ state.currentMonth=11; state.currentYear--; } else state.currentMonth--; generateCalendar(state.currentMonth, state.currentYear); });
-    document.getElementById('nextMonthBtn').addEventListener('click', ()=>{ if(state.currentMonth===11){ state.currentMonth=0; state.currentYear++; } else state.currentMonth++; generateCalendar(state.currentMonth, state.currentYear); });
-    function updateSelectedDates() {
-        const chips = document.getElementById('selectedDatesChips');
-        const t = translations[state.currentLang];
-        if(!state.selectedDates.length) { chips.innerHTML = `<span style="color:var(--text-muted); font-size:0.8rem;" data-i18n="no_dates">${t['no_dates']}</span>`; return; }
-        chips.innerHTML = state.selectedDates.map(date => `<span class="date-chip"><i class="fas fa-calendar-day"></i> ${date}<span class="remove-date" data-date="${date}"><i class="fas fa-times"></i></span></span>`).join('');
-        chips.querySelectorAll('.remove-date').forEach(el => el.addEventListener('click', function() {
-            const idx = state.selectedDates.indexOf(this.dataset.date);
-            if(idx>-1) state.selectedDates.splice(idx,1);
+
+        document.getElementById('saveTranslatorProfile').addEventListener('click', async () => {
+            if(!state.currentUser) return showToast('login_error_role', 'error');
+
+            const photoFile = document.getElementById('translatorPhotoFile').files[0];
+            let photoBase64 = null;
+            if (photoFile) {
+                try {
+                    photoBase64 = await fileToBase64(photoFile);
+                    document.getElementById('translatorPhotoStatus').textContent = 'Photo ready!';
+                } catch (error) { showToast('Photo encoding failed: ' + error.message, 'error'); return; }
+            }
+
+            const services = [];
+            document.querySelectorAll('#interpretationTypes input[type="checkbox"]:checked').forEach(cb => services.push(cb.value));
+
+            const writtenWordRate = parseFloat(document.getElementById('writtenWordRate').value) || 70;
+            const writtenPageRate = parseFloat(document.getElementById('writtenPageRate').value) || 15000;
+            const paymentMethods = document.getElementById('translatorPaymentMethods').value;
+            const starDiscountEnabled = document.getElementById('starDiscountEnabled').checked;
+            const hourlyRate = parseFloat(document.getElementById('translatorHourlyRate').value) || 0;
+
+            const data = {
+                name: document.getElementById('translatorName').value,
+                experience: document.getElementById('translatorExperience').value,
+                languages: document.getElementById('translatorLanguages').value,
+                services,
+                otherService: document.getElementById('otherInterpText').value,
+                fee: parseInt(document.getElementById('translatorFee').value) || 0,
+                wordPrice: writtenWordRate,
+                pagePrice: writtenPageRate,
+                hourlyRate: hourlyRate,
+                whatsapp: document.getElementById('translatorWhatsapp').value,
+                cv: document.getElementById('translatorCv').value,
+                paymentMethods: paymentMethods,
+                starDiscount: starDiscountEnabled,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            if (photoBase64) data.photoBase64 = photoBase64;
+
+            try {
+                await db.collection('translators').doc(state.currentUser.uid).set(data, { merge: true });
+                showToast('profile_saved', 'success');
+                loadTranslatorProfile(state.currentUser.uid);
+            } catch(e) { showToast('Error saving profile', 'error'); }
+        });
+
+        // ============================================================
+        // BOOKINGS
+        // ============================================================
+        async function loadClientBookings(uid) {
+            try {
+                const snap = await db.collection('bookings').where('clientId','==',uid).orderBy('createdAt','desc').get();
+                const container = document.getElementById('clientBookingsList');
+                const badge = document.getElementById('clientBookingsBadge');
+                if(snap.empty) { container.innerHTML=`<div class="empty-state"><i class="far fa-calendar-plus"></i><h3 data-i18n="no_bookings">${translations[state.currentLang].no_bookings}</h3></div>`; badge.classList.add('hidden'); return; }
+                let html = ''; let count = snap.size;
+                snap.forEach(doc => { const d=doc.data(); html += `<div class="booking-item"><div><strong>${d.service||'Booking'} - ${d.translatorName||'Translator'}</strong><div class="text-muted" style="font-size:0.8rem;"> ${(d.dates||[]).join(', ')}</div><div class="text-muted" style="font-size:0.8rem;"> ${d.fee||'N/A'}</div>${d.location?`<div class="text-muted" style="font-size:0.8rem;"> ${d.location}</div>`:''}</div><span class="booking-status status-${d.status||'pending'}">${d.status||'pending'}</span></div>`; });
+                badge.textContent = count; badge.classList.remove('hidden'); container.innerHTML = html;
+            } catch(e) {}
+        }
+        async function loadTranslatorBookings(uid) {
+            try {
+                const snap = await db.collection('bookings').where('translatorId','==',uid).orderBy('createdAt','desc').get();
+                const container = document.getElementById('translatorBookingsList');
+                const badge = document.getElementById('translatorBookingsBadge');
+                if(snap.empty) { container.innerHTML=`<div class="empty-state"><i class="far fa-calendar-plus"></i><h3 data-i18n="no_translator_bookings">${translations[state.currentLang].no_translator_bookings}</h3><p data-i18n="when_clients_book">${translations[state.currentLang].when_clients_book}</p></div>`; badge.classList.add('hidden'); return; }
+                let html = ''; let count = snap.size;
+                snap.forEach(doc => { const d=doc.data(); html += `<div class="booking-item"><div><strong>${d.clientName||'Client'}</strong><div class="text-muted" style="font-size:0.8rem;"> ${(d.dates||[]).join(', ')} • ${d.service}</div>${d.location?`<div class="text-muted" style="font-size:0.8rem;"> ${d.location}</div>`:''}</div><span class="booking-status status-${d.status||'pending'}">${d.status||'pending'}</span></div>`; });
+                badge.textContent = count; badge.classList.remove('hidden'); container.innerHTML = html;
+            } catch(e) {}
+        }
+
+        function renderClientCards() {
+            const grid = document.getElementById('clientCardGrid');
+            const t = translations[state.currentLang];
+            const sample = [
+                { name: "Translation Tube", workDomain: "Event Management", bio: "Professional interpretation for events.", stars: 4.0, reviews: 12 },
+                { name: "ETS Company", workDomain: "Corporate Training", bio: "Training and development solutions.", stars: 5.0, reviews: 8 }
+            ];
+            grid.innerHTML = sample.map(c => `
+                <div class="client-card">
+                    <div class="flex-between mb-1"><strong>${c.name}</strong><span class="badge badge-premium" data-i18n="premium_badge">${t['premium_badge']}</span></div>
+                    <div class="rating-stars mb-1">${generateStarHTML(c.stars)} <span class="rating-text">${c.stars.toFixed(1)} (${c.reviews} reviews)</span></div>
+                    <div class="text-muted" style="font-size:0.8rem;"> ${c.workDomain}</div>
+                    <p class="text-muted mt-1" style="font-size:0.85rem;">${c.bio}</p>
+                </div>
+            `).join('');
+        }
+
+        // ============================================================
+        // CALENDAR & BOOKING MODAL
+        // ============================================================
+        function generateCalendar(month, year) {
+            const container = document.getElementById('bookingCalendar');
+            const monthYear = document.getElementById('calendarMonthYear');
+            const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            monthYear.textContent = `${months[month]} ${year}`;
+            const firstDay = new Date(year,month,1).getDay();
+            const daysInMonth = new Date(year,month+1,0).getDate();
+            let html = '';
+            ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => html += `<div class="day-name">${d}</div>`);
+            for(let i=0; i<firstDay; i++) html += '<div class="day empty"></div>';
+            const today = new Date(); today.setHours(0,0,0,0);
+            for(let d=1; d<=daysInMonth; d++) {
+                const dateObj = new Date(year,month,d);
+                const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+                let cls = 'day';
+                if(dateObj < today) cls += ' past';
+                else if(state.selectedDates.includes(dateStr)) cls += ' selected';
+                else cls += ' available';
+                if(dateObj.toDateString() === today.toDateString()) cls += ' today';
+                html += `<div class="${cls}" data-date="${dateStr}">${d}</div>`;
+            }
+            container.innerHTML = html;
+            container.querySelectorAll('.day.available, .day.selected').forEach(el => el.addEventListener('click', function() {
+                const date = this.dataset.date;
+                const idx = state.selectedDates.indexOf(date);
+                if(idx > -1) state.selectedDates.splice(idx,1); else { state.selectedDates.push(date); state.selectedDates.sort(); }
+                generateCalendar(month, year); updateSelectedDates(); updatePricing(); updateWhatsAppButton();
+            }));
+            container.querySelectorAll('.day.past').forEach(el => el.addEventListener('click', ()=> showToast('past_date_error', 'info')));
+        }
+        document.getElementById('prevMonthBtn').addEventListener('click', ()=>{ if(state.currentMonth===0){ state.currentMonth=11; state.currentYear--; } else state.currentMonth--; generateCalendar(state.currentMonth, state.currentYear); });
+        document.getElementById('nextMonthBtn').addEventListener('click', ()=>{ if(state.currentMonth===11){ state.currentMonth=0; state.currentYear++; } else state.currentMonth++; generateCalendar(state.currentMonth, state.currentYear); });
+        function updateSelectedDates() {
+            const chips = document.getElementById('selectedDatesChips');
+            const t = translations[state.currentLang];
+            if(!state.selectedDates.length) { chips.innerHTML = `<span style="color:var(--text-muted); font-size:0.8rem;" data-i18n="no_dates">${t['no_dates']}</span>`; return; }
+            chips.innerHTML = state.selectedDates.map(date => `<span class="date-chip"><i class="fas fa-calendar-day"></i> ${date}<span class="remove-date" data-date="${date}"><i class="fas fa-times"></i></span></span>`).join('');
+            chips.querySelectorAll('.remove-date').forEach(el => el.addEventListener('click', function() {
+                const idx = state.selectedDates.indexOf(this.dataset.date);
+                if(idx>-1) state.selectedDates.splice(idx,1);
+                generateCalendar(state.currentMonth, state.currentYear); updateSelectedDates(); updatePricing(); updateWhatsAppButton();
+            }));
+        }
+        document.getElementById('clearDatesBtn').addEventListener('click', ()=>{ state.selectedDates=[]; generateCalendar(state.currentMonth, state.currentYear); updateSelectedDates(); updatePricing(); updateWhatsAppButton(); });
+        function updatePricing() {
+            const days = state.selectedDates.length;
+            let fee = 300000;
+            if(state.selectedTranslatorId) { const t = state.cachedTranslators.find(t=>t.id===state.selectedTranslatorId); if(t) fee = t.fee||300000; }
+            document.getElementById('pricingDailyRate').textContent = formatCurrency(fee);
+            document.getElementById('pricingDays').textContent = days;
+            document.getElementById('pricingTotal').textContent = formatCurrency(days*fee);
+        }
+        function updateWhatsAppButton() { document.getElementById('whatsappBookBtn').disabled = state.selectedDates.length === 0; }
+
+        function openBookingModal(translatorId) {
+            state.selectedTranslatorId = translatorId; state.selectedDates = [];
+            const t = state.cachedTranslators.find(t=>t.id===translatorId);
+            if(!t) return showToast('Translator not found','error');
+            document.getElementById('bookingTranslatorName').textContent = t.name;
+            const tr = translations[state.currentLang];
+            const detailsText = `${t.languages} • ${(t.services||[]).map(s=>tr[s]||s).join(', ')} • ${formatCurrency(t.fee)}/day`;
+            document.getElementById('bookingTranslatorDetails').textContent = detailsText;
+
+            const infoDiv = document.getElementById('bookingTranslatorInfo');
+            infoDiv.dataset.originalDetails = detailsText;
+            infoDiv.dataset.wordPrice = t.wordPrice || '';
+            infoDiv.dataset.pagePrice = t.pagePrice || '';
+            document.getElementById('writtenRatesDisplay').style.display = 'none';
+
+            state.currentMonth = new Date().getMonth(); state.currentYear = new Date().getFullYear();
             generateCalendar(state.currentMonth, state.currentYear); updateSelectedDates(); updatePricing(); updateWhatsAppButton();
-        }));
-    }
-    document.getElementById('clearDatesBtn').addEventListener('click', ()=>{ state.selectedDates=[]; generateCalendar(state.currentMonth, state.currentYear); updateSelectedDates(); updatePricing(); updateWhatsAppButton(); });
-    function updatePricing() {
-        const days = state.selectedDates.length;
-        let fee = 300000;
-        if(state.selectedTranslatorId) { const t = state.cachedTranslators.find(t=>t.id===state.selectedTranslatorId); if(t) fee = t.fee||300000; }
-        document.getElementById('pricingDailyRate').textContent = formatCurrency(fee);
-        document.getElementById('pricingDays').textContent = days;
-        document.getElementById('pricingTotal').textContent = formatCurrency(days*fee);
-    }
-    function updateWhatsAppButton() { document.getElementById('whatsappBookBtn').disabled = state.selectedDates.length === 0; }
+            translatePage();
+            document.getElementById('bookingModal').classList.add('active');
+        }
+        document.getElementById('closeBookingModal').addEventListener('click', ()=> document.getElementById('bookingModal').classList.remove('active'));
+        document.getElementById('bookingModal').addEventListener('click', function(e) { if(e.target===this) this.classList.remove('active'); });
 
-    function openBookingModal(translatorId) {
-        state.selectedTranslatorId = translatorId; state.selectedDates = [];
-        const t = state.cachedTranslators.find(t=>t.id===translatorId);
-        if(!t) return showToast('Translator not found','error');
-        document.getElementById('bookingTranslatorName').textContent = t.name;
-        const tr = translations[state.currentLang];
-        const detailsText = `${t.languages} • ${(t.services||[]).map(s=>tr[s]||s).join(', ')} • ${formatCurrency(t.fee)}/day`;
-        document.getElementById('bookingTranslatorDetails').textContent = detailsText;
-        
-        // Store original details and written rates
-        const infoDiv = document.getElementById('bookingTranslatorInfo');
-        infoDiv.dataset.originalDetails = detailsText;
-        infoDiv.dataset.wordPrice = t.wordPrice || '';
-        infoDiv.dataset.pagePrice = t.pagePrice || '';
-        document.getElementById('writtenRatesDisplay').style.display = 'none';
+        document.getElementById('whatsappBookBtn').addEventListener('click', async () => {
+            if(!state.selectedDates.length) { showToast('select_one_date', 'error'); return; }
+            const t = state.cachedTranslators.find(t=>t.id===state.selectedTranslatorId);
+            if(!t) return showToast('Translator not found','error');
+            const service = document.getElementById('bookingService').value;
+            const location = document.getElementById('bookingLocation').value;
+            const notes = document.getElementById('bookingNotes').value;
+            const clientName = document.getElementById('clientCompany').value || state.currentUser?.displayName || 'Client';
+            const phone = t.whatsapp || '07504486008';
+            const total = document.getElementById('pricingTotal').textContent;
 
-        state.currentMonth = new Date().getMonth(); state.currentYear = new Date().getFullYear();
-        generateCalendar(state.currentMonth, state.currentYear); updateSelectedDates(); updatePricing(); updateWhatsAppButton();
-        translatePage();
-        document.getElementById('bookingModal').classList.add('active');
-    }
-    document.getElementById('closeBookingModal').addEventListener('click', ()=> document.getElementById('bookingModal').classList.remove('active'));
-    document.getElementById('bookingModal').addEventListener('click', function(e) { if(e.target===this) this.classList.remove('active'); });
-
-    document.getElementById('whatsappBookBtn').addEventListener('click', async () => {
-        if(!state.selectedDates.length) { showToast('select_one_date', 'error'); return; }
-        const t = state.cachedTranslators.find(t=>t.id===state.selectedTranslatorId);
-        if(!t) return showToast('Translator not found','error');
-        const service = document.getElementById('bookingService').value;
-        const location = document.getElementById('bookingLocation').value;
-        const notes = document.getElementById('bookingNotes').value;
-        const clientName = document.getElementById('clientCompany').value || state.currentUser?.displayName || 'Client';
-        const phone = t.whatsapp || '07504486008';
-        const total = document.getElementById('pricingTotal').textContent;
-
-        // Handle sample file upload (Base64)
-        const sampleFile = document.getElementById('bookingSampleFile').files[0];
-        let sampleBase64 = null;
-        if (sampleFile) {
-            try {
-                sampleBase64 = await fileToBase64(sampleFile);
-            } catch (e) {
-                showToast('File upload failed', 'error');
-                return;
+            const sampleFile = document.getElementById('bookingSampleFile').files[0];
+            let sampleBase64 = null;
+            if (sampleFile) {
+                try { sampleBase64 = await fileToBase64(sampleFile); }
+                catch (e) { showToast('File upload failed', 'error'); return; }
             }
-        }
 
-        const msg = `Interpretation Booking Request\n\nClient: ${clientName}\nTranslator: ${t.name}\nService: ${service}\nDates: ${state.selectedDates.join(', ')}\nLocation: ${location||'To be confirmed'}\nTotal: ${total}\n${notes?`Notes: ${notes}\n`:''}\nBookly - We Connect Cultures`;
-        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+            const msg = `Interpretation Booking Request\n\nClient: ${clientName}\nTranslator: ${t.name}\nService: ${service}\nDates: ${state.selectedDates.join(', ')}\nLocation: ${location||'To be confirmed'}\nTotal: ${total}\n${notes?`Notes: ${notes}\n`:''}\nBookly - We Connect Cultures`;
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
 
-        if(state.currentUser) {
-            try {
-                const bookingData = {
-                    clientId: state.currentUser.uid,
-                    clientName,
-                    translatorId: t.id,
-                    translatorName: t.name,
-                    service,
-                    dates: state.selectedDates,
-                    location,
-                    notes,
-                    fee: total,
-                    status: 'pending',
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                };
-                if (sampleBase64) bookingData.sampleFileBase64 = sampleBase64;
+            if(state.currentUser) {
+                try {
+                    const bookingData = {
+                        clientId: state.currentUser.uid,
+                        clientName,
+                        translatorId: t.id,
+                        translatorName: t.name,
+                        service,
+                        dates: state.selectedDates,
+                        location,
+                        notes,
+                        fee: total,
+                        status: 'pending',
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    };
+                    if (sampleBase64) bookingData.sampleFileBase64 = sampleBase64;
 
-                await db.collection('bookings').add(bookingData);
-                showToast('booking_sent', 'success');
-                if(state.userRole==='translator') loadTranslatorBookings(state.currentUser.uid);
-                else loadClientBookings(state.currentUser.uid);
-                document.getElementById('bookingModal').classList.remove('active');
-            } catch(e) { showToast('Error creating booking', 'error'); }
-        }
-    });
+                    await db.collection('bookings').add(bookingData);
+                    showToast('booking_sent', 'success');
+                    if(state.userRole==='translator') loadTranslatorBookings(state.currentUser.uid);
+                    else loadClientBookings(state.currentUser.uid);
+                    document.getElementById('bookingModal').classList.remove('active');
+                } catch(e) { showToast('Error creating booking', 'error'); }
+            }
+        });
 
-    // ============================================================
-    // SEARCH
-    // ============================================================
-    const searchInput = document.getElementById('searchInput');
-    const clearSearch = document.getElementById('clearSearch');
-    searchInput.addEventListener('input', function() {
-        const q = this.value.toLowerCase().trim();
-        clearSearch.style.display = q?'block':'none';
-        document.querySelectorAll('.translator-card').forEach(card => card.style.display = card.textContent.toLowerCase().includes(q)?'flex':'none');
-    });
-    clearSearch.addEventListener('click', ()=>{ searchInput.value=''; clearSearch.style.display='none'; document.querySelectorAll('.translator-card').forEach(c=>c.style.display='flex'); searchInput.focus(); });
+        // ============================================================
+        // SEARCH
+        // ============================================================
+        const searchInput = document.getElementById('searchInput');
+        const clearSearch = document.getElementById('clearSearch');
+        searchInput.addEventListener('input', function() {
+            const q = this.value.toLowerCase().trim();
+            clearSearch.style.display = q?'block':'none';
+            document.querySelectorAll('.translator-card').forEach(card => card.style.display = card.textContent.toLowerCase().includes(q)?'flex':'none');
+        });
+        clearSearch.addEventListener('click', ()=>{ searchInput.value=''; clearSearch.style.display='none'; document.querySelectorAll('.translator-card').forEach(c=>c.style.display='flex'); searchInput.focus(); });
 
-    // ============================================================
-    // INITIAL STATE
-    // ============================================================
-    setupCalculator();
-    document.getElementById('authSection').style.display = 'none';
-    translatePage();
-</script>
+        // ============================================================
+        // INITIAL STATE
+        // ============================================================
+        setupCalculator();
+        document.getElementById('authSection').style.display = 'none';
+        translatePage();
+    </script>
 </body>
 </html>
