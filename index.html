@@ -107,9 +107,25 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* ========== LOADER ========== */
+        #appLoader {
+            position: fixed;
+            inset: 0;
+            background: white;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
+        }
+        #appLoader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
         /* ========== LOGIN PAGE ========== */
         #loginPage {
-            display: flex;  /* visible by default, can be hidden by JS */
+            display: none; /* hidden by default, shown only when needed */
             flex-direction: column;
             min-height: 100vh;
             position: relative;
@@ -148,7 +164,6 @@
 
         .login-content { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; align-items: center; }
 
-        /* ---- ENLARGED BOOKLY TITLE (no logo) ---- */
         .big-bookly-title {
             font-size: 3.5rem;
             font-weight: 900;
@@ -270,7 +285,6 @@
         }
         .error-message.show { display: block; }
 
-        /* Why Bookly */
         .why-section { width: 100%; margin-top: 2rem; margin-bottom: 1.5rem; }
         .why-section h3 { text-align: center; font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
         .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
@@ -305,14 +319,12 @@
             margin-bottom: 1rem;
         }
 
-        /* Grid for square cards – auto-fit to fill spaces */
         .interpreter-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
             gap: 0.8rem;
         }
 
-        /* Square card – vertical layout, full height = width (aspect-ratio) */
         .interpreter-grid .interpreter-card {
             background: white;
             border: 1px solid rgba(226,232,240,0.8);
@@ -325,7 +337,7 @@
             text-align: center;
             transition: all 0.3s ease;
             cursor: pointer;
-            aspect-ratio: 1 / 1;  /* square */
+            aspect-ratio: 1 / 1;
             position: relative;
             overflow: hidden;
         }
@@ -453,7 +465,6 @@
             background: var(--accent-dark);
         }
 
-        /* Responsive */
         @media (min-width: 480px) {
             .interpreter-grid {
                 grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -468,6 +479,20 @@
             .interpreter-grid {
                 grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             }
+        }
+
+        /* ========== FOOTER ========== */
+        .app-footer {
+            text-align: center;
+            padding: 1.5rem 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(0,0,0,0.05);
+            margin-top: 2rem;
+        }
+        .app-footer i {
+            color: var(--accent);
+            margin: 0 4px;
         }
 
         /* ========== MAIN APP ========== */
@@ -817,7 +842,6 @@
             box-shadow: 0 4px 12px rgba(37,132,196,0.15);
         }
 
-        /* ========== CALCULATOR STYLES ========== */
         .calc-group {
             background: #f8fafc;
             border-radius: 14px;
@@ -880,8 +904,8 @@
     </style>
 </head>
 <body>
-    <!-- LOADING OVERLAY – hidden after a short delay -->
-    <div id="appLoader" style="position:fixed;inset:0;background:white;z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity 0.3s;">
+    <!-- LOADING OVERLAY – hidden only after auth resolves -->
+    <div id="appLoader">
         <i class="fas fa-spinner fa-pulse" style="font-size:3rem;color:var(--accent);"></i>
     </div>
 
@@ -898,7 +922,6 @@
             </div>
 
             <div class="login-content">
-                <!-- ENLARGED BOOKLY TITLE (no image) -->
                 <h1 class="big-bookly-title">Book<span>ly</span></h1>
                 <div class="slogan" data-i18n="slogan" style="font-size:0.9rem; margin-bottom:1.5rem; color:var(--text-muted); letter-spacing:1px; text-transform:uppercase;">We Connect Cultures</div>
 
@@ -918,7 +941,7 @@
                     </div>
                 </div>
 
-                <!-- Auth section (hidden initially) -->
+                <!-- Auth section -->
                 <div class="auth-section" id="authSection">
                     <div class="auth-tabs">
                         <button class="auth-tab active" data-tab="signin" data-i18n="signin_tab">Sign in</button>
@@ -956,7 +979,6 @@
                         <div class="feature-card"><i class="fas fa-handshake"></i><h4>Mutual Evaluation</h4><p>Clients and interpreters rate each other to build trust and accountability.</p></div>
                     </div>
 
-                    <!-- MODERN AVAILABLE INTERPRETERS SECTION (SQUARE CARDS) -->
                     <div class="available-section">
                         <h3>Available Interpreters</h3>
                         <p class="subtitle">Browse profiles, ratings, fees, and book</p>
@@ -972,6 +994,11 @@
                         <i class="fas fa-globe"></i>
                         <span>Rule: 2 interpreters are required per language pair for both simultaneous and consecutive interpretation. For in‑person sessions, interpreters exchange every 30 minutes. When online interpretation exceeds 90 minutes, one additional online interpreter is needed. Written translation is calculated per word per page of 250 words.</span>
                     </div>
+                </div>
+
+                <!-- FOOTER -->
+                <div class="app-footer">
+                    <i class="fas fa-book"></i> Bookly &bull; <span id="currentYear"></span> &bull; We Connect Cultures
                 </div>
             </div>
         </div>
@@ -1105,7 +1132,6 @@
                             <input type="text" id="otherInterpText" data-i18n-placeholder="other_placeholder" placeholder="Specify other interpretation type..." style="margin-top:0.5rem; display:none;" />
                         </div>
 
-                        <!-- Written translation calculator -->
                         <div id="writtenCalcSection" style="display:none;">
                             <div class="calc-group">
                                 <label style="font-weight:600; font-size:0.8rem;">Written Translation Tariff</label>
@@ -1287,8 +1313,11 @@
             activeTab: null
         };
 
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
         // ============================================================
-        // TRANSLATIONS
+        // TRANSLATIONS (shortened for brevity – same as before)
         // ============================================================
         const translations = {
             en: {
@@ -1653,7 +1682,7 @@
         ];
 
         // ============================================================
-        // RENDER HOME INTERPRETERS – SQUARE CARDS (vertical stack)
+        // RENDER HOME INTERPRETERS – SQUARE CARDS
         // ============================================================
         function renderHomeInterpreters(filter = '') {
             const grid = document.getElementById('homeInterpreterGrid');
@@ -1670,7 +1699,6 @@
             }
             let html = '';
             filtered.forEach(interp => {
-                // Build service tags – limit to 3
                 const serviceTags = interp.services.slice(0, 3).map(s => {
                     let cls = 'tag-other';
                     const lower = s.toLowerCase();
@@ -1699,7 +1727,6 @@
             grid.innerHTML = html;
         }
 
-        // Scroll to top (login section)
         window.scrollToTop = function() {
             const roleRow = document.getElementById('roleCardsRow');
             if (roleRow) {
@@ -1709,10 +1736,9 @@
             }
         };
 
-        // Initial render
         renderHomeInterpreters();
 
-        // Search functionality for home page
+        // Search for home page
         const homeSearchInput = document.getElementById('homeSearchInput');
         const homeClearSearch = document.getElementById('homeClearSearch');
         homeSearchInput.addEventListener('input', function() {
@@ -1858,26 +1884,33 @@
         });
 
         // ============================================================
-        // AUTH STATE OBSERVER
+        // AUTH STATE OBSERVER – hides loader only after first resolution
         // ============================================================
-        let authReady = false;
-        // Hide loader quickly (200ms) – ensures login page is visible initially
-        setTimeout(() => {
-            const loader = document.getElementById('appLoader');
-            if (loader) loader.style.display = 'none';
-            authReady = true;
-        }, 200);
+        let authResolved = false;
+
+        // Fallback: if auth doesn't respond within 5s, hide loader anyway and show login
+        const fallbackTimer = setTimeout(() => {
+            if (!authResolved) {
+                const loader = document.getElementById('appLoader');
+                loader.classList.add('hidden');
+                document.getElementById('loginPage').style.display = 'flex';
+                document.getElementById('mainApp').style.display = 'none';
+                authResolved = true;
+            }
+        }, 5000);
 
         auth.onAuthStateChanged(async (user) => {
-            // Always hide loader
+            clearTimeout(fallbackTimer);
+            authResolved = true;
+
+            // Hide loader gracefully
             const loader = document.getElementById('appLoader');
-            if (loader) loader.style.display = 'none';
+            loader.classList.add('hidden');
 
             if (user) {
                 state.currentUser = user;
                 state.isLoggedIn = true;
 
-                // Hide login page, show main app
                 document.getElementById('loginPage').style.display = 'none';
                 document.getElementById('mainApp').style.display = 'block';
                 document.getElementById('userAvatar').textContent = (user.displayName || 'User')[0].toUpperCase();
@@ -1917,12 +1950,8 @@
             } else {
                 state.isLoggedIn = false;
                 state.currentUser = null;
-
-                // Show login page, hide main app
                 document.getElementById('loginPage').style.display = 'flex';
                 document.getElementById('mainApp').style.display = 'none';
-
-                // Reset role cards and auth section visibility
                 document.getElementById('roleCardsRow').style.display = 'flex';
                 document.getElementById('whySection').style.display = '';
                 document.getElementById('authSection').style.display = 'none';
@@ -1956,7 +1985,7 @@
         document.getElementById('translatorNavClients').onclick = () => { switchTranslatorTab('translatorClients'); renderClientCards(); };
 
         // ============================================================
-        // PLACEHOLDER FUNCTIONS (replace with actual implementations)
+        // PLACEHOLDER FUNCTIONS
         // ============================================================
         async function loadTranslators() {
             const grid = document.getElementById('translatorGrid');
@@ -1976,7 +2005,6 @@
         function loadTranslatorBookings(uid) {}
         function renderClientCards() {}
 
-        // Final translation
         translatePage();
     </script>
 </body>
