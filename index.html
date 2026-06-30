@@ -816,6 +816,17 @@
                 </div>
                 <div class="section-title" data-i18n="available_translators"><i class="fas fa-users"></i> Available translators</div>
                 <div class="translator-grid" id="translatorGrid"></div>
+                <!-- Profile gate (hidden by default) -->
+                <div id="profileGate" style="display:none; text-align:center; padding:3rem 1rem;">
+                    <i class="fas fa-user-lock" style="font-size:4rem; color:var(--accent); margin-bottom:1rem;"></i>
+                    <h3>Please complete your profile to browse interpreters</h3>
+                    <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1.5rem;">
+                        You need to fill in your company details first.
+                    </p>
+                    <button class="btn btn-primary" id="goToProfileBtn" style="max-width:250px; margin:0 auto;">
+                        <i class="fas fa-user-edit"></i> Go to Profile
+                    </button>
+                </div>
                 <div id="emptyState" class="empty-state" style="display:none;" data-i18n="no_translators">
                     <i class="fas fa-user-tie"></i><h3>No translators have joined yet.</h3>
                 </div>
@@ -1529,7 +1540,7 @@
         });
 
         // ============================================================
-        // AUTH STATE OBSERVER (flicker fix + safety timeout)
+        // AUTH STATE OBSERVER (flicker fix + safety timeout + profile gate)
         // ============================================================
         let authReady = false;
         setTimeout(() => {
@@ -1581,7 +1592,19 @@
                     renderClientCards();
                 } else {
                     switchClientTab('clientView');
-                    loadTranslators();
+                    // Profile gate: check if client has filled company or contact
+                    const clientDoc = await db.collection('clients').doc(user.uid).get();
+                    const clientData = clientDoc.exists ? clientDoc.data() : {};
+                    const hasProfile = clientData.company || clientData.contact;
+
+                    if (hasProfile) {
+                        document.getElementById('profileGate').style.display = 'none';
+                        document.getElementById('translatorGrid').style.display = '';
+                        loadTranslators();
+                    } else {
+                        document.getElementById('profileGate').style.display = 'block';
+                        document.getElementById('translatorGrid').style.display = 'none';
+                    }
                     loadClientProfile(user.uid);
                     loadClientBookings(user.uid);
                 }
@@ -1596,6 +1619,13 @@
                 document.getElementById('whySection').style.display = '';
                 translatePage();
             }
+        });
+
+        // ============================================================
+        // PROFILE GATE BUTTON
+        // ============================================================
+        document.getElementById('goToProfileBtn').addEventListener('click', function() {
+            switchClientTab('clientProfile');
         });
 
         // ============================================================
@@ -1616,7 +1646,7 @@
             document.getElementById(map[tabId]).classList.add('active');
         }
 
-        document.getElementById('clientNavTranslators').onclick = () => { switchClientTab('clientView'); loadTranslators(); };
+        document.getElementById('clientNavTranslators').onclick = () => { switchClientTab('clientView'); };
         document.getElementById('clientNavBookings').onclick = () => { switchClientTab('clientBookings'); if(state.currentUser) loadClientBookings(state.currentUser.uid); };
         document.getElementById('clientNavProfile').onclick = () => { switchClientTab('clientProfile'); if(state.currentUser) loadClientProfile(state.currentUser.uid); };
         document.getElementById('translatorNavProfile').onclick = () => { switchTranslatorTab('translatorProfile'); if(state.currentUser) loadTranslatorProfile(state.currentUser.uid); };
@@ -1775,7 +1805,7 @@
         }
 
         // ============================================================
-        // CLIENT PROFILE
+        // CLIENT PROFILE (with gate refresh after save)
         // ============================================================
         async function loadClientProfile(uid) {
             try {
@@ -1827,6 +1857,15 @@
                 await db.collection('clients').doc(state.currentUser.uid).set(data, { merge: true });
                 showToast('profile_saved', 'success');
                 loadClientProfile(state.currentUser.uid);
+
+                // If we came from the profile gate, reload translators
+                const updatedDoc = await db.collection('clients').doc(state.currentUser.uid).get();
+                const hasProfile = updatedDoc.exists && (updatedDoc.data().company || updatedDoc.data().contact);
+                if (hasProfile) {
+                    document.getElementById('profileGate').style.display = 'none';
+                    document.getElementById('translatorGrid').style.display = '';
+                    loadTranslators();
+                }
             } catch(e) { showToast('Error saving profile', 'error'); }
         });
 
