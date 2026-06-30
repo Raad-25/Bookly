@@ -148,13 +148,24 @@
 
         .login-content { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; align-items: center; }
 
-        /* ---- LOGIN LOGO (static) ---- */
-        .login-logo-img {
-            height: 4rem;
+        /* ---- ENLARGED BOOKLY TITLE (no logo) ---- */
+        .big-bookly-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -2px;
             margin-bottom: 0.3rem;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
+            line-height: 1.1;
+            text-align: center;
+        }
+
+        .big-bookly-title span {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .role-cards-row { display: flex; gap: 1rem; width: 100%; margin-bottom: 1.5rem; }
@@ -290,16 +301,12 @@
 
         .app-header .brand { display: flex; align-items: center; gap: 0.6rem; }
 
-        /* ---- APP LOGO (static, non-clickable) ---- */
-        .app-logo-img {
-            height: 2.8rem;
-            display: block;
-        }
-
+        /* ---- ENLARGED APP HEADER TITLE (no logo) ---- */
         .app-header .brand h1 {
-            font-size: 1.3rem; font-weight: 800;
+            font-size: 1.8rem; font-weight: 800;
             background: linear-gradient(to right, #ffffff, #e0f2fe);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            line-height: 1.1;
         }
         .app-header .brand h1 span {
             background: linear-gradient(to right, #2584C4, #f5b342);
@@ -712,8 +719,9 @@
             </div>
 
             <div class="login-content">
-                <!-- Static Login Logo -->
-                <img src="logo.jpg" alt="Bookly" class="login-logo-img" />
+                <!-- ENLARGED BOOKLY TITLE (no image) -->
+                <h1 class="big-bookly-title">Book<span>ly</span></h1>
+                <div class="slogan" data-i18n="slogan" style="font-size:0.9rem; margin-bottom:1.5rem; color:var(--text-muted); letter-spacing:1px; text-transform:uppercase;">We Connect Cultures</div>
 
                 <!-- Role cards -->
                 <div class="role-cards-row" id="roleCardsRow">
@@ -780,12 +788,9 @@
         <div id="mainApp" style="display:none;">
             <header class="app-header">
                 <div class="brand">
-                    <!-- Static, non-clickable app logo -->
-                    <img src="logo.jpg" alt="Bookly" class="app-logo-img" />
-                    <div>
-                        <h1>Book<span>ly</span></h1>
-                        <span class="slogan-small" data-i18n="slogan">We Connect Cultures</span>
-                    </div>
+                    <!-- NO LOGO, JUST THE TEXT (already enlarged) -->
+                    <h1>Book<span>ly</span></h1>
+                    <span class="slogan-small" data-i18n="slogan">We Connect Cultures</span>
                 </div>
                 <div class="header-actions">
                     <button class="header-btn lang-btn" id="langToggleBtn">
@@ -1524,9 +1529,18 @@
         });
 
         // ============================================================
-        // AUTH STATE OBSERVER (flicker fix)
+        // AUTH STATE OBSERVER (flicker fix + safety timeout)
         // ============================================================
         let authReady = false;
+        setTimeout(() => {
+            if (!authReady) {
+                document.getElementById('appLoader').style.display = 'none';
+                if (!state.currentUser) {
+                    document.getElementById('loginPage').style.display = 'flex';
+                }
+            }
+        }, 3000);
+
         auth.onAuthStateChanged(async (user) => {
             if (!authReady) {
                 document.getElementById('appLoader').style.display = 'none';
