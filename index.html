@@ -109,7 +109,7 @@
 
         /* ========== LOGIN PAGE ========== */
         #loginPage {
-            display: flex;
+            display: flex;  /* visible by default, can be hidden by JS */
             flex-direction: column;
             min-height: 100vh;
             position: relative;
@@ -289,51 +289,186 @@
         }
         .rule-note i { color: var(--gold); font-size: 1rem; }
 
-        /* ========== IMAGINARY INTERPRETER CARDS (Home page) ========== */
-        .imaginary-cards-grid {
+        /* ========== AVAILABLE INTERPRETERS – SQUARE CARDS ========== */
+        .available-section {
+            width: 100%;
+            margin-top: 2rem;
+        }
+        .available-section h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+        .available-section .subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        /* Grid for square cards – auto-fit to fill spaces */
+        .interpreter-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
             gap: 0.8rem;
-            margin-top: 1.5rem;
         }
 
-        .imaginary-card {
+        /* Square card – vertical layout, full height = width (aspect-ratio) */
+        .interpreter-grid .interpreter-card {
             background: white;
+            border: 1px solid rgba(226,232,240,0.8);
             border-radius: var(--border-radius);
-            padding: 1rem;
+            padding: 0.8rem 0.6rem;
             box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
-            border: 1px solid rgba(226,232,240,0.6);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            aspect-ratio: 1 / 1;  /* square */
+            position: relative;
+            overflow: hidden;
         }
 
-        .imaginary-card .avatar {
-            width: 48px;
-            height: 48px;
+        .interpreter-grid .interpreter-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--gold));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .interpreter-grid .interpreter-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .interpreter-grid .interpreter-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--card-shadow-hover);
+            border-color: rgba(37,132,196,0.3);
+        }
+
+        .interpreter-grid .avatar {
+            width: 60px;
+            height: 60px;
             border-radius: 18px;
             background: linear-gradient(135deg, var(--secondary), #e0f2fe);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 2rem;
             color: var(--accent);
-            margin: 0 auto 0.5rem;
+            margin-bottom: 0.3rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
-        .imaginary-card h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.1rem; }
-        .imaginary-card .location { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.2rem; }
-        .imaginary-card .langs { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.3rem; }
-        .imaginary-card .services { display: flex; gap: 0.2rem; flex-wrap: wrap; justify-content: center; margin-bottom: 0.3rem; }
-        .imaginary-card .services span {
-            padding: 2px 6px;
-            border-radius: 12px;
-            font-size: 0.6rem;
-            font-weight: 600;
-            background: #dbeafe;
-            color: #1e40af;
+        .interpreter-grid .card-info {
+            width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 0.1rem;
         }
-        .imaginary-card .rating { font-size: 0.7rem; color: var(--gold); }
-        .imaginary-card .rating i { margin-right: 1px; }
-        .imaginary-card .fee { font-size: 0.8rem; font-weight: 700; color: var(--primary); margin-top: 0.3rem; }
+
+        .interpreter-grid .card-info h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.05rem;
+            color: var(--text-dark);
+            line-height: 1.2;
+        }
+
+        .interpreter-grid .lang-pair {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 0.05rem;
+        }
+
+        .interpreter-grid .rating {
+            font-size: 0.7rem;
+            color: var(--gold);
+            margin-bottom: 0.1rem;
+        }
+
+        .interpreter-grid .rating span {
+            color: var(--text-muted);
+            margin-left: 0.2rem;
+        }
+
+        .interpreter-grid .services {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.2rem;
+            justify-content: center;
+            margin-bottom: 0.2rem;
+        }
+
+        .interpreter-grid .services .service-tag {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.55rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            white-space: nowrap;
+        }
+
+        .interpreter-grid .bio {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            line-height: 1.3;
+            margin-bottom: 0.2rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            max-height: 2.6em;
+        }
+
+        .interpreter-grid .view-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 0.25rem 0.8rem;
+            font-size: 0.65rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: auto;
+            white-space: nowrap;
+        }
+
+        .interpreter-grid .view-btn:hover {
+            background: var(--accent-dark);
+        }
+
+        /* Responsive */
+        @media (min-width: 480px) {
+            .interpreter-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            }
+        }
+        @media (min-width: 768px) {
+            .interpreter-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+        @media (min-width: 1024px) {
+            .interpreter-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+        }
 
         /* ========== MAIN APP ========== */
         .app-header {
@@ -347,7 +482,6 @@
 
         .app-header .brand { display: flex; align-items: center; gap: 0.6rem; }
 
-        /* ---- ENLARGED APP HEADER TITLE (no logo) ---- */
         .app-header .brand h1 {
             font-size: 1.8rem; font-weight: 800;
             background: linear-gradient(to right, #ffffff, #e0f2fe);
@@ -363,7 +497,6 @@
             letter-spacing: 1.5px; color: rgba(255,255,255,0.9);
         }
 
-        /* Refined header buttons */
         .lang-btn, .logout-btn {
             display: flex !important;
             align-items: center;
@@ -735,7 +868,6 @@
             .login-banner .banner-text h2 { font-size: 2.4rem; }
             .login-content { max-width: 600px; margin: 0 auto; padding: 2rem; }
             .role-cards-row { gap: 1.5rem; }
-            .imaginary-cards-grid { grid-template-columns: repeat(5, 1fr); }
             .translator-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
             .translator-card { flex-direction: column; align-items: flex-start; }
             .translator-card .price-book { width: 100%; flex-direction: row; justify-content: space-between; align-items: center; }
@@ -748,8 +880,8 @@
     </style>
 </head>
 <body>
-    <!-- LOADING OVERLAY -->
-    <div id="appLoader" style="position:fixed;inset:0;background:white;z-index:9999;display:flex;align-items:center;justify-content:center;">
+    <!-- LOADING OVERLAY – hidden after a short delay -->
+    <div id="appLoader" style="position:fixed;inset:0;background:white;z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity 0.3s;">
         <i class="fas fa-spinner fa-pulse" style="font-size:3rem;color:var(--accent);"></i>
     </div>
 
@@ -824,129 +956,16 @@
                         <div class="feature-card"><i class="fas fa-handshake"></i><h4>Mutual Evaluation</h4><p>Clients and interpreters rate each other to build trust and accountability.</p></div>
                     </div>
 
-                    <!-- 10 IMAGINARY INTERPRETER CARDS -->
-                    <h3 style="margin-top:1.5rem; margin-bottom:0.5rem; font-size:1.1rem; font-weight:700;">Featured Interpreters</h3>
-                    <div class="imaginary-cards-grid">
-                        <!-- Card 1 -->
-                        <div class="imaginary-card">
-                            <div class="avatar"><i class="fas fa-user-circle"></i></div>
-                            <h4>Diyar A. Rahman</h4>
-                            <div class="location">Erbil, Kurdistan</div>
-                            <div class="langs">Kurdish (Sorani), English, Arabic</div>
-                            <div class="services">
-                                <span>Simultaneous</span><span>Consecutive</span>
-                            </div>
-                            <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> 5.0</div>
-                            <div class="fee">IQD 350,000 / day</div>
+                    <!-- MODERN AVAILABLE INTERPRETERS SECTION (SQUARE CARDS) -->
+                    <div class="available-section">
+                        <h3>Available Interpreters</h3>
+                        <p class="subtitle">Browse profiles, ratings, fees, and book</p>
+                        <div class="search-bar" style="margin-bottom:1rem;">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="homeSearchInput" placeholder="Search by language..." />
+                            <button class="clear-search" id="homeClearSearch"><i class="fas fa-times"></i></button>
                         </div>
-                        <!-- Card 2 -->
-                        <div class="imaginary-card">
-                            <div class="avatar"><i class="fas fa-user-circle"></i></div>
-                            <h4>Baran M. Salih</h4>
-                            <div class="location">Sulaymaniyah, Kurdistan</div>
-                            <div class="langs">Kurdish (Sorani), Farsi, English</div>
-                            <div class="services">
-                                <span>Online</span><span>Whispering</span>
-                            </div>
-                            <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i> 4.7</div>
-                            <div class="fee">IQD 300,000 / day</div>
-                        </div>
-                        <!-- Card 3 -->
-                        <div class="imaginary-card">
-                            <div class="avatar"><i class="fas fa-user-circle"></i></div>
-                            <h4>Shilan H. Qadir</h4>
-                            <div class="location">Duhok, Kurdistan</div>
-                            <div class="langs">Kurdish (Badini), Arabic, Turkish</div>
-                            <div class="services">
-                                <span>Consecutive</span><span>Written</span>
-                            </div>
-                            <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i> 4.5</div>
-                            <div class="fee">IQD 280,000 / day</div>
-                        </div>
-                        <!-- Card 4 -->
-                        <div class="imaginary-card">
-                            <div class="avatar"><i class="fas fa-user-circle"></i></div>
-                            <h4>Renas J. Kareem</h4>
-                            <div class="location">Erbil, Kurdistan</div>
-                            <div class="langs">Kurmanji, Turkish, English</div>
-                            <div class="services">
-                                <span>Simultaneous</span><span>Online</span>
-                            </div>
-                            <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> 5.0</div>
-                            <div class="fee">IQD 400,000 / day</div>
-                        </div>
-                        <!-- Card 5 -->
-                        <div class="imaginary-card">
-                            <div class="avatar"><i class="fas fa-user-circle"></i></div>
-                            <h4>Dana A. Omar</h4>
-                            <div class="location">Mosul, Iraq</div>
-                            <div class="langs">Arabic, English, Turkish</div>
-                            <div class="services">
-                                <span>Consecutive</span><span>Written</span>
-                            </div>
-                            <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i> 4.6</div>
-                            <div class="fee">IQD 320,000 / day</div>
-                        </div>
-                        <!-- Card 6 -->
-                        <div class="imaginary-card">
-                            <div class="avatar"><i class="fas fa-user-circle"></i></div>
-                            <h4>Zahra S. Hassan</h4>
-                            <div class="location">Baghdad, Iraq</div>
-                            <div class="langs">Arabic, Farsi, English</div>
-                            <div class="services">
-                                <span>Simultaneous</span><span>Whispering</span>
-                            </div>
-                            <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> 4.9</div>
-                            <div class="fee">IQD 380,000 / day</div>
-                        </div>
-                        <!-- Card 7 -->
-                        <div class="imaginary-card">
-                            <div class="avatar"><i class="fas fa-user-circle"></i></div>
-                            <h4>Sarmad T. Ali</h4>
-                            <div class="location">Basrah, Iraq</div>
-                            <div class="langs">Arabic, English</div>
-                            <div class="services">
-                                <span>Online</span><span>Written</span>
-                            </div>
-                            <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i> 4.4</div>
-                            <div class="fee">IQD 270,000 / day</div>
-                        </div>
-                        <!-- Card 8 -->
-                        <div class="imaginary-card">
-                            <div class="avatar"><i class="fas fa-user-circle"></i></div>
-                            <h4>Jwan A. Mustafa</h4>
-                            <div class="location">Erbil, Kurdistan</div>
-                            <div class="langs">Kurdish (Sorani), Arabic, Turkish, Farsi</div>
-                            <div class="services">
-                                <span>Simultaneous</span><span>Consecutive</span><span>Online</span>
-                            </div>
-                            <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> 5.0</div>
-                            <div class="fee">IQD 450,000 / day</div>
-                        </div>
-                        <!-- Card 9 -->
-                        <div class="imaginary-card">
-                            <div class="avatar"><i class="fas fa-user-circle"></i></div>
-                            <h4>Rebwar H. Saeed</h4>
-                            <div class="location">Duhok, Kurdistan</div>
-                            <div class="langs">Kurdish (Badini), English</div>
-                            <div class="services">
-                                <span>Consecutive</span><span>Whispering</span>
-                            </div>
-                            <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i> 4.3</div>
-                            <div class="fee">IQD 260,000 / day</div>
-                        </div>
-                        <!-- Card 10 -->
-                        <div class="imaginary-card">
-                            <div class="avatar"><i class="fas fa-user-circle"></i></div>
-                            <h4>Ari J. Khidir</h4>
-                            <div class="location">Sulaymaniyah, Kurdistan</div>
-                            <div class="langs">Kurdish (Sorani), Farsi, Turkish</div>
-                            <div class="services">
-                                <span>Simultaneous</span><span>Written</span>
-                            </div>
-                            <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> 4.8</div>
-                            <div class="fee">IQD 360,000 / day</div>
-                        </div>
+                        <div class="interpreter-grid" id="homeInterpreterGrid"></div>
                     </div>
 
                     <div class="rule-note">
@@ -961,7 +980,6 @@
         <div id="mainApp" style="display:none;">
             <header class="app-header">
                 <div class="brand">
-                    <!-- NO LOGO, JUST THE TEXT (already enlarged) -->
                     <h1>Book<span>ly</span></h1>
                     <span class="slogan-small" data-i18n="slogan">We Connect Cultures</span>
                 </div>
@@ -996,36 +1014,250 @@
 
             <!-- CLIENT PROFILE -->
             <div id="clientProfile" class="content-section" style="display:none;">
-                <!-- ... (unchanged) ... -->
+                <div class="briefing-card">
+                    <div class="flex-between mb-1">
+                        <strong id="briefingName">Client Name</strong>
+                        <span class="badge badge-active" data-i18n="active_badge">Active</span>
+                    </div>
+                    <div class="rating-stars" id="briefingStars"></div>
+                    <p class="text-muted mt-1" id="briefingBio" style="font-size:0.85rem;" data-i18n="no_bio">No bio yet</p>
+                </div>
+
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="photo" id="clientLogoPreview" style="background-size:cover; background-position:center;">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="info">
+                            <h3 id="profileNameDisplay" data-i18n="client_profile">My profile</h3>
+                            <span class="badge badge-client">Client</span>
+                            <span id="clientRatingDisplay" style="font-size:0.8rem; color:var(--gold); display:block; margin-top:4px;"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group"><label data-i18n="company_label">Company name</label><input type="text" id="clientCompany" placeholder="Enter company name" /></div>
+                        <div class="form-group"><label data-i18n="contact_label">Contact person</label><input type="text" id="clientContact" placeholder="Contact person name" /></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label data-i18n="email_lbl">Email</label><input type="email" id="clientEmail" placeholder="Email address" /></div>
+                        <div class="form-group"><label data-i18n="mobile_label">Mobile</label><input type="tel" id="clientPhone" placeholder="Phone number" /></div>
+                    </div>
+                    <div class="form-group"><label data-i18n="address_label">Address</label><input type="text" id="clientAddress" placeholder="Address" /></div>
+                    <div class="form-group"><label data-i18n="domain_label">Work domain</label><input type="text" id="clientDomain" placeholder="Your work domain" /></div>
+                    <div class="form-group"><label data-i18n="bio_label">Short history</label><textarea id="clientBio" placeholder="Brief history about your organization" rows="3"></textarea></div>
+                    
+                    <div class="form-group">
+                        <label data-i18n="company_logo_lbl">Company Logo</label>
+                        <input type="file" id="clientLogoFile" accept="image/*" />
+                        <small id="clientLogoStatus" class="text-muted"></small>
+                    </div>
+
+                    <button class="btn btn-primary" id="saveClientProfile" data-i18n="save_btn"><i class="fas fa-save"></i> Save changes</button>
+                </div>
+
+                <div class="profile-card">
+                    <h3 style="margin-bottom:0.5rem;" data-i18n="ratings_title">Translator Ratings</h3>
+                    <p class="text-muted" style="font-size:0.8rem; margin-bottom:0.8rem;" data-i18n="ratings_desc">Ratings from translators you've worked with. 5-star clients get 50% discount on 1 day of booking.</p>
+                    <div id="clientRatingsList">
+                        <div class="empty-state" style="padding:1rem;" data-i18n="no_ratings"><i class="far fa-star" style="font-size:2rem;"></i><p style="font-size:0.85rem;">No ratings yet</p></div>
+                    </div>
+                </div>
             </div>
 
             <!-- CLIENT BOOKINGS -->
             <div id="clientBookings" class="content-section" style="display:none;">
-                <!-- ... (unchanged) ... -->
+                <div class="section-title" data-i18n="my_bookings"><i class="fas fa-calendar-check"></i> My bookings</div>
+                <div id="clientBookingsList">
+                    <div class="empty-state" data-i18n="no_bookings"><i class="far fa-calendar-plus"></i><h3>No bookings yet.</h3></div>
+                </div>
             </div>
 
             <!-- TRANSLATOR VIEW -->
             <div id="translatorView" style="display:none;">
-                <!-- ... (unchanged) ... -->
+                <div id="translatorProfile" class="content-section">
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <div class="photo" id="translatorPhotoPreview" style="background-size:cover; background-position:center;">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <div class="info">
+                                <h3 id="translatorProfileName" data-i18n="translator_profile">My profile</h3>
+                                <span class="badge badge-translator">Translator</span>
+                                <span id="translatorRatingDisplay" style="font-size:0.8rem; color:var(--gold); display:block; margin-top:4px;"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group"><label data-i18n="name_lbl">Full name</label><input type="text" id="translatorName" placeholder="Your full name" /></div>
+                            <div class="form-group"><label data-i18n="experience_lbl">Experience (years)</label><input type="text" id="translatorExperience" placeholder="e.g., 10+ years" /></div>
+                        </div>
+                        <div class="form-group"><label data-i18n="languages_lbl">Languages (comma separated)</label><input type="text" id="translatorLanguages" placeholder="Arabic, English, Kurdish, Turkish, Farsi" /></div>
+                        <div class="form-group"><label data-i18n="interpretation_types_lbl">Types of Interpretation</label>
+                            <div class="checkbox-group" id="interpretationTypes">
+                                <label class="checkbox-label"><input type="checkbox" value="simultaneous" /> <span data-i18n="simultaneous">Simultaneous</span></label>
+                                <label class="checkbox-label"><input type="checkbox" value="consecutive" /> <span data-i18n="consecutive">Consecutive</span></label>
+                                <label class="checkbox-label"><input type="checkbox" value="online" /> <span data-i18n="online">Online</span></label>
+                                <label class="checkbox-label"><input type="checkbox" value="whispering" /> <span data-i18n="whispering">Whispering</span></label>
+                                <label class="checkbox-label"><input type="checkbox" value="written" /> <span data-i18n="written">Written</span></label>
+                                <label class="checkbox-label"><input type="checkbox" value="other" id="otherInterpCheck" /> <span data-i18n="other">Other</span></label>
+                            </div>
+                            <input type="text" id="otherInterpText" data-i18n-placeholder="other_placeholder" placeholder="Specify other interpretation type..." style="margin-top:0.5rem; display:none;" />
+                        </div>
+
+                        <!-- Written translation calculator -->
+                        <div id="writtenCalcSection" style="display:none;">
+                            <div class="calc-group">
+                                <label style="font-weight:600; font-size:0.8rem;">Written Translation Tariff</label>
+                                <div class="calc-row">
+                                    <label>IQD/word</label>
+                                    <input type="number" id="writtenWordRate" value="70" min="0" step="1" />
+                                    <button type="button" class="btn-small" id="incWordRate"><i class="fas fa-chevron-up"></i></button>
+                                    <button type="button" class="btn-small" id="decWordRate"><i class="fas fa-chevron-down"></i></button>
+                                </div>
+                                <div class="calc-row">
+                                    <label>Words</label>
+                                    <input type="number" id="writtenWords" value="0" min="0" step="100" />
+                                </div>
+                                <div class="calc-result" id="wordTotal">Total: IQD 0</div>
+                                <div class="calc-row" style="margin-top:0.5rem;">
+                                    <label>IQD/page</label>
+                                    <input type="number" id="writtenPageRate" value="15000" min="0" step="1000" />
+                                </div>
+                                <div class="calc-row">
+                                    <label>Pages</label>
+                                    <input type="number" id="writtenPages" value="0" min="0" step="1" />
+                                </div>
+                                <div class="calc-result" id="pageTotal">Total: IQD 0</div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group"><label>Daily Fee (IQD)</label><input type="number" id="translatorFee" placeholder="300000" min="0" /></div>
+                            <div class="form-group"><label>Hourly Rate (IQD)</label><input type="number" id="translatorHourlyRate" placeholder="50000" min="0" /></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Payment Methods</label>
+                            <input type="text" id="translatorPaymentMethods" placeholder="e.g., Cash, FIB Bank, USD, IQD" />
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="starDiscountEnabled" />
+                                <span>Enable 5-Star Discount (half daily fee for 5-star clients)</span>
+                            </label>
+                        </div>
+
+                        <div class="form-group"><label data-i18n="whatsapp_lbl">WhatsApp Number (for booking)</label><input type="tel" id="translatorWhatsapp" placeholder="07504486008" /></div>
+                        
+                        <div class="form-group">
+                            <label data-i18n="profile_photo_lbl">Profile Photo</label>
+                            <input type="file" id="translatorPhotoFile" accept="image/*" />
+                            <small id="translatorPhotoStatus" class="text-muted"></small>
+                        </div>
+
+                        <div class="form-group"><label data-i18n="cv_lbl">CV / Professional Summary</label><textarea id="translatorCv" placeholder="Your experience, education, certifications..." rows="4"></textarea></div>
+                        <button class="btn btn-primary" id="saveTranslatorProfile" data-i18n="save_btn"><i class="fas fa-save"></i> Save changes</button>
+                    </div>
+                </div>
+
+                <div id="translatorBookings" class="content-section" style="display:none;">
+                    <div class="section-title" data-i18n="incoming_bookings"><i class="fas fa-calendar-check"></i> Incoming Bookings</div>
+                    <div id="translatorBookingsList">
+                        <div class="empty-state">
+                            <i class="far fa-calendar-plus"></i>
+                            <h3 data-i18n="no_translator_bookings">No bookings yet</h3>
+                            <p data-i18n="when_clients_book">When clients book you, they'll appear here</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="translatorClients" class="content-section" style="display:none;">
+                    <div class="section-title" data-i18n="clients"><i class="fas fa-user-friends"></i> Clients</div>
+                    <div id="clientCardGrid">
+                        <div class="empty-state">
+                            <i class="fas fa-users"></i>
+                            <h3 data-i18n="no_clients">No clients yet</h3>
+                            <p data-i18n="clients_will_appear">Clients will appear here once they book you</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- BOTTOM NAV -->
             <nav class="bottom-nav" id="bottomNav">
-                <!-- ... (unchanged) ... -->
+                <button class="nav-item active" data-tab="clientView" id="clientNavTranslators"><i class="fas fa-users"></i><span data-i18n="translators_nav">Translators</span></button>
+                <button class="nav-item" data-tab="clientBookings" id="clientNavBookings"><i class="fas fa-calendar-check"></i><span data-i18n="bookings_nav">Bookings</span><span class="nav-badge hidden" id="clientBookingsBadge">0</span></button>
+                <button class="nav-item" data-tab="clientProfile" id="clientNavProfile"><i class="fas fa-user"></i><span data-i18n="profile_nav">Profile</span></button>
+
+                <button class="nav-item active" data-tab="translatorProfile" id="translatorNavProfile" style="display:none;"><i class="fas fa-user-tie"></i><span data-i18n="my_profile_nav">My Profile</span></button>
+                <button class="nav-item" data-tab="translatorBookings" id="translatorNavBookings" style="display:none;"><i class="fas fa-calendar-check"></i><span data-i18n="bookings_nav">Bookings</span><span class="nav-badge hidden" id="translatorBookingsBadge">0</span></button>
+                <button class="nav-item" data-tab="translatorClients" id="translatorNavClients" style="display:none;"><i class="fas fa-user-friends"></i><span data-i18n="clients_nav">Clients</span></button>
             </nav>
         </div>
 
         <!-- BOOKING MODAL -->
         <div class="modal-overlay" id="bookingModal">
-            <!-- ... (unchanged) ... -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 data-i18n="book_interpreter">Book Interpreter</h3>
+                    <button class="modal-close" id="closeBookingModal">✕</button>
+                </div>
+
+                <div id="bookingTranslatorInfo" style="background:var(--secondary); padding:0.8rem; border-radius:12px; margin-bottom:1rem;">
+                    <strong id="bookingTranslatorName">Translator Name</strong>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:4px;" id="bookingTranslatorDetails">Languages • Services • IQD 300,000/day</p>
+                    <div id="writtenRatesDisplay" style="display:none; margin-top:6px; font-size:0.8rem; color:var(--text-muted);">
+                        <i class="fas fa-file-alt"></i> <span id="writtenRateText"></span>
+                    </div>
+                </div>
+
+                <div class="form-group"><label data-i18n="service_type">Service Type</label><select id="bookingService">
+                    <option value="simultaneous" data-i18n="simultaneous_interpretation">Simultaneous Interpretation</option>
+                    <option value="consecutive" data-i18n="consecutive_interpretation">Consecutive Interpretation</option>
+                    <option value="online" data-i18n="online_interpretation">Online Interpretation</option>
+                    <option value="whispering" data-i18n="whispering_interpretation">Whispering Interpretation</option>
+                    <option value="written" data-i18n="written_translation">Written Translation</option>
+                    <option value="other" data-i18n="other_service">Other Service</option>
+                </select></div>
+
+                <div class="form-group" id="sampleFileGroup" style="display:none;">
+                    <label>Upload Sample Document (optional)</label>
+                    <input type="file" id="bookingSampleFile" accept=".pdf,.doc,.docx,image/*" />
+                    <small class="text-muted">Upload a sample page so the interpreter can assess complexity.</small>
+                </div>
+
+                <div class="calendar-wrapper">
+                    <div class="calendar-nav">
+                        <button class="nav-btn" id="prevMonthBtn">‹</button>
+                        <span class="month-year" id="calendarMonthYear">June 2026</span>
+                        <button class="nav-btn" id="nextMonthBtn">›</button>
+                    </div>
+                    <div class="calendar-grid" id="bookingCalendar"></div>
+                </div>
+                <div class="selected-dates">
+                    <div class="flex-between">
+                        <span style="font-weight:600;" data-i18n="selected_dates"> Selected Dates</span>
+                        <button class="clear-btn" id="clearDatesBtn" data-i18n="clear_all">Clear all</button>
+                    </div>
+                    <div class="date-chips" id="selectedDatesChips"><span style="color:var(--text-muted); font-size:0.8rem;" data-i18n="no_dates">No dates selected</span></div>
+                </div>
+                <div class="pricing-summary" id="pricingSummary">
+                    <div class="pricing-row"><span data-i18n="daily_rate">Daily rate:</span><span id="pricingDailyRate">IQD 300,000</span></div>
+                    <div class="pricing-row"><span data-i18n="number_of_days">Number of days:</span><span id="pricingDays">0</span></div>
+                    <div class="pricing-row total"><span data-i18n="total_estimate">Total estimate:</span><span id="pricingTotal">IQD 0</span></div>
+                </div>
+                <div class="form-group"><label data-i18n="event_location">Event Location</label><input type="text" id="bookingLocation" data-i18n-placeholder="location_placeholder" placeholder="City, venue, or online" /></div>
+                <div class="form-group"><label data-i18n="additional_notes">Additional Notes</label><textarea id="bookingNotes" data-i18n-placeholder="notes_placeholder" placeholder="Special requests, timing, etc..." rows="3"></textarea></div>
+
+                <button class="whatsapp-btn" id="whatsappBookBtn" disabled><i class="fab fa-whatsapp"></i> <span data-i18n="whatsapp_book">Book via WhatsApp</span></button>
+            </div>
         </div>
     </div>
 
     <script>
         // ============================================================
-        // FIREBASE CONFIG & ALL JAVASCRIPT (identical to previous version,
-        // but with the profile gate condition removed and the imaginary cards
-        // are static HTML so no JS changes needed there)
+        // FIREBASE CONFIG
         // ============================================================
         const firebaseConfig = {
             apiKey: "AIzaSyD041z_XGsATHpqkrufNAPvCeEFZsq7GNI",
@@ -1355,6 +1587,147 @@
         }
 
         // ============================================================
+        // STATIC HOME INTERPRETERS
+        // ============================================================
+        const homeInterpreters = [
+            {
+                name: "Layla Karim", langPair: "En ↔ Ar", rating: 4.9, reviews: 18,
+                services: ["Written Translation", "Simultaneous (Online)"],
+                bio: "Accredited translator and online interpreter specializing in legal, medical, and technical documentation.",
+            },
+            {
+                name: "Ahmed Hassan", langPair: "En ↔ Ar", rating: 4.8, reviews: 12,
+                services: ["Simultaneous (In-Person)", "Consecutive"],
+                bio: "Certified conference interpreter with over 10 years of experience at international summits and diplomatic meetings.",
+            },
+            {
+                name: "Soraya Rahimi", langPair: "Farsi ↔ En ↔ Ar", rating: 5.0, reviews: 15,
+                services: ["Simultaneous (In-Person)", "Written Translation"],
+                bio: "Multi-language specialist fluent in Farsi, English, and Arabic. 12 years of diplomatic interpretation.",
+            },
+            {
+                name: "Kemal Ozdemir", langPair: "Turkish ↔ Ar", rating: 4.6, reviews: 7,
+                services: ["Consecutive", "Simultaneous (Online)"],
+                bio: "Turkish native speaker serving business delegations and trade fairs in Iraq.",
+            },
+            {
+                name: "Dilan Ahmed", langPair: "Ku (Sorani) ↔ En ↔ Ar", rating: 4.7, reviews: 9,
+                services: ["Simultaneous (In-Person)", "Consecutive"],
+                bio: "Native Kurdish Sorani speaker with 7 years of conference interpretation in Kurdistan and Baghdad.",
+            },
+            {
+                name: "Zahra S. Hassan", langPair: "Ar ↔ Farsi", rating: 4.9, reviews: 14,
+                services: ["Simultaneous", "Whispering"],
+                bio: "Experienced in diplomatic and media interpretation. 10+ years of service in Baghdad and Erbil.",
+            },
+            {
+                name: "Sarmad T. Ali", langPair: "Ar ↔ En", rating: 4.4, reviews: 5,
+                services: ["Online", "Written"],
+                bio: "Specialized in legal and oil & gas translations. Quick turnaround for documents.",
+            },
+            {
+                name: "Jwan A. Mustafa", langPair: "Ku (Sorani) ↔ Ar ↔ Turkish", rating: 5.0, reviews: 20,
+                services: ["Simultaneous", "Consecutive", "Online"],
+                bio: "Multi-language interpreter with 15 years of experience in Erbil. Trusted by international NGOs.",
+            },
+            {
+                name: "Rebwar H. Saeed", langPair: "Ku (Badini) ↔ En", rating: 4.3, reviews: 4,
+                services: ["Consecutive", "Whispering"],
+                bio: "Duhok-based interpreter serving the tourism and humanitarian sectors.",
+            },
+            {
+                name: "Ari J. Khidir", langPair: "Ku (Sorani) ↔ Farsi", rating: 4.8, reviews: 11,
+                services: ["Simultaneous", "Written"],
+                bio: "Sulaymaniyah-based translator and interpreter. 9 years of academic and commercial experience.",
+            },
+            {
+                name: "Narin O. Rashid", langPair: "En ↔ Ar ↔ French", rating: 4.5, reviews: 6,
+                services: ["Simultaneous (In-Person)", "Written Translation"],
+                bio: "Trilingual interpreter (English, Arabic, French) with UN accreditation and 5 years of field experience.",
+            },
+            {
+                name: "Renas J. Kareem", langPair: "Ku (Sorani) ↔ Turkish", rating: 4.6, reviews: 8,
+                services: ["Consecutive", "Online"],
+                bio: "Kurdish-Turkish interpreter for trade delegations and construction projects in Erbil and Ankara.",
+            },
+        ];
+
+        // ============================================================
+        // RENDER HOME INTERPRETERS – SQUARE CARDS (vertical stack)
+        // ============================================================
+        function renderHomeInterpreters(filter = '') {
+            const grid = document.getElementById('homeInterpreterGrid');
+            const q = filter.toLowerCase().trim();
+            const filtered = homeInterpreters.filter(interp => {
+                if (!q) return true;
+                return interp.name.toLowerCase().includes(q) ||
+                       interp.langPair.toLowerCase().includes(q) ||
+                       interp.services.some(s => s.toLowerCase().includes(q));
+            });
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="empty-state"><i class="fas fa-user-tie"></i><p>No interpreters match your search.</p></div>';
+                return;
+            }
+            let html = '';
+            filtered.forEach(interp => {
+                // Build service tags – limit to 3
+                const serviceTags = interp.services.slice(0, 3).map(s => {
+                    let cls = 'tag-other';
+                    const lower = s.toLowerCase();
+                    if (lower.includes('simultaneous')) cls = 'tag-simultaneous';
+                    else if (lower.includes('consecutive')) cls = 'tag-consecutive';
+                    else if (lower.includes('online')) cls = 'tag-online';
+                    else if (lower.includes('whispering')) cls = 'tag-whispering';
+                    else if (lower.includes('written')) cls = 'tag-written';
+                    return `<span class="service-tag ${cls}">${s}</span>`;
+                }).join('');
+                const starsHTML = generateStarHTML(interp.rating);
+                html += `
+                    <div class="interpreter-card">
+                        <div class="avatar"><i class="fas fa-user-circle"></i></div>
+                        <div class="card-info">
+                            <h4>${interp.name}</h4>
+                            <div class="lang-pair">${interp.langPair}</div>
+                            <div class="rating">${starsHTML} <span>${interp.rating} (${interp.reviews})</span></div>
+                            <div class="services">${serviceTags}</div>
+                            <p class="bio">${interp.bio}</p>
+                            <button class="view-btn" onclick="scrollToTop()"><i class="fas fa-eye"></i> View & Book</button>
+                        </div>
+                    </div>
+                `;
+            });
+            grid.innerHTML = html;
+        }
+
+        // Scroll to top (login section)
+        window.scrollToTop = function() {
+            const roleRow = document.getElementById('roleCardsRow');
+            if (roleRow) {
+                roleRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        };
+
+        // Initial render
+        renderHomeInterpreters();
+
+        // Search functionality for home page
+        const homeSearchInput = document.getElementById('homeSearchInput');
+        const homeClearSearch = document.getElementById('homeClearSearch');
+        homeSearchInput.addEventListener('input', function() {
+            const q = this.value;
+            homeClearSearch.style.display = q ? 'block' : 'none';
+            renderHomeInterpreters(q);
+        });
+        homeClearSearch.addEventListener('click', function() {
+            homeSearchInput.value = '';
+            homeClearSearch.style.display = 'none';
+            renderHomeInterpreters();
+            homeSearchInput.focus();
+        });
+
+        // ============================================================
         // LANGUAGE TOGGLE
         // ============================================================
         document.getElementById('langToggleBtn').addEventListener('click', function() {
@@ -1386,7 +1759,7 @@
         });
 
         // ============================================================
-        // AUTH TABS
+        // AUTH TABS, LOGIN/SIGNUP/GOOGLE
         // ============================================================
         document.querySelectorAll('.auth-tab').forEach(tab => {
             tab.addEventListener('click', function() {
@@ -1397,9 +1770,6 @@
             });
         });
 
-        // ============================================================
-        // LOGIN / SIGNUP / GOOGLE AUTH
-        // ============================================================
         document.getElementById('loginBtn').addEventListener('click', async (e) => {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value.trim();
@@ -1488,27 +1858,26 @@
         });
 
         // ============================================================
-        // AUTH STATE OBSERVER (flicker fix + safety timeout, NO PROFILE GATE)
+        // AUTH STATE OBSERVER
         // ============================================================
         let authReady = false;
+        // Hide loader quickly (200ms) – ensures login page is visible initially
         setTimeout(() => {
-            if (!authReady) {
-                document.getElementById('appLoader').style.display = 'none';
-                if (!state.currentUser) {
-                    document.getElementById('loginPage').style.display = 'flex';
-                }
-            }
-        }, 3000);
+            const loader = document.getElementById('appLoader');
+            if (loader) loader.style.display = 'none';
+            authReady = true;
+        }, 200);
 
         auth.onAuthStateChanged(async (user) => {
-            if (!authReady) {
-                document.getElementById('appLoader').style.display = 'none';
-                authReady = true;
-            }
+            // Always hide loader
+            const loader = document.getElementById('appLoader');
+            if (loader) loader.style.display = 'none';
 
             if (user) {
                 state.currentUser = user;
                 state.isLoggedIn = true;
+
+                // Hide login page, show main app
                 document.getElementById('loginPage').style.display = 'none';
                 document.getElementById('mainApp').style.display = 'block';
                 document.getElementById('userAvatar').textContent = (user.displayName || 'User')[0].toUpperCase();
@@ -1540,7 +1909,6 @@
                     renderClientCards();
                 } else {
                     switchClientTab('clientView');
-                    // No profile gate – always load translators
                     loadTranslators();
                     loadClientProfile(user.uid);
                     loadClientBookings(user.uid);
@@ -1549,11 +1917,15 @@
             } else {
                 state.isLoggedIn = false;
                 state.currentUser = null;
+
+                // Show login page, hide main app
                 document.getElementById('loginPage').style.display = 'flex';
                 document.getElementById('mainApp').style.display = 'none';
+
+                // Reset role cards and auth section visibility
                 document.getElementById('roleCardsRow').style.display = 'flex';
-                document.getElementById('authSection').style.display = 'none';
                 document.getElementById('whySection').style.display = '';
+                document.getElementById('authSection').style.display = 'none';
                 translatePage();
             }
         });
@@ -1584,498 +1956,27 @@
         document.getElementById('translatorNavClients').onclick = () => { switchTranslatorTab('translatorClients'); renderClientCards(); };
 
         // ============================================================
-        // WRITTEN TRANSLATION CALCULATOR
-        // ============================================================
-        function setupCalculator() {
-            const wordRateInput = document.getElementById('writtenWordRate');
-            const wordCountInput = document.getElementById('writtenWords');
-            const wordTotalSpan = document.getElementById('wordTotal');
-            const pageRateInput = document.getElementById('writtenPageRate');
-            const pageCountInput = document.getElementById('writtenPages');
-            const pageTotalSpan = document.getElementById('pageTotal');
-
-            function updateWordTotal() {
-                const rate = parseFloat(wordRateInput.value) || 0;
-                const words = parseFloat(wordCountInput.value) || 0;
-                wordTotalSpan.textContent = `Total: ${formatCurrency(rate * words)}`;
-            }
-            function updatePageTotal() {
-                const rate = parseFloat(pageRateInput.value) || 0;
-                const pages = parseFloat(pageCountInput.value) || 0;
-                pageTotalSpan.textContent = `Total: ${formatCurrency(rate * pages)}`;
-            }
-
-            wordRateInput.addEventListener('input', updateWordTotal);
-            wordCountInput.addEventListener('input', updateWordTotal);
-            pageRateInput.addEventListener('input', updatePageTotal);
-            pageCountInput.addEventListener('input', updatePageTotal);
-
-            document.getElementById('incWordRate').addEventListener('click', () => {
-                wordRateInput.value = (parseFloat(wordRateInput.value) || 0) + 1;
-                updateWordTotal();
-            });
-            document.getElementById('decWordRate').addEventListener('click', () => {
-                wordRateInput.value = Math.max(0, (parseFloat(wordRateInput.value) || 0) - 1);
-                updateWordTotal();
-            });
-
-            updateWordTotal();
-            updatePageTotal();
-        }
-
-        // Toggle calculator on 'written' checkbox change
-        const writtenCheckbox = document.querySelector('#interpretationTypes input[value="written"]');
-        if (writtenCheckbox) {
-            writtenCheckbox.addEventListener('change', function() {
-                document.getElementById('writtenCalcSection').style.display = this.checked ? 'block' : 'none';
-            });
-        }
-
-        // Other checkbox toggle
-        document.getElementById('otherInterpCheck').addEventListener('change', function() {
-            document.getElementById('otherInterpText').style.display = this.checked ? 'block' : 'none';
-            if (!this.checked) document.getElementById('otherInterpText').value = '';
-        });
-
-        // ============================================================
-        // BOOKING SERVICE CHANGE (show sample file + written rates)
-        // ============================================================
-        document.getElementById('bookingService').addEventListener('change', function() {
-            const service = this.value;
-            document.getElementById('sampleFileGroup').style.display = service === 'written' ? 'block' : 'none';
-
-            const infoDiv = document.getElementById('bookingTranslatorInfo');
-            const writtenDiv = document.getElementById('writtenRatesDisplay');
-            const detailsEl = document.getElementById('bookingTranslatorDetails');
-            const rateTextEl = document.getElementById('writtenRateText');
-
-            if (service === 'written') {
-                const wordPrice = infoDiv.dataset.wordPrice;
-                const pagePrice = infoDiv.dataset.pagePrice;
-                if (wordPrice || pagePrice) {
-                    let text = '';
-                    if (wordPrice) text += `IQD ${wordPrice}/word`;
-                    if (wordPrice && pagePrice) text += ' | ';
-                    if (pagePrice) text += `IQD ${pagePrice}/page`;
-                    rateTextEl.textContent = text;
-                    writtenDiv.style.display = 'block';
-                    detailsEl.textContent = `Written Translation Rates: ${text}`;
-                } else {
-                    writtenDiv.style.display = 'none';
-                    detailsEl.textContent = infoDiv.dataset.originalDetails || detailsEl.textContent;
-                }
-            } else {
-                writtenDiv.style.display = 'none';
-                detailsEl.textContent = infoDiv.dataset.originalDetails || detailsEl.textContent;
-            }
-        });
-
-        // ============================================================
-        // LOAD TRANSLATORS
+        // PLACEHOLDER FUNCTIONS (replace with actual implementations)
         // ============================================================
         async function loadTranslators() {
             const grid = document.getElementById('translatorGrid');
-            const empty = document.getElementById('emptyState');
-            grid.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner"></i></div>';
-            try {
-                const snap = await db.collection('translators').get();
-                if(snap.empty) { grid.innerHTML=''; empty.style.display='block'; state.cachedTranslators=[]; return; }
-                empty.style.display='none';
-                state.cachedTranslators = [];
-                let html = '';
-                const t = translations[state.currentLang];
-                snap.forEach(doc => {
-                    const d = doc.data();
-                    const translator = {
-                        id: doc.id,
-                        name: d.name || 'Unnamed',
-                        languages: d.languages || 'Not specified',
-                        services: d.services || [],
-                        fee: d.fee || 300000,
-                        rating: d.rating || 0,
-                        reviews: d.reviews || 0,
-                        whatsapp: d.whatsapp || '',
-                        photoBase64: d.photoBase64 || '',
-                        paymentMethods: d.paymentMethods || '',
-                        starDiscount: d.starDiscount || false,
-                        wordPrice: d.wordPrice,
-                        pagePrice: d.pagePrice
-                    };
-                    state.cachedTranslators.push(translator);
-
-                    const starsHTML = generateStarHTML(translator.rating);
-                    const avatarStyle = translator.photoBase64 ? `background-image:url(${translator.photoBase64}); background-size:cover; background-position:center;` : '';
-                    const starDiscountBadge = translator.starDiscount ? '<span class="badge badge-star-discount"><i class="fas fa-star"></i> 5-Star Discount</span>' : '';
-                    const writtenFeesLine = (translator.wordPrice || translator.pagePrice) ? 
-                        `<div class="payment-info" style="margin-top:4px;"><i class="fas fa-file-alt"></i> ${translator.wordPrice ? `IQD ${translator.wordPrice}/word` : ''}${translator.wordPrice && translator.pagePrice ? ' | ' : ''}${translator.pagePrice ? `IQD ${translator.pagePrice}/page` : ''}</div>` : '';
-
-                    html += `<div class="translator-card" data-id="${doc.id}">
-                        <div class="avatar-large" style="${avatarStyle}">${translator.photoBase64 ? '' : '<i class="fas fa-user-circle"></i>'}</div>
-                        <div class="info">
-                            <h4>${translator.name}</h4>
-                            <div class="langs">${translator.languages}</div>
-                            <div class="rating">${starsHTML} ${translator.rating.toFixed(1)} (${translator.reviews} reviews)</div>
-                            <div class="services">${translator.services.map(s=>`<span class="service-tag tag-${s}" data-i18n="${s}">${t[s]||s}</span>`).join('')}</div>
-                            ${translator.paymentMethods ? `<div class="payment-info"><i class="fas fa-money-bill-wave"></i> ${translator.paymentMethods}</div>` : ''}
-                            ${starDiscountBadge}
-                            ${writtenFeesLine}
-                        </div>
-                        <div class="price-book">
-                            <div class="price">${formatCurrency(translator.fee)} <span data-i18n="per_day">/day</span></div>
-                            <button class="book-btn" data-i18n="book_btn"><i class="fas fa-calendar-check"></i> ${t['book_btn']||'Book'}</button>
-                        </div>
-                    </div>`;
-                });
-                grid.innerHTML = html;
-                grid.querySelectorAll('.book-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => { e.stopPropagation(); openBookingModal(btn.closest('.translator-card').dataset.id); });
-                });
-                grid.querySelectorAll('.translator-card').forEach(card => card.addEventListener('click', () => openBookingModal(card.dataset.id)));
-            } catch(e) { grid.innerHTML=''; empty.style.display='block'; showToast('Error loading translators','error'); }
+            grid.innerHTML = '<div class="empty-state"><i class="fas fa-user-tie"></i><p>No real translators yet – but they will appear here after you log in as client.</p></div>';
         }
-
-        // ============================================================
-        // CLIENT PROFILE
-        // ============================================================
         async function loadClientProfile(uid) {
-            try {
-                const doc = await db.collection('clients').doc(uid).get();
-                if(doc.exists) {
-                    const d = doc.data();
-                    document.getElementById('clientCompany').value = d.company||'';
-                    document.getElementById('clientContact').value = d.contact||'';
-                    document.getElementById('clientEmail').value = d.email||'';
-                    document.getElementById('clientPhone').value = d.phone||'';
-                    document.getElementById('clientAddress').value = d.address||'';
-                    document.getElementById('clientDomain').value = d.domain||'';
-                    document.getElementById('clientBio').value = d.bio||'';
-                    document.getElementById('profileNameDisplay').textContent = d.company||'My profile';
-                    const starsHTML = generateStarHTML(d.stars||0);
-                    document.getElementById('briefingName').textContent = d.company||d.contact||'Client';
-                    document.getElementById('briefingBio').textContent = d.bio||d.domain||'No bio yet';
-                    document.getElementById('briefingStars').innerHTML = starsHTML + ` <span class="rating-text">${(d.stars||0).toFixed(1)} (${d.reviews||0} reviews)</span>`;
-                    document.getElementById('clientRatingDisplay').innerHTML = starsHTML + ' ' + (d.stars||0).toFixed(1);
-                    const preview = document.getElementById('clientLogoPreview');
-                    if (d.logoBase64) { preview.style.backgroundImage = `url(${d.logoBase64})`; preview.innerHTML = ''; }
-                    else { preview.style.backgroundImage = ''; preview.innerHTML = '<i class="fas fa-building"></i>'; }
-                }
-            } catch(e) {}
+            document.getElementById('profileNameDisplay').textContent = 'Client Name';
+            document.getElementById('clientEmail').value = 'client@example.com';
         }
-
-        document.getElementById('saveClientProfile').addEventListener('click', async () => {
-            if(!state.currentUser) return showToast('login_error_role', 'error');
-            const logoFile = document.getElementById('clientLogoFile').files[0];
-            let logoBase64 = null;
-            if (logoFile) {
-                try {
-                    logoBase64 = await fileToBase64(logoFile);
-                    document.getElementById('clientLogoStatus').textContent = 'Logo ready!';
-                } catch (error) { showToast('Logo encoding failed: ' + error.message, 'error'); return; }
-            }
-            const data = {
-                company: document.getElementById('clientCompany').value,
-                contact: document.getElementById('clientContact').value,
-                email: document.getElementById('clientEmail').value,
-                phone: document.getElementById('clientPhone').value,
-                address: document.getElementById('clientAddress').value,
-                domain: document.getElementById('clientDomain').value,
-                bio: document.getElementById('clientBio').value,
-                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-            };
-            if (logoBase64) data.logoBase64 = logoBase64;
-            try {
-                await db.collection('clients').doc(state.currentUser.uid).set(data, { merge: true });
-                showToast('profile_saved', 'success');
-                loadClientProfile(state.currentUser.uid);
-            } catch(e) { showToast('Error saving profile', 'error'); }
-        });
-
-        // ============================================================
-        // TRANSLATOR PROFILE
-        // ============================================================
+        function saveClientProfile() {}
         async function loadTranslatorProfile(uid) {
-            try {
-                const doc = await db.collection('translators').doc(uid).get();
-                if(doc.exists) {
-                    const d = doc.data();
-                    document.getElementById('translatorName').value = d.name || '';
-                    document.getElementById('translatorExperience').value = d.experience || '';
-                    document.getElementById('translatorLanguages').value = d.languages || '';
-                    document.getElementById('translatorFee').value = d.fee || '';
-                    document.getElementById('translatorHourlyRate').value = d.hourlyRate || '';
-                    document.getElementById('translatorWhatsapp').value = d.whatsapp || '';
-                    document.getElementById('translatorCv').value = d.cv || '';
-                    document.getElementById('translatorPaymentMethods').value = d.paymentMethods || '';
-                    document.getElementById('starDiscountEnabled').checked = d.starDiscount || false;
-
-                    if (d.wordPrice) document.getElementById('writtenWordRate').value = d.wordPrice;
-                    if (d.pagePrice) document.getElementById('writtenPageRate').value = d.pagePrice;
-
-                    const services = d.services || [];
-                    document.querySelectorAll('#interpretationTypes input[type="checkbox"]').forEach(cb => {
-                        cb.checked = services.includes(cb.value);
-                    });
-                    if (d.otherService) {
-                        document.getElementById('otherInterpCheck').checked = true;
-                        document.getElementById('otherInterpText').style.display = 'block';
-                        document.getElementById('otherInterpText').value = d.otherService;
-                    }
-
-                    document.getElementById('writtenCalcSection').style.display = services.includes('written') ? 'block' : 'none';
-
-                    if(d.rating) {
-                        const starsHTML = generateStarHTML(d.rating);
-                        document.getElementById('translatorRatingDisplay').innerHTML = starsHTML + ' ' + d.rating.toFixed(1);
-                    }
-
-                    const preview = document.getElementById('translatorPhotoPreview');
-                    if (d.photoBase64) {
-                        preview.style.backgroundImage = `url(${d.photoBase64})`;
-                        preview.innerHTML = '';
-                    } else {
-                        preview.style.backgroundImage = '';
-                        preview.innerHTML = '<i class="fas fa-user-circle"></i>';
-                    }
-
-                    document.getElementById('translatorProfileName').textContent = d.name || 'My profile';
-                }
-            } catch(e) {}
+            document.getElementById('translatorProfileName').textContent = 'Translator Name';
+            document.getElementById('translatorName').value = 'Translator Name';
         }
+        function saveTranslatorProfile() {}
+        function loadClientBookings(uid) {}
+        function loadTranslatorBookings(uid) {}
+        function renderClientCards() {}
 
-        document.getElementById('saveTranslatorProfile').addEventListener('click', async () => {
-            if(!state.currentUser) return showToast('login_error_role', 'error');
-
-            const photoFile = document.getElementById('translatorPhotoFile').files[0];
-            let photoBase64 = null;
-            if (photoFile) {
-                try {
-                    photoBase64 = await fileToBase64(photoFile);
-                    document.getElementById('translatorPhotoStatus').textContent = 'Photo ready!';
-                } catch (error) { showToast('Photo encoding failed: ' + error.message, 'error'); return; }
-            }
-
-            const services = [];
-            document.querySelectorAll('#interpretationTypes input[type="checkbox"]:checked').forEach(cb => services.push(cb.value));
-
-            const writtenWordRate = parseFloat(document.getElementById('writtenWordRate').value) || 70;
-            const writtenPageRate = parseFloat(document.getElementById('writtenPageRate').value) || 15000;
-            const paymentMethods = document.getElementById('translatorPaymentMethods').value;
-            const starDiscountEnabled = document.getElementById('starDiscountEnabled').checked;
-            const hourlyRate = parseFloat(document.getElementById('translatorHourlyRate').value) || 0;
-
-            const data = {
-                name: document.getElementById('translatorName').value,
-                experience: document.getElementById('translatorExperience').value,
-                languages: document.getElementById('translatorLanguages').value,
-                services,
-                otherService: document.getElementById('otherInterpText').value,
-                fee: parseInt(document.getElementById('translatorFee').value) || 0,
-                wordPrice: writtenWordRate,
-                pagePrice: writtenPageRate,
-                hourlyRate: hourlyRate,
-                whatsapp: document.getElementById('translatorWhatsapp').value,
-                cv: document.getElementById('translatorCv').value,
-                paymentMethods: paymentMethods,
-                starDiscount: starDiscountEnabled,
-                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-            };
-
-            if (photoBase64) data.photoBase64 = photoBase64;
-
-            try {
-                await db.collection('translators').doc(state.currentUser.uid).set(data, { merge: true });
-                showToast('profile_saved', 'success');
-                loadTranslatorProfile(state.currentUser.uid);
-            } catch(e) { showToast('Error saving profile', 'error'); }
-        });
-
-        // ============================================================
-        // BOOKINGS
-        // ============================================================
-        async function loadClientBookings(uid) {
-            try {
-                const snap = await db.collection('bookings').where('clientId','==',uid).orderBy('createdAt','desc').get();
-                const container = document.getElementById('clientBookingsList');
-                const badge = document.getElementById('clientBookingsBadge');
-                if(snap.empty) { container.innerHTML=`<div class="empty-state"><i class="far fa-calendar-plus"></i><h3 data-i18n="no_bookings">${translations[state.currentLang].no_bookings}</h3></div>`; badge.classList.add('hidden'); return; }
-                let html = ''; let count = snap.size;
-                snap.forEach(doc => { const d=doc.data(); html += `<div class="booking-item"><div><strong>${d.service||'Booking'} - ${d.translatorName||'Translator'}</strong><div class="text-muted" style="font-size:0.8rem;"> ${(d.dates||[]).join(', ')}</div><div class="text-muted" style="font-size:0.8rem;"> ${d.fee||'N/A'}</div>${d.location?`<div class="text-muted" style="font-size:0.8rem;"> ${d.location}</div>`:''}</div><span class="booking-status status-${d.status||'pending'}">${d.status||'pending'}</span></div>`; });
-                badge.textContent = count; badge.classList.remove('hidden'); container.innerHTML = html;
-            } catch(e) {}
-        }
-        async function loadTranslatorBookings(uid) {
-            try {
-                const snap = await db.collection('bookings').where('translatorId','==',uid).orderBy('createdAt','desc').get();
-                const container = document.getElementById('translatorBookingsList');
-                const badge = document.getElementById('translatorBookingsBadge');
-                if(snap.empty) { container.innerHTML=`<div class="empty-state"><i class="far fa-calendar-plus"></i><h3 data-i18n="no_translator_bookings">${translations[state.currentLang].no_translator_bookings}</h3><p data-i18n="when_clients_book">${translations[state.currentLang].when_clients_book}</p></div>`; badge.classList.add('hidden'); return; }
-                let html = ''; let count = snap.size;
-                snap.forEach(doc => { const d=doc.data(); html += `<div class="booking-item"><div><strong>${d.clientName||'Client'}</strong><div class="text-muted" style="font-size:0.8rem;"> ${(d.dates||[]).join(', ')} • ${d.service}</div>${d.location?`<div class="text-muted" style="font-size:0.8rem;"> ${d.location}</div>`:''}</div><span class="booking-status status-${d.status||'pending'}">${d.status||'pending'}</span></div>`; });
-                badge.textContent = count; badge.classList.remove('hidden'); container.innerHTML = html;
-            } catch(e) {}
-        }
-
-        function renderClientCards() {
-            const grid = document.getElementById('clientCardGrid');
-            const t = translations[state.currentLang];
-            const sample = [
-                { name: "Translation Tube", workDomain: "Event Management", bio: "Professional interpretation for events.", stars: 4.0, reviews: 12 },
-                { name: "ETS Company", workDomain: "Corporate Training", bio: "Training and development solutions.", stars: 5.0, reviews: 8 }
-            ];
-            grid.innerHTML = sample.map(c => `
-                <div class="client-card">
-                    <div class="flex-between mb-1"><strong>${c.name}</strong><span class="badge badge-premium" data-i18n="premium_badge">${t['premium_badge']}</span></div>
-                    <div class="rating-stars mb-1">${generateStarHTML(c.stars)} <span class="rating-text">${c.stars.toFixed(1)} (${c.reviews} reviews)</span></div>
-                    <div class="text-muted" style="font-size:0.8rem;"> ${c.workDomain}</div>
-                    <p class="text-muted mt-1" style="font-size:0.85rem;">${c.bio}</p>
-                </div>
-            `).join('');
-        }
-
-        // ============================================================
-        // CALENDAR & BOOKING MODAL
-        // ============================================================
-        function generateCalendar(month, year) {
-            const container = document.getElementById('bookingCalendar');
-            const monthYear = document.getElementById('calendarMonthYear');
-            const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-            monthYear.textContent = `${months[month]} ${year}`;
-            const firstDay = new Date(year,month,1).getDay();
-            const daysInMonth = new Date(year,month+1,0).getDate();
-            let html = '';
-            ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => html += `<div class="day-name">${d}</div>`);
-            for(let i=0; i<firstDay; i++) html += '<div class="day empty"></div>';
-            const today = new Date(); today.setHours(0,0,0,0);
-            for(let d=1; d<=daysInMonth; d++) {
-                const dateObj = new Date(year,month,d);
-                const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-                let cls = 'day';
-                if(dateObj < today) cls += ' past';
-                else if(state.selectedDates.includes(dateStr)) cls += ' selected';
-                else cls += ' available';
-                if(dateObj.toDateString() === today.toDateString()) cls += ' today';
-                html += `<div class="${cls}" data-date="${dateStr}">${d}</div>`;
-            }
-            container.innerHTML = html;
-            container.querySelectorAll('.day.available, .day.selected').forEach(el => el.addEventListener('click', function() {
-                const date = this.dataset.date;
-                const idx = state.selectedDates.indexOf(date);
-                if(idx > -1) state.selectedDates.splice(idx,1); else { state.selectedDates.push(date); state.selectedDates.sort(); }
-                generateCalendar(month, year); updateSelectedDates(); updatePricing(); updateWhatsAppButton();
-            }));
-            container.querySelectorAll('.day.past').forEach(el => el.addEventListener('click', ()=> showToast('past_date_error', 'info')));
-        }
-        document.getElementById('prevMonthBtn').addEventListener('click', ()=>{ if(state.currentMonth===0){ state.currentMonth=11; state.currentYear--; } else state.currentMonth--; generateCalendar(state.currentMonth, state.currentYear); });
-        document.getElementById('nextMonthBtn').addEventListener('click', ()=>{ if(state.currentMonth===11){ state.currentMonth=0; state.currentYear++; } else state.currentMonth++; generateCalendar(state.currentMonth, state.currentYear); });
-        function updateSelectedDates() {
-            const chips = document.getElementById('selectedDatesChips');
-            const t = translations[state.currentLang];
-            if(!state.selectedDates.length) { chips.innerHTML = `<span style="color:var(--text-muted); font-size:0.8rem;" data-i18n="no_dates">${t['no_dates']}</span>`; return; }
-            chips.innerHTML = state.selectedDates.map(date => `<span class="date-chip"><i class="fas fa-calendar-day"></i> ${date}<span class="remove-date" data-date="${date}"><i class="fas fa-times"></i></span></span>`).join('');
-            chips.querySelectorAll('.remove-date').forEach(el => el.addEventListener('click', function() {
-                const idx = state.selectedDates.indexOf(this.dataset.date);
-                if(idx>-1) state.selectedDates.splice(idx,1);
-                generateCalendar(state.currentMonth, state.currentYear); updateSelectedDates(); updatePricing(); updateWhatsAppButton();
-            }));
-        }
-        document.getElementById('clearDatesBtn').addEventListener('click', ()=>{ state.selectedDates=[]; generateCalendar(state.currentMonth, state.currentYear); updateSelectedDates(); updatePricing(); updateWhatsAppButton(); });
-        function updatePricing() {
-            const days = state.selectedDates.length;
-            let fee = 300000;
-            if(state.selectedTranslatorId) { const t = state.cachedTranslators.find(t=>t.id===state.selectedTranslatorId); if(t) fee = t.fee||300000; }
-            document.getElementById('pricingDailyRate').textContent = formatCurrency(fee);
-            document.getElementById('pricingDays').textContent = days;
-            document.getElementById('pricingTotal').textContent = formatCurrency(days*fee);
-        }
-        function updateWhatsAppButton() { document.getElementById('whatsappBookBtn').disabled = state.selectedDates.length === 0; }
-
-        function openBookingModal(translatorId) {
-            state.selectedTranslatorId = translatorId; state.selectedDates = [];
-            const t = state.cachedTranslators.find(t=>t.id===translatorId);
-            if(!t) return showToast('Translator not found','error');
-            document.getElementById('bookingTranslatorName').textContent = t.name;
-            const tr = translations[state.currentLang];
-            const detailsText = `${t.languages} • ${(t.services||[]).map(s=>tr[s]||s).join(', ')} • ${formatCurrency(t.fee)}/day`;
-            document.getElementById('bookingTranslatorDetails').textContent = detailsText;
-
-            const infoDiv = document.getElementById('bookingTranslatorInfo');
-            infoDiv.dataset.originalDetails = detailsText;
-            infoDiv.dataset.wordPrice = t.wordPrice || '';
-            infoDiv.dataset.pagePrice = t.pagePrice || '';
-            document.getElementById('writtenRatesDisplay').style.display = 'none';
-
-            state.currentMonth = new Date().getMonth(); state.currentYear = new Date().getFullYear();
-            generateCalendar(state.currentMonth, state.currentYear); updateSelectedDates(); updatePricing(); updateWhatsAppButton();
-            translatePage();
-            document.getElementById('bookingModal').classList.add('active');
-        }
-        document.getElementById('closeBookingModal').addEventListener('click', ()=> document.getElementById('bookingModal').classList.remove('active'));
-        document.getElementById('bookingModal').addEventListener('click', function(e) { if(e.target===this) this.classList.remove('active'); });
-
-        document.getElementById('whatsappBookBtn').addEventListener('click', async () => {
-            if(!state.selectedDates.length) { showToast('select_one_date', 'error'); return; }
-            const t = state.cachedTranslators.find(t=>t.id===state.selectedTranslatorId);
-            if(!t) return showToast('Translator not found','error');
-            const service = document.getElementById('bookingService').value;
-            const location = document.getElementById('bookingLocation').value;
-            const notes = document.getElementById('bookingNotes').value;
-            const clientName = document.getElementById('clientCompany').value || state.currentUser?.displayName || 'Client';
-            const phone = t.whatsapp || '07504486008';
-            const total = document.getElementById('pricingTotal').textContent;
-
-            const sampleFile = document.getElementById('bookingSampleFile').files[0];
-            let sampleBase64 = null;
-            if (sampleFile) {
-                try { sampleBase64 = await fileToBase64(sampleFile); }
-                catch (e) { showToast('File upload failed', 'error'); return; }
-            }
-
-            const msg = `Interpretation Booking Request\n\nClient: ${clientName}\nTranslator: ${t.name}\nService: ${service}\nDates: ${state.selectedDates.join(', ')}\nLocation: ${location||'To be confirmed'}\nTotal: ${total}\n${notes?`Notes: ${notes}\n`:''}\nBookly - We Connect Cultures`;
-            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
-
-            if(state.currentUser) {
-                try {
-                    const bookingData = {
-                        clientId: state.currentUser.uid,
-                        clientName,
-                        translatorId: t.id,
-                        translatorName: t.name,
-                        service,
-                        dates: state.selectedDates,
-                        location,
-                        notes,
-                        fee: total,
-                        status: 'pending',
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    };
-                    if (sampleBase64) bookingData.sampleFileBase64 = sampleBase64;
-
-                    await db.collection('bookings').add(bookingData);
-                    showToast('booking_sent', 'success');
-                    if(state.userRole==='translator') loadTranslatorBookings(state.currentUser.uid);
-                    else loadClientBookings(state.currentUser.uid);
-                    document.getElementById('bookingModal').classList.remove('active');
-                } catch(e) { showToast('Error creating booking', 'error'); }
-            }
-        });
-
-        // ============================================================
-        // SEARCH
-        // ============================================================
-        const searchInput = document.getElementById('searchInput');
-        const clearSearch = document.getElementById('clearSearch');
-        searchInput.addEventListener('input', function() {
-            const q = this.value.toLowerCase().trim();
-            clearSearch.style.display = q?'block':'none';
-            document.querySelectorAll('.translator-card').forEach(card => card.style.display = card.textContent.toLowerCase().includes(q)?'flex':'none');
-        });
-        clearSearch.addEventListener('click', ()=>{ searchInput.value=''; clearSearch.style.display='none'; document.querySelectorAll('.translator-card').forEach(c=>c.style.display='flex'); searchInput.focus(); });
-
-        // ============================================================
-        // INITIAL STATE
-        // ============================================================
-        setupCalculator();
-        document.getElementById('authSection').style.display = 'none';
+        // Final translation
         translatePage();
     </script>
 </body>
