@@ -1579,7 +1579,34 @@
             border-left: none;
             border-right: 5px solid var(--gold);
         }
+
+        .hidden { display: none !important; }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; }
+        .mb-1 { margin-bottom: 1rem; }
+        .mt-1 { margin-top: 1rem; }
+        .text-muted { color: var(--text-muted); }
+        .loading-spinner { text-align: center; padding: 2rem; color: var(--accent); font-size: 1.5rem; }
+        .loading-spinner i { animation: spin 1s linear infinite; display: inline-block; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* Client card grid fixes */
+        .client-card-grid .avatar {
+            width: 48px; height: 48px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--secondary), #e0f2fe);
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 0.5rem; flex-shrink: 0;
+        }
+        .client-card-grid .company {
+            font-size: 0.75rem; color: var(--text-muted);
+            display: block; margin-bottom: 0.3rem;
+        }
+        .client-card-grid p {
+            font-size: 0.8rem; color: var(--text-muted);
+            margin-bottom: 0.5rem; word-break: break-all;
+        }
+
     </style>
+<base target="_blank">
 </head>
 <body>
 
@@ -1898,6 +1925,15 @@
                 <option value="other">Other Service</option>
             </select></div>
 
+            <div id="writtenBookingCalc" style="display:none; background: var(--gold-light); border-radius: 14px; padding: 1rem; margin-bottom: 1rem; border-left: 4px solid var(--gold);">
+                <div style="font-weight:700; font-size:0.85rem; margin-bottom:0.6rem;">Written Translation Quote</div>
+                <div class="form-row">
+                    <div class="form-group" style="margin-bottom:0.6rem;"><label>Word count</label><input type="number" id="bookingWordCount" value="0" min="0" step="50" /></div>
+                    <div class="form-group" style="margin-bottom:0.6rem;"><label>Page count (250 words)</label><input type="number" id="bookingPageCount" value="0" min="0" step="1" /></div>
+                </div>
+                <div style="font-size:0.75rem; color:var(--text-muted); text-align:center;">*Leave both at 0 if pricing to be discussed</div>
+            </div>
+
             <div class="calendar-wrapper">
                 <div class="calendar-nav">
                     <button class="nav-btn" id="prevMonthBtn">‹</button>
@@ -1964,7 +2000,7 @@ const firebaseConfig = {
         interpreterBookedDates: new Set(),
         interpreterMonth: new Date().getMonth(),
         interpreterYear: new Date().getFullYear(),
-        interpreterBookedMap: new Map(),
+        interpreterBookedSet: new Set(),
     };
 
     document.getElementById('footerYear').textContent = new Date().getFullYear();
@@ -2007,12 +2043,12 @@ const firebaseConfig = {
 
             if (role === 'client') {
                 document.getElementById('clientPhotoTarget').style.backgroundImage = `url(${downloadURL})`;
-                document.getElementById('clientPhotoTarget').innerHTML = '';
+                document.getElementById('clientPhotoTarget').innerHTML = '<div class="upload-hint"><i class="fas fa-camera"></i> Change</div>';
                 document.getElementById('headerAvatar').style.backgroundImage = `url(${downloadURL})`;
                 document.getElementById('headerAvatar').textContent = '';
             } else {
                 document.getElementById('translatorPhotoTarget').style.backgroundImage = `url(${downloadURL})`;
-                document.getElementById('translatorPhotoTarget').innerHTML = '';
+                document.getElementById('translatorPhotoTarget').innerHTML = '<div class="upload-hint"><i class="fas fa-camera"></i> Change</div>';
                 document.getElementById('headerAvatar').style.backgroundImage = `url(${downloadURL})`;
                 document.getElementById('headerAvatar').textContent = '';
             }
@@ -2208,10 +2244,10 @@ const firebaseConfig = {
                 document.getElementById('headerAvatar').textContent = '';
                 if (state.userRole === 'client') {
                     document.getElementById('clientPhotoTarget').style.backgroundImage = `url(${photoURL})`;
-                    document.getElementById('clientPhotoTarget').innerHTML = '';
+                    document.getElementById('clientPhotoTarget').innerHTML = '<div class="upload-hint"><i class="fas fa-camera"></i> Change</div>';
                 } else {
                     document.getElementById('translatorPhotoTarget').style.backgroundImage = `url(${photoURL})`;
-                    document.getElementById('translatorPhotoTarget').innerHTML = '';
+                    document.getElementById('translatorPhotoTarget').innerHTML = '<div class="upload-hint"><i class="fas fa-camera"></i> Change</div>';
                 }
             }
 
@@ -2323,9 +2359,10 @@ const firebaseConfig = {
                 });
             });
         } catch (e) {
+            console.error('Error loading interpreters:', e);
             grid.innerHTML = '';
             empty.style.display = 'block';
-            showToast('Error loading interpreters', 'error');
+            showToast('Error loading interpreters: ' + e.message, 'error');
         }
     }
 
@@ -2351,7 +2388,7 @@ const firebaseConfig = {
                 document.getElementById('briefingStars').innerHTML = generateStarRating(stars) + ` <span class="rating-text">${stars.toFixed(1)} (${reviews} reviews)</span>`;
                 document.getElementById('clientRatingDisplay').textContent = generateStarRating(stars) + ' ' + stars.toFixed(1);
             }
-        } catch (e) {}
+        } catch (e) { console.error('Error loading client profile:', e); }
     }
 
     document.getElementById('saveClientProfile').addEventListener('click', async () => {
@@ -2370,7 +2407,7 @@ const firebaseConfig = {
             await db.collection('clients').doc(state.currentUser.uid).set(data, { merge: true });
             showToast('Profile saved!', 'success');
             loadClientProfile(state.currentUser.uid);
-        } catch (e) { showToast('Error saving', 'error'); }
+        } catch (e) { console.error('Error saving client profile:', e); showToast('Error saving: ' + e.message, 'error'); }
     });
 
     // ============================================================
@@ -2407,7 +2444,7 @@ const firebaseConfig = {
                 updateWordCalc();
                 updatePageCalc();
             }
-        } catch (e) {}
+        } catch (e) { console.error('Error loading translator profile:', e); }
     }
 
     document.getElementById('saveTranslatorProfile').addEventListener('click', async () => {
@@ -2430,7 +2467,7 @@ const firebaseConfig = {
             await db.collection('translators').doc(state.currentUser.uid).set(data, { merge: true });
             showToast('Profile saved!', 'success');
             loadTranslatorProfile(state.currentUser.uid);
-        } catch (e) { showToast('Error saving', 'error'); }
+        } catch (e) { console.error('Error saving translator profile:', e); showToast('Error saving: ' + e.message, 'error'); }
     });
 
     document.getElementById('otherInterpCheck').addEventListener('change', function() {
@@ -2619,7 +2656,7 @@ const firebaseConfig = {
                     d.dates.forEach(date => bookedDates.add(date));
                 }
             });
-            state.interpreterBookedMap = bookedDates;
+            state.interpreterBookedSet = bookedDates;
 
             const firstDay = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -2765,6 +2802,21 @@ const firebaseConfig = {
     });
 
     function updatePricing() {
+        const service = document.getElementById('bookingService').value;
+        if (service === 'written') {
+            const t = state.cachedTranslators.find(t => t.id === state.selectedTranslatorId);
+            const wordPrice = t?.wordPrice || 0;
+            const words = parseInt(document.getElementById('bookingWordCount').value) || 0;
+            const pages = parseInt(document.getElementById('bookingPageCount').value) || 0;
+            const wordTotal = words * wordPrice;
+            const pageTotal = pages * wordPrice * 250;
+            const grandTotal = wordTotal + pageTotal;
+            // Update the pricing summary even though it's hidden, for consistency
+            document.getElementById('pricingDailyRate').textContent = formatCurrency(wordPrice) + '/word';
+            document.getElementById('pricingDays').textContent = words + ' words, ' + pages + ' pages';
+            document.getElementById('pricingTotal').textContent = formatCurrency(grandTotal);
+            return;
+        }
         const days = state.selectedDates.length;
         let fee = 300000;
         if (state.selectedTranslatorId) {
@@ -2777,13 +2829,25 @@ const firebaseConfig = {
     }
 
     function updateWhatsAppButton() {
+        const service = document.getElementById('bookingService').value;
+        if (service === 'written') {
+            document.getElementById('whatsappBookBtn').disabled = false;
+            return;
+        }
         document.getElementById('whatsappBookBtn').disabled = state.selectedDates.length === 0;
     }
+
+    document.getElementById('bookingWordCount').addEventListener('input', updatePricing);
+    document.getElementById('bookingPageCount').addEventListener('input', updatePricing);
 
     // ============================================================
     // OPEN BOOKING MODAL (with error handling)
     // ============================================================
     async function openBookingModal(translatorId) {
+        if (!state.currentUser) {
+            showToast('Please sign in to book an interpreter', 'error');
+            return;
+        }
         if (!translatorId) {
             showToast('No interpreter selected', 'error');
             return;
@@ -2795,7 +2859,7 @@ const firebaseConfig = {
         }
         console.log('Opening booking modal for:', t.name, t.id);
         state.selectedTranslatorId = translatorId;
-        state.selectedDates = [];
+        resetBookingModal();
 
         document.getElementById('bookingTranslatorName').textContent = t.name;
         document.getElementById('bookingTranslatorDetails').textContent = `${t.languages} • ${(t.services || []).join(', ')} • ${formatCurrency(t.fee)}/day`;
@@ -2824,8 +2888,39 @@ const firebaseConfig = {
         document.getElementById('bookingModal').classList.add('active');
     }
 
-    document.getElementById('closeBookingModal').addEventListener('click', () => document.getElementById('bookingModal').classList.remove('active'));
-    document.getElementById('bookingModal').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('active'); });
+    document.getElementById('closeBookingModal').addEventListener('click', () => { document.getElementById('bookingModal').classList.remove('active'); resetBookingModal(); });
+    document.getElementById('bookingModal').addEventListener('click', function(e) { if (e.target === this) { this.classList.remove('active'); resetBookingModal(); } });
+
+    // ============================================================
+    // BOOKING MODAL SERVICE HANDLER
+    // ============================================================
+    document.getElementById('bookingService').addEventListener('change', function() {
+        const isWritten = this.value === 'written';
+        const writtenCalc = document.getElementById('writtenBookingCalc');
+        const pricingSummary = document.getElementById('pricingSummary');
+        if (isWritten) {
+            writtenCalc.style.display = 'block';
+            pricingSummary.style.display = 'none';
+        } else {
+            writtenCalc.style.display = 'none';
+            pricingSummary.style.display = 'block';
+        }
+        updatePricing();
+    });
+
+    function resetBookingModal() {
+        document.getElementById('bookingService').value = 'simultaneous';
+        document.getElementById('bookingLocation').value = '';
+        document.getElementById('bookingNotes').value = '';
+        document.getElementById('bookingWordCount').value = '0';
+        document.getElementById('bookingPageCount').value = '0';
+        document.getElementById('writtenBookingCalc').style.display = 'none';
+        document.getElementById('pricingSummary').style.display = 'block';
+        state.selectedDates = [];
+        updateSelectedDates();
+        updatePricing();
+        updateWhatsAppButton();
+    }
 
     // ============================================================
     // WHATSAPP BOOKING
@@ -2847,6 +2942,8 @@ const firebaseConfig = {
         let phone = t.whatsapp || '07504486008';
         const total = document.getElementById('pricingTotal').textContent;
         const dates = state.selectedDates.join(', ');
+        const wordCount = parseInt(document.getElementById('bookingWordCount').value) || 0;
+        const pageCount = parseInt(document.getElementById('bookingPageCount').value) || 0;
 
         phone = phone.replace(/[\s\-+]/g, '');
         if (phone.startsWith('00')) phone = phone.substring(2);
@@ -2858,7 +2955,21 @@ const firebaseConfig = {
             return;
         }
 
-        const msg = `Interpretation Booking Request
+        let msg = '';
+        if (service === 'written') {
+            msg = `Written Translation Request
+
+Client: ${clientName}
+Interpreter: ${t.name}
+Service: ${service}
+Word count: ${wordCount}
+Page count: ${pageCount}
+Total: ${total}
+Notes: ${notes}
+
+Bookly - We Connect Cultures`;
+        } else {
+            msg = `Interpretation Booking Request
 
 Client: ${clientName}
 Interpreter: ${t.name}
@@ -2869,6 +2980,7 @@ Total: ${total}
 Notes: ${notes}
 
 Bookly - We Connect Cultures`;
+        }
 
         const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
         window.open(url, '_blank');
@@ -2881,12 +2993,14 @@ Bookly - We Connect Cultures`;
                 translatorId: t.id,
                 translatorName: t.name,
                 service: service,
-                dates: state.selectedDates,
+                dates: service === 'written' ? [] : state.selectedDates,
                 location: location,
                 notes: notes,
                 fee: total,
                 status: 'pending',
                 company: document.getElementById('clientCompany').value || '',
+                wordCount: service === 'written' ? wordCount : null,
+                pageCount: service === 'written' ? pageCount : null,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             };
             console.log('Saving booking:', bookingData);
@@ -2983,7 +3097,7 @@ Bookly - We Connect Cultures`;
                     <h4>${interp.name}</h4>
                     <div class="lang-pair">${interp.langPair}</div>
                     <div class="rating">${generateStarRating(interp.rating)} <span>${interp.rating} (${interp.reviews})</span></div>
-                    <div class="services">${interp.services.map(s => `<span class="service-tag tag-${s}">${s}</span>`).join('')}</div>
+                    <div class="services">${interp.services.map(s => `<span class="service-tag tag-${s.toLowerCase()}">${s}</span>`).join('')}</div>
                     <p class="bio">${interp.bio}</p>
                     <button class="view-btn" onclick="window.scrollToLogin()"><i class="fas fa-eye"></i> View & Book</button>
                 </div>
@@ -2993,6 +3107,7 @@ Bookly - We Connect Cultures`;
 
     document.getElementById('homeSearchInput').addEventListener('input', function() {
         renderHomeInterpreters(this.value);
+        document.getElementById('homeClearSearch').style.display = this.value ? 'block' : 'none';
     });
     document.getElementById('homeClearSearch').addEventListener('click', function() {
         document.getElementById('homeSearchInput').value = '';
