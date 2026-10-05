@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101010">
+<meta name="description" content="ستون ليلة — رحلة عمر في ستين ليلة.">
+<meta property="og:title" content="ستون ليلة — الليلة الأولى">
+<meta property="og:description" content="لا أعرف اسمي. لا أعرف أين أنا، ولا من أين جئت.">
+<meta property="og:type" content="website">
+<title>ستون ليلة — الليلة الأولى</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div class="grain"></div>
+<header class="topbar">
+  <a class="brand" href="./" aria-label="ستون ليلة">ستون <span>ليلة</span></a>
+  <div class="top-actions">
+    <button id="soundBtn" class="icon-btn" aria-label="صوت تقليب الصفحة">⌁</button>
+    <button id="shareBtn" class="icon-btn" aria-label="مشاركة">↗</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero" aria-label="غلاف الكتاب">
+    <div class="moon"></div>
+    <div class="hero-copy">
+      <div class="eyebrow">رحلة عمر في ستين ليلة</div>
+      <h1>ستون<br><em>ليلة</em></h1>
+      <p class="hero-line">كل ليلةٍ تعيدني سنةً إلى الوراء…<br>حتى أصل إلى الطفل الذي بدأ كل شيء.</p>
+      <button id="startBtn" class="gold-btn">ابدأ القراءة <span>←</span></button>
+    </div>
+    <div class="night-mark">60<br><small>ليلة</small></div>
+  </section>
+
+  <section id="reader" class="reader-wrap">
+    <div class="reader-head">
+      <div>
+        <span class="small-label">الليلة الأولى</span>
+        <h2>السنة الأولى</h2>
+      </div>
+      <div class="progress"><span id="progressBar"></span></div>
+    </div>
+
+    <article class="book" id="book" tabindex="0" aria-label="صفحات الليلة الأولى">
+      <div class="book-page page-back"></div>
+      <div class="book-page page-front">
+        <div class="page-inner">
+          <div class="page-number">١</div>
+          <p>لا أعرف اسمي.</p>
+          <p>لا أعرف أين أنا، ولا من أين جئت.</p>
+          <p>أفتح عينيّ على ضوءٍ يملأ المكان. أغمضهما سريعاً، ثم أفتحهما من جديد.</p>
+          <p>أمامي سقف، ووجوه، وأصوات لا أفهمها.</p>
+          <p class="drop">لكنني أعرف شيئاً واحداً:</p>
+          <p>هناك وجهٌ أحبّه.</p>
+        </div>
+      </div>
+    </article>
+
+    <div class="reader-controls">
+      <button id="prevBtn" class="round-btn" disabled aria-label="السابق">→</button>
+      <div class="page-dots" id="dots"></div>
+      <button id="nextBtn" class="round-btn" aria-label="التالي">←</button>
+    </div>
+    <p class="hint">اسحب الصفحة أو استخدم السهمين للمتابعة</p>
+  </section>
+
+  <section class="quote">
+    <div class="quote-mark">“</div>
+    <p>بعض الأسئلة تكبر معنا…<br>ولا تكبر معها الإجابات.</p>
+  </section>
+
+  <section class="end-card">
+    <span class="small-label">نهاية الليلة الأولى</span>
+    <h3>وهكذا بدأت الحكاية.</h3>
+    <p>في الليلة التالية، نقترب خطوة أخرى من الطفل الذي بدأ يكتشف العالم.</p>
+    <a href="#reader" class="text-link">الليلة الثانية قريباً ←</a>
+  </section>
+</main>
+
+<footer>
+  <span>ستون ليلة</span>
+  <span>رحلة إلى البداية</span>
+</footer>
+<script src="./app.js"></script>
+</body>
+</html>
